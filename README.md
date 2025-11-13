@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 ## Overview
 This repository contains the implementation of the methods described in the paper **"Evolutionary Synthesis of Probabilistic Programs"**. It exploits grammar-based evolution (by using PonyGE2) to synthesize probabilistic programs from data, in order to learn the data generating process represented by a probabilistic program. 
@@ -54,3 +55,6 @@ Michael Fenton, James McDermott, David Fagan, Stefan Forstenlechner, Erik
 Hemberg, and Michael O’Neill. 2017. Ponyge2: Grammatical evolution in python.
 In Proceedings of the Genetic and Evolutionary Computation Conference Companion.
 1194–1201
+=======
+# Causal_Models_Synthesis
+>>>>>>> e8ea544233829b1805c943201ade0fa58cb08bcd
