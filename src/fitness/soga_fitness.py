@@ -12,6 +12,7 @@ import torch
 from torch.distributions.multivariate_normal import MultivariateNormal
 import fitness.data_generating_process as dgp
 import threading
+from math import isfinite
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 sys.path.insert(1, '../SOGA-main/src')
@@ -92,14 +93,10 @@ class soga_fitness(base_ff):
         #print("\n -----------------------------------------")
 
         fitness = 0
-        timer = threading.Timer(10, timeout_handler)
-        #t0 = time.time()
+        #timer = threading.Timer(10, timeout_handler)
         try:
-            #signal.signal(signal.SIGALRM, handler)
-            #signal.alarm(20)  # Set the timeout to 20 seconds
-            timer.start()
+            #timer.start()
             fitness = likelihood_of_program_wrt_data(p)
-            #signal.alarm(0)  # Cancel the timeout
         except TimeoutException as e:
             print("Caught TimeoutException")
             fitness = self.default_fitness
@@ -108,23 +105,18 @@ class soga_fitness(base_ff):
             #I do not define the indiviaduals as invalid in order to allow crossover
             #if not hasattr(params['FITNESS_FUNCTION'], "multi_objective"):
                 #stats['invalids'] += 1
-        finally:
-            timer.cancel()
+        #finally:
+            #timer.cancel()
         
-        
-
-        #t1 = time.time()
-
-        #if t1 - t0 > 4:
-            #fitness = self.default_fitness
-        #print(fitness)
+    
         return fitness
 
 def generate_list():
     return [random.randint(0, round(random.random() * 90 + 10)) for i in range(9)]
 
 def preprocess_program(program):
-    p = convert_and_normalize_gm_structure(program)
+    p = pre_process_instructions(program)
+    p = convert_and_normalize_gm_structure(p)
     p = convert_uniform_structure(p)
     return p
 
@@ -159,8 +151,6 @@ def convert_and_normalize_gm_structure(text):
         converted_text = converted_text.replace(f'gm({match})', new_gm)
     
     return converted_text
-
-import re
 
 def convert_uniform_structure(text):
     # Regular expression to find the structure uniform([a, b], c)
@@ -261,3 +251,182 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
     # Calculate fitness
     fitness = likelihood + dependencies_benefit
     return fitness.item()
+
+
+# Regex helpers
+_dist_re = re.compile(r'^\s*(gm\s*\(|uniform\s*\(|bern\s*\()', re.IGNORECASE)
+_number_re = re.compile(r'^\s*[-+]?\d+(\.\d+)?\s*$')
+_varv_re = re.compile(r'^V\d+$')
+_varu_re = re.compile(r'^U\d+$')
+_temp_re = re.compile(r'^TEMP\d+$')
+
+def is_distribution(token: str) -> bool:
+    return bool(_dist_re.match(token.strip()))
+
+def is_number_token(token: str) -> bool:
+    return bool(_number_re.match(token.strip()))
+
+def is_varv(token: str) -> bool:
+    return bool(_varv_re.match(token.strip()))
+
+def is_varu(token: str) -> bool:
+    return bool(_varu_re.match(token.strip()))
+
+def is_temp(token: str) -> bool:
+    return bool(_temp_re.match(token.strip()))
+
+def is_variable(token: str) -> bool:
+    return is_varv(token) or is_varu(token) or is_temp(token)
+
+def split_factors(product_str: str):
+    parts = []
+    buf = ""
+    depth_square = 0
+    depth_paren = 0
+    for c in product_str:
+        if c == '[': depth_square += 1
+        elif c == ']': depth_square -= 1
+        elif c == '(': depth_paren += 1
+        elif c == ')': depth_paren -= 1
+        if c == '*' and depth_square == 0 and depth_paren == 0:
+            parts.append(buf.strip())
+            buf = ""
+        else:
+            buf += c
+    if buf.strip(): parts.append(buf.strip())
+    return parts
+
+def join_factors(factors):
+    return " * ".join(factors)
+
+def reorder_number_first(factors):
+    numbers = [f for f in factors if is_number_token(f)]
+    non_numbers = [f for f in factors if not is_number_token(f)]
+    if len(non_numbers) == 1 and len(numbers) >= 1:
+        # fold numbers first
+        num = 1.0
+        for n in numbers:
+            num *= float(n)
+        if abs(num - round(num)) < 1e-12:
+            num_str = str(int(round(num)))
+        else:
+            num_str = repr(num)
+        return [num_str] + non_numbers
+    return factors
+
+def split_top_level_plus(expr: str):
+    terms = []
+    buf = ""
+    depth_square = 0
+    depth_paren = 0
+    for c in expr:
+        if c == '[': depth_square += 1
+        elif c == ']': depth_square -= 1
+        elif c == '(': depth_paren += 1
+        elif c == ')': depth_paren -= 1
+        if (c == '+' or c == '-') and depth_square == 0 and depth_paren == 0 and buf:
+            terms.append(buf.strip())
+            buf = c
+        else:
+            buf += c
+    if buf.strip(): terms.append(buf.strip())
+    signed_terms = []
+    for t in terms:
+        if t.startswith('+'): signed_terms.append(('+', t[1:].strip()))
+        elif t.startswith('-'): signed_terms.append(('-', t[1:].strip()))
+        else: signed_terms.append(('+', t))
+    return signed_terms
+
+def pre_process_instructions(program: str) -> str:
+    parts = [p.strip() for p in program.split(';') if p.strip()]
+    out_instrs = []
+    temp_counter = 0
+
+    def new_temp():
+        nonlocal temp_counter
+        name = f"TEMP{temp_counter}"
+        temp_counter += 1
+        return name
+
+    for raw in parts:
+        instr = raw + ";"
+        if not re.match(r'^(U|V)\d+\s*=', instr.strip()):
+            out_instrs.append(instr)
+            continue
+
+        left, right = instr.rstrip(';').split('=', 1)
+        left = left.strip()
+        rhs = right.strip()
+
+        # Endogenous
+        if left.startswith("V"):
+            signed_terms = split_top_level_plus(rhs)
+            pre_temps = []
+            for sign, term in signed_terms:
+                factors = split_factors(term)
+                factors = reorder_number_first(factors)
+                if len(factors) > 1 and any(is_varv(f) for f in factors):
+                    temp = new_temp()
+                    pre_temps.append((temp, factors, sign))
+            for temp, factors, _ in pre_temps:
+                out_instrs.append(f"{temp} = {factors[0]} * {factors[1]};")
+                for f in factors[2:]:
+                    out_instrs.append(f"{temp} = {temp} * {f};")
+            first_term = True
+            for sign, term in signed_terms:
+                factors = split_factors(term)
+                factors = reorder_number_first(factors)
+                if len(factors) > 1 and any(is_varv(f) for f in factors):
+                    temp_name = next(t for t, fcts, s in pre_temps if fcts == factors)
+                    if first_term:
+                        if sign == '+': out_instrs.append(f"{left} = {temp_name};")
+                        else:
+                            out_instrs.append(f"{left} = 0;")
+                            out_instrs.append(f"{left} = {left} - {temp_name};")
+                    else:
+                        if sign == '+': out_instrs.append(f"{left} = {left} + {temp_name};")
+                        else: out_instrs.append(f"{left} = {left} - {temp_name};")
+                else:
+                    if first_term:
+                        if sign == '+': out_instrs.append(f"{left} = {term};")
+                        else:
+                            out_instrs.append(f"{left} = 0;")
+                            out_instrs.append(f"{left} = {left} - {term};")
+                    else:
+                        if sign == '+': out_instrs.append(f"{left} = {left} + {term};")
+                        else: out_instrs.append(f"{left} = {left} - {term};")
+                first_term = False
+            continue
+
+        # Exogenous
+        signed_terms = split_top_level_plus(rhs)
+        temp_terms = []
+        for sign, term in signed_terms:
+            factors = split_factors(term)
+            factors = reorder_number_first(factors)
+            # Each term at most one multiplication
+            if len(factors) > 1:
+                temp = new_temp()
+                out_instrs.append(f"{temp} = {factors[0]} * {factors[1]};")
+                temp_str = f"{sign}{temp}" if sign == '-' else temp
+                temp_terms.append(temp_str)
+            else:
+                temp_terms.append(f"{sign}{factors[0]}" if sign == '-' else factors[0])
+        # Build target assignment with proper signs
+        first = True
+        expr = ""
+        for t in temp_terms:
+            if first:
+                if t.startswith('-'):
+                    expr = f"0 - {t[1:]}"
+                else:
+                    expr = t
+                first = False
+            else:
+                if t.startswith('-'):
+                    expr += f" - {t[1:]}"
+                else:
+                    expr += f" + {t}"
+        out_instrs.append(f"{left} = {expr};")
+
+    return "".join(out_instrs)

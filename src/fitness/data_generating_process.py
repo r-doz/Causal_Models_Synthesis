@@ -76,6 +76,11 @@ def get_vars(process_name):
         dependencies = {'questionsAfterLectureLength': ['contentDifficulty']}
         weights = {'questionsAfterLectureLength': 0.1}
         return data_var_list, dependencies, weights
+    if process_name == 'causal_skills':
+        data_var_list = ['V1', 'V2', 'V3']
+        dependencies = {'V3': ['V1', 'V2'], 'V2': ['V1']}
+        weights = {'V3': 0.1, 'V2': 0.1}
+        return data_var_list, dependencies, weights
     else:
         raise ValueError(f"Unknown process name: {process_name}")
 
@@ -110,6 +115,8 @@ def generate_dataset(process_name, data_size):
         return generate_mixedcondition_dataset(data_size)
     if process_name == 'multiplebranches':
         return generate_multiplebranches_dataset(data_size)
+    if process_name == 'causal_skills':
+        return generate_causal_skills_dataset(data_size)
     else:
         raise ValueError(f"Unknown process name: {process_name}")
 
@@ -368,4 +375,13 @@ def generate_multiplebranches_dataset(data_size):
             questionsAfterLectureLength = np.random.normal(25, 6)
         data.append([contentDifficulty, questionsAfterLectureLength])
 
+    return data
+
+def generate_causal_skills_dataset(data_size):
+    data = []
+    for _ in range(data_size):
+        V1 = np.random.normal(50, 10)
+        V2 = 0.5 * V1 + np.random.normal(5, 2)
+        V3 = 0.3 * V1 + 0.7 * V2 + np.random.normal(3, 1)
+        data.append([V1, V2, V3])
     return data
