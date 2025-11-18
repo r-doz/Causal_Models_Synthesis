@@ -252,14 +252,21 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
     fitness = likelihood + dependencies_benefit
     return fitness.item()
 
+import re
+from typing import List, Tuple
 
+# -------------------------
 # Regex helpers
-_dist_re = re.compile(r'^\s*(gm\s*\(|uniform\s*\(|bern\s*\()', re.IGNORECASE)
-_number_re = re.compile(r'^\s*[-+]?\d+(\.\d+)?\s*$')
-_varv_re = re.compile(r'^V\d+$')
-_varu_re = re.compile(r'^U\d+$')
-_temp_re = re.compile(r'^TEMP\d+$')
+# -------------------------
+_dist_re   = re.compile(r'^\s*(gm\s*\(|uniform\s*\(|bern\s*\()', re.IGNORECASE)
+_number_re = re.compile(r'^[+-]?\d+(\.\d+)?$')   # normalized numbers only (no surrounding spaces)
+_varv_re    = re.compile(r'^V\d+$')
+_varu_re    = re.compile(r'^U\d+$')
+_temp_re    = re.compile(r'^TEMP\d+$')
 
+# -------------------------
+# Token predicates
+# -------------------------
 def is_distribution(token: str) -> bool:
     return bool(_dist_re.match(token.strip()))
 
@@ -278,7 +285,11 @@ def is_temp(token: str) -> bool:
 def is_variable(token: str) -> bool:
     return is_varv(token) or is_varu(token) or is_temp(token)
 
-def split_factors(product_str: str):
+# -------------------------
+# Parsing helpers
+# -------------------------
+def split_factors(product_str: str) -> List[str]:
+    """Split top-level product factors (respecting parentheses and square brackets)."""
     parts = []
     buf = ""
     depth_square = 0
@@ -288,33 +299,21 @@ def split_factors(product_str: str):
         elif c == ']': depth_square -= 1
         elif c == '(': depth_paren += 1
         elif c == ')': depth_paren -= 1
+
         if c == '*' and depth_square == 0 and depth_paren == 0:
             parts.append(buf.strip())
             buf = ""
         else:
             buf += c
-    if buf.strip(): parts.append(buf.strip())
+    if buf.strip():
+        parts.append(buf.strip())
     return parts
 
-def join_factors(factors):
-    return " * ".join(factors)
-
-def reorder_number_first(factors):
-    numbers = [f for f in factors if is_number_token(f)]
-    non_numbers = [f for f in factors if not is_number_token(f)]
-    if len(non_numbers) == 1 and len(numbers) >= 1:
-        # fold numbers first
-        num = 1.0
-        for n in numbers:
-            num *= float(n)
-        if abs(num - round(num)) < 1e-12:
-            num_str = str(int(round(num)))
-        else:
-            num_str = repr(num)
-        return [num_str] + non_numbers
-    return factors
-
-def split_top_level_plus(expr: str):
+def split_top_level_plus_minus(expr: str) -> List[Tuple[str,str]]:
+    """
+    Split expr into signed top-level terms.
+    Return list of tuples (sign, term) where sign is '+' or '-'.
+    """
     terms = []
     buf = ""
     depth_square = 0
@@ -324,22 +323,115 @@ def split_top_level_plus(expr: str):
         elif c == ']': depth_square -= 1
         elif c == '(': depth_paren += 1
         elif c == ')': depth_paren -= 1
+
         if (c == '+' or c == '-') and depth_square == 0 and depth_paren == 0 and buf:
             terms.append(buf.strip())
             buf = c
         else:
             buf += c
-    if buf.strip(): terms.append(buf.strip())
-    signed_terms = []
-    for t in terms:
-        if t.startswith('+'): signed_terms.append(('+', t[1:].strip()))
-        elif t.startswith('-'): signed_terms.append(('-', t[1:].strip()))
-        else: signed_terms.append(('+', t))
-    return signed_terms
+    if buf.strip():
+        terms.append(buf.strip())
 
+    signed = []
+    for t in terms:
+        if t.startswith('+'):
+            signed.append(('+', t[1:].strip()))
+        elif t.startswith('-'):
+            signed.append(('-', t[1:].strip()))
+        else:
+            signed.append(('+', t))
+    return signed
+
+# -------------------------
+# Pair canonicalization helper
+# -------------------------
+def order_pair_for_mul(a: str, b: str) -> Tuple[str,str]:
+    """
+    Canonical order for a single multiplication pair: return (lhs, rhs).
+    If exactly one operand is numeric, return (number, other).
+    Otherwise return (a.strip(), b.strip()) unchanged.
+    """
+    a_s = a.strip()
+    b_s = b.strip()
+    a_is_num = is_number_token(a_s)
+    b_is_num = is_number_token(b_s)
+
+    if a_is_num and not b_is_num:
+        return a_s, b_s
+    if b_is_num and not a_is_num:
+        return b_s, a_s
+    return a_s, b_s
+
+# -------------------------
+# Normalization helpers
+# -------------------------
+def fold_numeric_factors(factors: List[str]):
+    """If all factors are numeric, fold product and return string; else return None."""
+    if all(is_number_token(f.strip()) for f in factors):
+        prod = 1.0
+        for f in factors:
+            prod *= float(f)
+        return str(int(prod)) if prod.is_integer() else repr(prod)
+    return None
+
+def reorder_number_first(factors: List[str]) -> List[str]:
+    """
+    If exactly one non-numeric factor and >=1 numeric factors, fold numbers and put number first.
+    """
+    stripped = [f.strip() for f in factors]
+    numbers = [f for f in stripped if is_number_token(f)]
+    non_numbers = [f for f in stripped if not is_number_token(f)]
+
+    if len(non_numbers) == 1 and len(numbers) >= 1:
+        num_val = 1.0
+        for n in numbers:
+            num_val *= float(n)
+        num_str = str(int(num_val)) if num_val.is_integer() else repr(num_val)
+        return [num_str, non_numbers[0]]
+    return stripped
+
+def normalize_factors_for_key(factors: List[str]) -> Tuple[str,...]:
+    """Normalized, hashable tuple used as key (spacing + numbers-first)."""
+    facs = [f.strip() for f in factors]
+    facs = reorder_number_first(facs)
+    return tuple(facs)
+
+def format_product(factors: List[str]) -> str:
+    """
+    Canonical string for a product of factors, used when we emit a non-TEMP product.
+    """
+    facs = [f.strip() for f in factors]
+    folded = fold_numeric_factors(facs)
+    if folded is not None:
+        return folded
+
+    if len([f for f in facs if not is_number_token(f)]) == 1:
+        facs2 = reorder_number_first(facs)
+        return " * ".join(facs2)
+
+    out = [facs[0]]
+    for nxt in facs[1:]:
+        prev = out[-1]
+        if is_number_token(prev) and not is_number_token(nxt):
+            out.append(nxt)
+        elif is_number_token(nxt) and not is_number_token(prev):
+            out[-1] = nxt
+            out.append(prev)
+        else:
+            out.append(nxt)
+    return " * ".join(out)
+
+# -------------------------
+# Main preprocessor
+# -------------------------
 def pre_process_instructions(program: str) -> str:
-    parts = [p.strip() for p in program.split(';') if p.strip()]
-    out_instrs = []
+    """
+    Preprocess program.
+    - Splits on newlines and semicolons, but preserves indentation.
+    - Returns a single-line string, no extra ';' after '{' or 'else {'.
+    """
+    lines = program.split('\n')
+    out_instrs: List[str] = []
     temp_counter = 0
 
     def new_temp():
@@ -348,85 +440,153 @@ def pre_process_instructions(program: str) -> str:
         temp_counter += 1
         return name
 
-    for raw in parts:
-        instr = raw + ";"
-        if not re.match(r'^(U|V)\d+\s*=', instr.strip()):
-            out_instrs.append(instr)
+    for line in lines:
+        # Keep original line (for indentation and to know if it had trailing ';')
+        raw_line = line.rstrip('\n')
+        if not raw_line.strip():
             continue
 
-        left, right = instr.rstrip(';').split('=', 1)
-        left = left.strip()
-        rhs = right.strip()
+        # Compute indentation and content
+        indent_len = len(raw_line) - len(raw_line.lstrip())
+        indent = raw_line[:indent_len]
+        content = raw_line[indent_len:]
 
-        # Endogenous
-        if left.startswith("V"):
-            signed_terms = split_top_level_plus(rhs)
-            pre_temps = []
+        # Detect if the line ended with a semicolon
+        content_rstrip = content.rstrip()
+        ends_with_semicolon = content_rstrip.endswith(';')
+        # Strip the trailing semicolon (if any) before splitting segments
+        if ends_with_semicolon:
+            content_core = content_rstrip[:-1]
+        else:
+            content_core = content_rstrip
+
+        # Split this line into segments separated by ';'
+        segments = content_core.split(';')
+
+        for i, seg in enumerate(segments):
+            seg_stripped = seg.strip()
+            if not seg_stripped:
+                continue
+
+            # This segment had a semicolon in the original line if:
+            # - it's not the last segment of the line, OR
+            # - it is last but the original line ended with ';'
+            seg_had_semicolon = (i < len(segments) - 1) or (ends_with_semicolon and i == len(segments) - 1)
+
+            instr_stripped = seg_stripped
+
+            # Non-assignment: keep exactly as-is, re-adding semicolon only if it was in original.
+            if not re.match(r'^(U|V)\d+\s*=', instr_stripped):
+                if seg_had_semicolon:
+                    out_instrs.append(f"{indent}{instr_stripped};")
+                else:
+                    out_instrs.append(f"{indent}{instr_stripped}")
+                continue
+
+            # Now we know we have an assignment U* or V*
+            left, right = instr_stripped.split("=", 1)
+            left = left.strip()
+            rhs  = right.strip()
+
+            # ---------- Endogenous (V*) ----------
+            if left.startswith("V"):
+                signed_terms = split_top_level_plus_minus(rhs)
+
+                temp_map = {}
+                pre_temps = []
+
+                # identify all products with V* that need TEMPs
+                for sign, term in signed_terms:
+                    factors = split_factors(term)
+                    key = normalize_factors_for_key(factors)
+                    if len(factors) > 1 and any(is_varv(f) for f in factors):
+                        if key not in temp_map:
+                            t = new_temp()
+                            temp_map[key] = t
+                            pre_temps.append((t, key))
+
+                # generate TEMP assignments
+                for tname, key in pre_temps:
+                    factors = list(key)
+                    a, b = order_pair_for_mul(factors[0], factors[1])
+                    out_instrs.append(f"{indent}{tname} = {a} * {b};")
+                    for f in factors[2:]:
+                        a, b = order_pair_for_mul(tname, f)
+                        out_instrs.append(f"{indent}{tname} = {a} * {b};")
+
+                # build final V assignment sequence
+                first_term = True
+                for sign, term in signed_terms:
+                    factors = split_factors(term)
+                    key = normalize_factors_for_key(factors)
+                    if key in temp_map:
+                        expr = temp_map[key]
+                    else:
+                        expr = format_product(factors)
+
+                    if first_term:
+                        if sign == '+':
+                            out_instrs.append(f"{indent}{left} = {expr};")
+                        else:
+                            out_instrs.append(f"{indent}{left} = 0;")
+                            out_instrs.append(f"{indent}{left} = {left} - {expr};")
+                        first_term = False
+                    else:
+                        if sign == '+':
+                            out_instrs.append(f"{indent}{left} = {left} + {expr};")
+                        else:
+                            out_instrs.append(f"{indent}{left} = {left} - {expr};")
+
+                continue  # next segment
+
+            # ---------- Exogenous (U*) ----------
+            signed_terms = split_top_level_plus_minus(rhs)
+            term_outputs: List[Tuple[str,str]] = []
+
             for sign, term in signed_terms:
                 factors = split_factors(term)
                 factors = reorder_number_first(factors)
-                if len(factors) > 1 and any(is_varv(f) for f in factors):
-                    temp = new_temp()
-                    pre_temps.append((temp, factors, sign))
-            for temp, factors, _ in pre_temps:
-                out_instrs.append(f"{temp} = {factors[0]} * {factors[1]};")
-                for f in factors[2:]:
-                    out_instrs.append(f"{temp} = {temp} * {f};")
+
+                folded = fold_numeric_factors(factors)
+                if folded is not None:
+                    term_outputs.append((sign, folded))
+                    continue
+
+                if len(factors) == 1:
+                    term_outputs.append((sign, factors[0]))
+                    continue
+
+                # Build chained TEMPs with pair canonicalization
+                f0, f1, *rest = factors
+                t0 = new_temp()
+                a, b = order_pair_for_mul(f0, f1)
+                out_instrs.append(f"{indent}{t0} = {a} * {b};")
+                prev = t0
+                for f in rest:
+                    tnext = new_temp()
+                    a, b = order_pair_for_mul(prev, f)
+                    out_instrs.append(f"{indent}{tnext} = {a} * {b};")
+                    prev = tnext
+                term_outputs.append((sign, prev))
+
+            # combine signed terms for U*
+            expr_parts = []
             first_term = True
-            for sign, term in signed_terms:
-                factors = split_factors(term)
-                factors = reorder_number_first(factors)
-                if len(factors) > 1 and any(is_varv(f) for f in factors):
-                    temp_name = next(t for t, fcts, s in pre_temps if fcts == factors)
-                    if first_term:
-                        if sign == '+': out_instrs.append(f"{left} = {temp_name};")
-                        else:
-                            out_instrs.append(f"{left} = 0;")
-                            out_instrs.append(f"{left} = {left} - {temp_name};")
+            for sign, term_expr in term_outputs:
+                if first_term:
+                    if sign == '-':
+                        expr_parts.append(f"0 - {term_expr}")
                     else:
-                        if sign == '+': out_instrs.append(f"{left} = {left} + {temp_name};")
-                        else: out_instrs.append(f"{left} = {left} - {temp_name};")
+                        expr_parts.append(term_expr)
+                    first_term = False
                 else:
-                    if first_term:
-                        if sign == '+': out_instrs.append(f"{left} = {term};")
-                        else:
-                            out_instrs.append(f"{left} = 0;")
-                            out_instrs.append(f"{left} = {left} - {term};")
+                    if sign == '-':
+                        expr_parts.append(f"- {term_expr}")
                     else:
-                        if sign == '+': out_instrs.append(f"{left} = {left} + {term};")
-                        else: out_instrs.append(f"{left} = {left} - {term};")
-                first_term = False
-            continue
+                        expr_parts.append(f"+ {term_expr}")
 
-        # Exogenous
-        signed_terms = split_top_level_plus(rhs)
-        temp_terms = []
-        for sign, term in signed_terms:
-            factors = split_factors(term)
-            factors = reorder_number_first(factors)
-            # Each term at most one multiplication
-            if len(factors) > 1:
-                temp = new_temp()
-                out_instrs.append(f"{temp} = {factors[0]} * {factors[1]};")
-                temp_str = f"{sign}{temp}" if sign == '-' else temp
-                temp_terms.append(temp_str)
-            else:
-                temp_terms.append(f"{sign}{factors[0]}" if sign == '-' else factors[0])
-        # Build target assignment with proper signs
-        first = True
-        expr = ""
-        for t in temp_terms:
-            if first:
-                if t.startswith('-'):
-                    expr = f"0 - {t[1:]}"
-                else:
-                    expr = t
-                first = False
-            else:
-                if t.startswith('-'):
-                    expr += f" - {t[1:]}"
-                else:
-                    expr += f" + {t}"
-        out_instrs.append(f"{left} = {expr};")
+            final_rhs = " ".join(expr_parts) if expr_parts else "0"
+            out_instrs.append(f"{indent}{left} = {final_rhs};")
 
+    # Concatenate everything exactly as generated (no extra separators).
     return "".join(out_instrs)
