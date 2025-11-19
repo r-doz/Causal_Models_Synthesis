@@ -46,5 +46,5 @@
 
 <var_v> ::= V<index>
 <var_u> ::= U<index>
-<index> ::= <int_pos> #| <num>
+<index> ::= <int_pos_trunc> #| <num>
 <number> ::= <num> | <num>.<int_pos>

@@ -218,6 +218,13 @@ def smooth_program(program_text):
 
 def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM_NAME'] ):
     
+    if not check_no_assignment_after_use(p):
+        #stats['invalids'] += 1
+        return -np.inf
+    if not check_no_reassignment_of_U(p):
+        #stats['invalids'] += 1
+        return -np.inf
+    
     p = preprocess_program(p)
     data_var_list, dependencies, weights = dgp.get_vars(program)
     dependencies_benefit = 0
@@ -590,3 +597,130 @@ def pre_process_instructions(program: str) -> str:
 
     # Concatenate everything exactly as generated (no extra separators).
     return "".join(out_instrs)
+
+
+# match assignment of form "   V3 = ..." or "TEMP2=..."
+assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
+
+# match variable names appearing on the RHS
+var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
+
+
+def extract_lhs_rhs(instr: str):
+    """
+    Extract (lhs, rhs_vars) from a single instruction IF it is an assignment.
+    Otherwise returns (None, empty_set).
+    """
+    m = assign_re.match(instr)
+    if not m:
+        return None, set()
+
+    lhs = m.group("lhs")
+
+    # RHS = everything after '='
+    rhs = instr.split("=", 1)[1]
+
+    # extract variables appearing on the RHS
+    rhs_vars = set(var_re.findall(rhs))
+
+    # self-reference (V3 = V3 + 1) is NOT a violation
+    rhs_vars.discard(lhs)
+
+    return lhs, rhs_vars
+
+
+def check_no_assignment_after_use(program: str):
+    """
+    Checks the rule: no variable may be assigned AFTER it has already been used
+    in any previous RHS.
+
+    Returns:
+        True if valid
+        False if invalid
+    """
+    # split instructions on semicolon, but KEEP the original text intact
+    instructions = [part for part in program.split(";") if part.strip()]
+
+    used_vars = set()
+
+    for instr in instructions:
+        instr = instr.rstrip()  # remove only trailing spaces (keep indentation)
+
+        lhs, rhs_vars = extract_lhs_rhs(instr)
+
+        # add RHS variables to the used set
+        used_vars.update(rhs_vars)
+
+        if lhs is not None:
+            # rule violation: lhs was previously used
+            if lhs in used_vars:
+                return False
+
+            # note: we don't add lhs to used_vars here,
+            # because only RHS appearances count as "use"
+
+    return True
+
+
+import re
+
+assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
+rhs_var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
+
+
+def extract_lhs_rhs(instr: str):
+    """Extract LHS variable and RHS variable set from an assignment line."""
+    m = assign_re.match(instr)
+    if not m:
+        return None, set()
+
+    lhs = m.group("lhs")
+    rhs = instr.split("=", 1)[1]
+    rhs_vars = set(rhs_var_re.findall(rhs))
+    rhs_vars.discard(lhs)  # remove self reference
+    return lhs, rhs_vars
+
+
+def check_no_reassignment_of_U(program: str):
+    """
+    Rule:
+      (1) Each Ui must be assigned at most once.
+      (2) Each Ui may appear in RHS of at most one *V-assignment*.
+    """
+    instructions = [p for p in program.split(";") if p.strip()]
+
+    assigned_U = set()
+    used_by_V = {}   # map U -> name of V that used it
+
+    for instr in instructions:
+        instr = instr.rstrip()
+
+        lhs, rhs_vars = extract_lhs_rhs(instr)
+        if lhs is None:
+            continue
+
+        # ---------------------------------------
+        # (1) Ui assigned only once
+        # ---------------------------------------
+        if lhs.startswith("U"):
+            if lhs in assigned_U:
+                return False
+            assigned_U.add(lhs)
+
+        # ---------------------------------------
+        # (2) Ui used in at most one V-assignment
+        # ---------------------------------------
+        if lhs.startswith("V"):
+            for var in rhs_vars:
+                if var.startswith("U"):
+                    if var not in used_by_V:
+                        used_by_V[var] = lhs
+                    else:
+                        # Already used by a different V
+                        if used_by_V[var] != lhs:
+                            return False
+
+    return True
+
+
+

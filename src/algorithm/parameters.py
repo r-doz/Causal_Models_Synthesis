@@ -13,7 +13,7 @@ params = {
 
     # Evolutionary Parameters
     'POPULATION_SIZE': 200,
-    'GENERATIONS': 500,
+    'GENERATIONS': 1000,
     'HILL_CLIMBING_HISTORY': 1000,
     'SCHC_COUNT_METHOD': "count_all", 
 
@@ -53,7 +53,7 @@ params = {
     'TARGET': "ponyge_rocks",
 
     # Set max sizes of individuals
-    'MAX_TREE_DEPTH': 24,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
+    'MAX_TREE_DEPTH': 50,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
     # INCREASE AT YOUR OWN RISK.
     'MAX_TREE_NODES': None,
     'CODON_SIZE': 500,
@@ -62,11 +62,11 @@ params = {
 
     # INITIALISATION
     # Set initialisation operator.
-    'INITIALISATION': "operators.initialisation.PI_grow",
+    'INITIALISATION': "operators.initialisation.uniform_genome", # operators.initialisation.PI_grow, operators.initialisation.rhh, operators.initialisation.uniform_genome, operators.initialisation.uniform_tree, operators.initialisation.rvd
     # Set the maximum genome length for initialisation.
     'INIT_GENOME_LENGTH': 200,
     # Set the maximum tree depth for initialisation.
-    'MAX_INIT_TREE_DEPTH': 10,
+    'MAX_INIT_TREE_DEPTH': 20,
     # Set the minimum tree depth for initialisation.
     'MIN_INIT_TREE_DEPTH': None,
 
