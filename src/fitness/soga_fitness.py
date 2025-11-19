@@ -218,6 +218,8 @@ def smooth_program(program_text):
 
 def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM_NAME'] ):
     
+    p = preprocess_assign_conditionals(p)
+
     if not check_no_assignment_after_use(p):
         #stats['invalids'] += 1
         return -np.inf
@@ -225,6 +227,15 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
         #stats['invalids'] += 1
         return -np.inf
     
+    if not check_all_rhs_assigned_before_use(p):
+        #stats['invalids'] += 1
+        return -np.inf
+    
+    if not check_boolean_vars_previously_assigned(p):
+        #stats['invalids'] += 1
+        return -np.inf
+
+     # Preprocess program
     p = preprocess_program(p)
     data_var_list, dependencies, weights = dgp.get_vars(program)
     dependencies_benefit = 0
@@ -257,6 +268,9 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
 
     # Calculate fitness
     fitness = likelihood + dependencies_benefit
+    if not isfinite(fitness.item()):
+        if check_all_data_vars_assigned(p, data_var_list):
+            return -1e10
     return fitness.item()
 
 import re
@@ -722,5 +736,211 @@ def check_no_reassignment_of_U(program: str):
 
     return True
 
+assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
+var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
 
 
+def extract_lhs_rhs(instr: str):
+    """Extract (lhs, rhs_vars) from assignment. Otherwise (None, empty)."""
+    m = assign_re.match(instr)
+    if not m:
+        return None, set()
+
+    lhs = m.group("lhs")
+    rhs = instr.split("=", 1)[1]
+    rhs_vars = set(var_re.findall(rhs))
+
+    # self-reference is allowed (V3 = V3 + 1)
+    rhs_vars.discard(lhs)
+
+    return lhs, rhs_vars
+
+
+def check_all_rhs_assigned_before_use(program: str):
+    """
+    Ensures that every variable on the RHS has been assigned
+    in a previous instruction.
+
+    Returns:
+        True  if valid
+        False if any RHS variable is used before assignment
+    """
+    instructions = [part for part in program.split(";") if part.strip()]
+    assigned = set()
+    line_number = 0
+
+    for instr in instructions:
+        line_number += 1
+        instr = instr.rstrip()
+
+        lhs, rhs_vars = extract_lhs_rhs(instr)
+
+        # Check all RHS vars must be already assigned
+        for var in rhs_vars:
+            if var not in assigned:
+                return False  # early violation
+
+        # If assignment, record LHS as now assigned
+        if lhs is not None:
+            assigned.add(lhs)
+
+    return True
+
+
+# Regex for:  ASSIGN[V7, U3]
+assign_directive_re = re.compile(
+    r'ASSIGN\s*\[\s*(V\d+)\s*,\s*(U\d+)\s*\]',
+    re.IGNORECASE
+)
+
+# Regex to extract expressions inside branch braces { : ... : }
+branch_re = re.compile(
+    r'\{\s*:\s*(.*?)\s*:\s*\}',
+    re.DOTALL
+)
+
+def preprocess_assign_conditionals(program: str) -> str:
+    """
+    STEP 0: Expand ASSIGN[Vx, Uy] conditionals into explicit assignments:
+       if cond ASSIGN[Vx, Uy] { : EXPR1 : } else { : EXPR2 : } end if;
+    becomes:
+       if cond { Vx = EXPR1 + Uy; } else { Vx = EXPR2 + Uy; } end if;
+    """
+
+    # Find every conditional with ASSIGN[…]
+    def repl(match):
+        full = match.group(0)
+
+        # Extract variable names
+        assign_match = assign_directive_re.search(full)
+        if not assign_match:
+            return full  # shouldn't happen
+
+        v_var = assign_match.group(1)
+        u_var = assign_match.group(2)
+
+        # Extract both branch bodies
+        branches = branch_re.findall(full)
+        if len(branches) != 2:
+            # malformed conditional; return unchanged
+            return full
+
+        expr1, expr2 = branches
+
+        # Clean expressions
+        expr1 = expr1.strip().rstrip(";")
+        expr2 = expr2.strip().rstrip(";")
+
+        # Build rewritten branches
+        new_branch1 = f"{{ {v_var} = {expr1} + {u_var}; }}"
+        new_branch2 = f"{{ {v_var} = {expr2} + {u_var}; }}"
+
+        # Rebuild conditional WITHOUT the ASSIGN[...] directive
+        rewritten = assign_directive_re.sub("", full)
+
+        # Replace original branch bodies with new ones
+        rewritten = branch_re.sub(lambda m, cnt=[0]:
+                                  new_branch1 if cnt.append(1) or len(cnt)==2 else new_branch2,
+                                  rewritten, count=2)
+
+        # Final cleanup of extra spaces
+        rewritten = re.sub(r'\s+', ' ', rewritten)
+
+        return rewritten
+
+    # Pattern to detect whole conditional blocks containing ASSIGN[…]
+    conditional_pattern = re.compile(
+        r'if\s+[^{}]+ASSIGN\s*\[[^\]]+\]\s*\{[^{}]*\}\s*else\s*\{[^{}]*\}\s*end if;',
+        re.IGNORECASE | re.DOTALL
+    )
+
+    # Apply transformation
+    return conditional_pattern.sub(repl, program)
+
+# Matches: if <condition> {
+if_re = re.compile(
+    r'\bif\s+(?P<cond>.*?)\s*\{',
+    re.IGNORECASE | re.DOTALL
+)
+
+# Variables V#, U#, TEMP#
+var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
+
+# Assignment on LHS
+assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
+
+
+def extract_assigned_var(instr: str):
+    """Return LHS variable name or None."""
+    m = assign_re.match(instr)
+    return m.group("lhs") if m else None
+
+
+def check_boolean_vars_previously_assigned(program: str):
+    """
+    Ensures all variables used inside boolean conditions
+    have been assigned before their use.
+
+    Returns:
+        True  if valid
+        False if any variable in a condition was used before assignment
+    """
+    # Split program into instructions (semicolon separated)
+    instructions = [p for p in program.split(";") if p.strip()]
+
+    assigned = set()
+    line_no = 0
+
+    for instr in instructions:
+        line_no += 1
+        instr_clean = instr.strip()
+
+        # Check if this line contains an "if <cond> {"
+        m = if_re.search(instr_clean)
+        if m:
+            cond = m.group("cond")
+            vars_in_cond = set(var_re.findall(cond))
+
+            # Check all vars have been previously assigned
+            for v in vars_in_cond:
+                if v not in assigned:
+                    # violation
+                    return False
+
+        # Handle assignment updating assigned set
+        lhs = extract_assigned_var(instr_clean)
+        if lhs:
+            assigned.add(lhs)
+
+    return True
+
+
+assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
+
+def extract_lhs(instr: str):
+    """Returns the assigned variable on the left side of '=' or None."""
+    m = assign_re.match(instr)
+    return m.group("lhs") if m else None
+
+
+def check_all_data_vars_assigned(program: str, data_var_list):
+    """
+    Checks whether every variable in data_var_list appears at least once
+    on the left-hand side of an assignment in the program.
+
+    Returns:
+        True  if all variables are assigned somewhere
+        False otherwise
+    """
+    # split on semicolons, do NOT strip indentation
+    instructions = [p for p in program.split(";") if p.strip()]
+
+    assigned = set()
+
+    for instr in instructions:
+        lhs = extract_lhs(instr)
+        if lhs:
+            assigned.add(lhs)
+
+    # all variables must be in 'assigned'
+    return all(var in assigned for var in data_var_list)
