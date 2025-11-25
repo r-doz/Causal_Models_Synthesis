@@ -1,15 +1,15 @@
 # Grammar for a SOGA program
 
 <program> ::= <statement_list>
-<statement_list> ::= <statement> | <statement> <statement_list>
-<statement> ::= <assign_exogenous> | <assign_endogenous> | <conditional>
+<statement_list> ::= <statement> | <statement> <statement_list> | <statement> <statement_list> <statement_list> <statement_list> | <statement> <statement_list> <statement_list>
+<statement> ::= <assign_exogenous> | <assign_endogenous> #| <conditional> | <assign_endogenous> 
 
 
 <assign_exogenous> ::= <var_u> = <distribution_expression>;
 <distribution_expression> ::= <weighted_distribution> 
                             | <distribution_expression> <add_op> <weighted_distribution>
 <weighted_distribution> ::= <number> * <base_distribution> | <base_distribution>
-<base_distribution> ::= <gm> | <uniform> | bern(0.<int_pos>) | 1
+<base_distribution> ::= <gm> | <uniform> #| bern(0.<int_pos>) | 1
 
 
 

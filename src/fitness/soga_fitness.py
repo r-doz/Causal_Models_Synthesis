@@ -217,22 +217,33 @@ def smooth_program(program_text):
 
 
 def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM_NAME'] ):
-    
+
+    # open (or create if not exists) a file containing reasons of invalidity
+    invalidity_reasons_file = "invalidity_reasons.txt"
+    #open file
+    invalidity_file = open(invalidity_reasons_file, "a")
+
+
+    #print(p)
     p = preprocess_assign_conditionals(p)
 
     if not check_no_assignment_after_use(p):
         #stats['invalids'] += 1
+        invalidity_file.write("Invalidity: Assignment after use detected.\n")
         return -np.inf
     if not check_no_reassignment_of_U(p):
         #stats['invalids'] += 1
+        invalidity_file.write("Invalidity: Reassignment of U detected.\n")
         return -np.inf
     
     if not check_all_rhs_assigned_before_use(p):
         #stats['invalids'] += 1
+        invalidity_file.write("Invalidity: RHS variable used before assignment.\n")
         return -np.inf
     
     if not check_boolean_vars_previously_assigned(p):
         #stats['invalids'] += 1
+        invalidity_file.write("Invalidity: Boolean variable used before assignment.\n")
         return -np.inf
 
      # Preprocess program
@@ -240,6 +251,12 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
     data_var_list, dependencies, weights = dgp.get_vars(program)
     dependencies_benefit = 0
     data = dgp.generate_dataset(program, data_size)
+    res = check_all_data_vars_assigned(p, data_var_list)
+    if res["num_missing"] > 0:
+        return -1e6 * res["num_missing"]
+    else:
+        print("All data variables are assigned in the program.")
+
     
     # Computes output distribution of the program
     compiledText=compile2SOGA_text(p)
@@ -268,9 +285,8 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
 
     # Calculate fitness
     fitness = likelihood + dependencies_benefit
-    if not isfinite(fitness.item()):
-        if check_all_data_vars_assigned(p, data_var_list):
-            return -1e10
+    #if not isfinite(fitness.item()):
+        
     return fitness.item()
 
 import re
@@ -786,76 +802,223 @@ def check_all_rhs_assigned_before_use(program: str):
 
     return True
 
+import re
 
-# Regex for:  ASSIGN[V7, U3]
 assign_directive_re = re.compile(
     r'ASSIGN\s*\[\s*(V\d+)\s*,\s*(U\d+)\s*\]',
     re.IGNORECASE
 )
 
-# Regex to extract expressions inside branch braces { : ... : }
-branch_re = re.compile(
-    r'\{\s*:\s*(.*?)\s*:\s*\}',
-    re.DOTALL
-)
+# word-boundary "if" and "end if;"
+_if_tok = re.compile(r'\bif\b', re.IGNORECASE)
+_end_if_tok = re.compile(r'end\s+if\s*;', re.IGNORECASE)
+
+
+def _find_matching_end_if(text: str, if_start: int) -> int | None:
+    """
+    Return index just after the matching 'end if;' for the 'if' at if_start.
+    Counts nested if/end if.
+    """
+    depth = 0
+    i = if_start
+    n = len(text)
+
+    while i < n:
+        m_if = _if_tok.match(text, i)
+        if m_if:
+            depth += 1
+            i = m_if.end()
+            continue
+
+        m_end = _end_if_tok.match(text, i)
+        if m_end:
+            depth -= 1
+            i = m_end.end()
+            if depth == 0:
+                return i
+            continue
+
+        i += 1
+
+    return None
+
+
+def _skip_ws(text: str, i: int) -> int:
+    n = len(text)
+    while i < n and text[i].isspace():
+        i += 1
+    return i
+
+
+def _parse_branch(text: str, i: int) -> tuple[str, int] | None:
+    """
+    Parse a branch of the form:
+        { : <single_statement> : }
+    where <single_statement> may contain nested braces.
+    Returns (statement_str, next_index_after_branch).
+    """
+    n = len(text)
+    i = _skip_ws(text, i)
+    if i >= n or text[i] != '{':
+        return None
+    i += 1
+    i = _skip_ws(text, i)
+
+    # expect ':'
+    if i >= n or text[i] != ':':
+        return None
+    i += 1  # after opening ':'
+
+    stmt_start = i
+    brace_depth = 0
+
+    # scan until closing ':' at brace_depth==0
+    while i < n:
+        c = text[i]
+        if c == '{':
+            brace_depth += 1
+        elif c == '}':
+            if brace_depth > 0:
+                brace_depth -= 1
+        elif c == ':' and brace_depth == 0:
+            stmt = text[stmt_start:i].strip()
+            i += 1  # consume closing ':'
+            i = _skip_ws(text, i)
+            if i < n and text[i] == '}':
+                i += 1
+                return stmt, i
+            return None
+        i += 1
+
+    return None
+
+
+def _find_header_assign(text: str, if_start: int) -> tuple[int, int, str, str] | None:
+    """
+    From an 'if' header starting at if_start, find ASSIGN[Vx,Uy] before the first '{'.
+    Returns (assign_match_start, assign_match_end, Vx, Uy) or None.
+    """
+    # find first '{' after this if
+    brace_pos = text.find('{', if_start)
+    if brace_pos == -1:
+        return None
+
+    header = text[if_start:brace_pos]
+    m = assign_directive_re.search(header)
+    if not m:
+        return None
+
+    # absolute positions
+    a0 = if_start + m.start()
+    a1 = if_start + m.end()
+    return a0, a1, m.group(1), m.group(2)
+
 
 def preprocess_assign_conditionals(program: str) -> str:
     """
-    STEP 0: Expand ASSIGN[Vx, Uy] conditionals into explicit assignments:
-       if cond ASSIGN[Vx, Uy] { : EXPR1 : } else { : EXPR2 : } end if;
-    becomes:
-       if cond { Vx = EXPR1 + Uy; } else { Vx = EXPR2 + Uy; } end if;
+    Nesting-safe rewrite of:
+      if cond ASSIGN[Vx, Uy] { : S1 : } else { : S2 : } end if;
+    into:
+      if cond { Vx = S1 + Uy; } else { Vx = S2 + Uy; } end if;
+
+    Where S1, S2 are single conditional_statements (expr or conditional).
     """
+    text = program
+    changed = True
 
-    # Find every conditional with ASSIGN[…]
-    def repl(match):
-        full = match.group(0)
+    while changed:
+        changed = False
+        i = 0
+        n = len(text)
+        out = []
 
-        # Extract variable names
-        assign_match = assign_directive_re.search(full)
-        if not assign_match:
-            return full  # shouldn't happen
+        while i < n:
+            m_if = _if_tok.search(text, i)
+            if not m_if:
+                out.append(text[i:])
+                break
 
-        v_var = assign_match.group(1)
-        u_var = assign_match.group(2)
+            if_start = m_if.start()
+            out.append(text[i:if_start])  # copy preceding text
+            end_if = _find_matching_end_if(text, if_start)
+            if end_if is None:
+                # malformed; copy rest and stop
+                out.append(text[if_start:])
+                break
 
-        # Extract both branch bodies
-        branches = branch_re.findall(full)
-        if len(branches) != 2:
-            # malformed conditional; return unchanged
-            return full
+            full_if = text[if_start:end_if]
 
-        expr1, expr2 = branches
+            # does this if have ASSIGN[...] in header?
+            hdr_info = _find_header_assign(full_if, 0)
+            if hdr_info is None:
+                out.append(full_if)
+                i = end_if
+                continue
 
-        # Clean expressions
-        expr1 = expr1.strip().rstrip(";")
-        expr2 = expr2.strip().rstrip(";")
+            a0, a1, v_var, u_var = hdr_info
 
-        # Build rewritten branches
-        new_branch1 = f"{{ {v_var} = {expr1} + {u_var}; }}"
-        new_branch2 = f"{{ {v_var} = {expr2} + {u_var}; }}"
+            # remove ASSIGN from header
+            full_if_no_assign = full_if[:a0] + full_if[a1:]
 
-        # Rebuild conditional WITHOUT the ASSIGN[...] directive
-        rewritten = assign_directive_re.sub("", full)
+            # locate the two branches
+            # find first '{' (if-branch)
+            first_brace = full_if_no_assign.find('{')
+            if first_brace == -1:
+                out.append(full_if)  # fallback
+                i = end_if
+                continue
 
-        # Replace original branch bodies with new ones
-        rewritten = branch_re.sub(lambda m, cnt=[0]:
-                                  new_branch1 if cnt.append(1) or len(cnt)==2 else new_branch2,
-                                  rewritten, count=2)
+            b1 = _parse_branch(full_if_no_assign, first_brace)
+            if b1 is None:
+                out.append(full_if)  # fallback
+                i = end_if
+                continue
+            stmt1, after_b1 = b1
 
-        # Final cleanup of extra spaces
-        rewritten = re.sub(r'\s+', ' ', rewritten)
+            # find 'else' after first branch
+            m_else = re.search(r'\belse\b', full_if_no_assign[after_b1:], re.IGNORECASE)
+            if not m_else:
+                out.append(full_if)
+                i = end_if
+                continue
+            else_pos = after_b1 + m_else.start()
 
-        return rewritten
+            # parse else-branch
+            second_brace = full_if_no_assign.find('{', else_pos)
+            if second_brace == -1:
+                out.append(full_if)
+                i = end_if
+                continue
 
-    # Pattern to detect whole conditional blocks containing ASSIGN[…]
-    conditional_pattern = re.compile(
-        r'if\s+[^{}]+ASSIGN\s*\[[^\]]+\]\s*\{[^{}]*\}\s*else\s*\{[^{}]*\}\s*end if;',
-        re.IGNORECASE | re.DOTALL
-    )
+            b2 = _parse_branch(full_if_no_assign, second_brace)
+            if b2 is None:
+                out.append(full_if)
+                i = end_if
+                continue
+            stmt2, after_b2 = b2
 
-    # Apply transformation
-    return conditional_pattern.sub(repl, program)
+            # recurse on branch statements first (so nested ASSIGN get expanded)
+            stmt1 = preprocess_assign_conditionals(stmt1)
+            stmt2 = preprocess_assign_conditionals(stmt2)
+
+            # rebuild compact conditional
+            # header is everything up to first_brace
+            header = full_if_no_assign[:first_brace].rstrip()
+            tail = full_if_no_assign[after_b2:]  # includes ' end if;' etc.
+
+            new_if = (
+                f"{header} {{ {v_var} = {stmt1} + {u_var}; }} "
+                f"else {{ {v_var} = {stmt2} + {u_var}; }}{tail}"
+            )
+
+            out.append(new_if)
+            changed = True
+            i = end_if
+
+        text = "".join(out)
+
+    return text
+
 
 # Matches: if <condition> {
 if_re = re.compile(
@@ -925,14 +1088,18 @@ def extract_lhs(instr: str):
 
 def check_all_data_vars_assigned(program: str, data_var_list):
     """
-    Checks whether every variable in data_var_list appears at least once
+    Checks which variables in data_var_list appear at least once
     on the left-hand side of an assignment in the program.
 
-    Returns:
-        True  if all variables are assigned somewhere
-        False otherwise
+    Returns a dict with:
+        {
+            "all_assigned": bool,
+            "assigned": set,
+            "missing": set,
+            "num_missing": int
+        }
     """
-    # split on semicolons, do NOT strip indentation
+    # split on semicolons; do NOT strip indentation
     instructions = [p for p in program.split(";") if p.strip()]
 
     assigned = set()
@@ -942,5 +1109,12 @@ def check_all_data_vars_assigned(program: str, data_var_list):
         if lhs:
             assigned.add(lhs)
 
-    # all variables must be in 'assigned'
-    return all(var in assigned for var in data_var_list)
+    missing = {v for v in data_var_list if v not in assigned}
+
+    return {
+        "all_assigned": len(missing) == 0,
+        "assigned": assigned,
+        "missing": missing,
+        "num_missing": len(missing),
+    }
+

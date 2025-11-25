@@ -12,7 +12,7 @@ params = {
     'STEP': 'step',
 
     # Evolutionary Parameters
-    'POPULATION_SIZE': 400,
+    'POPULATION_SIZE': 1000,
     'GENERATIONS': 1000,
     'HILL_CLIMBING_HISTORY': 1000,
     'SCHC_COUNT_METHOD': "count_all", 
@@ -53,20 +53,20 @@ params = {
     'TARGET': "ponyge_rocks",
 
     # Set max sizes of individuals
-    'MAX_TREE_DEPTH': 50,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
+    'MAX_TREE_DEPTH': 90,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
     # INCREASE AT YOUR OWN RISK.
     'MAX_TREE_NODES': None,
-    'CODON_SIZE': 500,
-    'MAX_GENOME_LENGTH': None,
-    'MAX_WRAPS': 0,
+    'CODON_SIZE': 2000,
+    'MAX_GENOME_LENGTH': 4000,
+    'MAX_WRAPS': 5,
 
     # INITIALISATION
     # Set initialisation operator.
     'INITIALISATION': "operators.initialisation.uniform_genome", # operators.initialisation.PI_grow, operators.initialisation.rhh, operators.initialisation.uniform_genome, operators.initialisation.uniform_tree, operators.initialisation.rvd
     # Set the maximum genome length for initialisation.
-    'INIT_GENOME_LENGTH': 200,
+    'INIT_GENOME_LENGTH': 1000,
     # Set the maximum tree depth for initialisation.
-    'MAX_INIT_TREE_DEPTH': 20,
+    'MAX_INIT_TREE_DEPTH': 50,
     # Set the minimum tree depth for initialisation.
     'MIN_INIT_TREE_DEPTH': None,
 
@@ -74,7 +74,7 @@ params = {
     # Set selection operator.
     'SELECTION':"operators.selection.tournament", #"operators.selection.truncation", "operators.selection.tournament"
     # For tournament selection
-    'TOURNAMENT_SIZE': 3,
+    'TOURNAMENT_SIZE': 10,
     # For truncation selection
     'SELECTION_PROPORTION': 0.1, #0.5,
     # Allow for selection of invalid individuals during selection process.
@@ -89,7 +89,7 @@ params = {
     # Set crossover operator.
     'CROSSOVER': "operators.crossover.variable_twopoint",
     # Set crossover probability.
-    'CROSSOVER_PROBABILITY': 0.75,
+    'CROSSOVER_PROBABILITY': 0.60,
     # Prevents crossover from generating invalids.
     'NO_CROSSOVER_INVALIDS': False,
 
@@ -98,7 +98,7 @@ params = {
     'MUTATION': "operators.mutation.int_flip_per_codon",
     # Set mutation probability (None defaults to 1 over the length of
     # the genome for each codon)
-    'MUTATION_PROBABILITY': None,
+    'MUTATION_PROBABILITY': 0.15,
     # Set number of mutation events
     'MUTATION_EVENTS': 1,
     # Prevents mutation from generating invalids.
