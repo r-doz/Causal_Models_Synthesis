@@ -99,7 +99,6 @@ class soga_fitness_SCM(base_ff):
     def __init__(self):
         # Initialise base fitness function class.
         super().__init__()
-        
 
     def evaluate(self, ind, **kwargs):
         self.default_fitness = torch.tensor(-1e6)
@@ -282,7 +281,7 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
     likelihood = compute_likelihood(p, data_var_list, data)
 
     if(params['INTERVENTIONAL_FITNESS']):
-        intervention_list = interventions.choose_interventions(data, mapping, max_interventions=3)
+        intervention_list = interventions.choose_interventions(data, mapping, max_interventions=params['NUM_INTERVENTIONS'])
         for var, value in intervention_list:
             data_intervened = dgp.generate_interventional_dataset(scm, data_var_list, 1000, intervention={var: value})
             program_intervened = interventions.apply_intervention_to_program(p, var, value)

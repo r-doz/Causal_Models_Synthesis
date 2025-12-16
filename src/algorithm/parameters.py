@@ -12,8 +12,8 @@ params = {
     'STEP': 'step',
 
     # Evolutionary Parameters
-    'POPULATION_SIZE': 40,
-    'GENERATIONS': 200,
+    'POPULATION_SIZE': 100,
+    'GENERATIONS': 300,
     'HILL_CLIMBING_HISTORY': 1000,
     'SCHC_COUNT_METHOD': "count_all", 
 
@@ -21,13 +21,14 @@ params = {
     'EXPERIMENT_NAME': 'causal_skills_tests', # name of the folder
     'PROGRAM_NAME': 'causal_skills',
     'INTERVENTIONAL_FITNESS': True,
+    'NUM_INTERVENTIONS': 10,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
     'RUNS': 4,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
-    'FITNESS_FUNCTION': "soga_fitness_SCM",
+    'FITNESS_FUNCTION': "soga_fitness_SCM_moo",
 
     # Select problem dataset
     'DATASET_TRAIN': None,
@@ -72,7 +73,7 @@ params = {
 
     # SELECTION
     # Set selection operator.
-    'SELECTION':"operators.selection.tournament", #"operators.selection.truncation", "operators.selection.tournament"
+    'SELECTION':"operators.selection.nsga2_selection", #"operators.selection.truncation", "operators.selection.tournament"
     # For tournament selection
     'TOURNAMENT_SIZE': 10,
     # For truncation selection
@@ -89,7 +90,7 @@ params = {
     # Set crossover operator.
     'CROSSOVER': "operators.crossover.variable_twopoint",
     # Set crossover probability.
-    'CROSSOVER_PROBABILITY': 0.60,
+    'CROSSOVER_PROBABILITY': 0.30,
     # Prevents crossover from generating invalids.
     'NO_CROSSOVER_INVALIDS': False,
 
@@ -106,9 +107,9 @@ params = {
 
     # REPLACEMENT
     # Set replacement operator.
-    'REPLACEMENT': "operators.replacement.generational",
+    'REPLACEMENT': "operators.replacement.nsga2_replacement",
     # Set elite size.
-    'ELITE_SIZE': 10,
+    'ELITE_SIZE': 4,
 
     # DEBUGGING
     # Use this to turn on debugging mode. This mode doesn't write any files
