@@ -1,6 +1,6 @@
 # Grammar for a SOGA program
 
-<program> ::= <statement_list>
+<program> ::= U1 = <distribution_expression>; {::} U2 = <distribution_expression>; {::} U3 = <distribution_expression>; {::} <statement_list>
 <statement_list> ::= <statement> | <statement> <statement_list> | <statement> <statement_list> <statement_list> <statement_list> | <statement> <statement_list> <statement_list>
 <statement> ::= <assign_exogenous> | <assign_endogenous> | <conditional> | <assign_endogenous> <assign_exogenous>
 

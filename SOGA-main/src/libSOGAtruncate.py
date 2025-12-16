@@ -276,6 +276,10 @@ def truncate(dist, trunc, data):
         norm_factor = sum(np.array(new_pi))
         if norm_factor > prob_tol:
             new_dist.gm.pi = list(np.array(new_pi)/norm_factor)
+        else:
+            new_dist.gm.pi = [0.]
+            new_dist.gm.mu = [dist.gm.mu[0]]
+            new_dist.gm.sigma = [dist.gm.sigma[0]]
         return norm_factor, new_dist
         #if norm_factor < prob_tol:
         #    return 0, dist

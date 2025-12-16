@@ -44,7 +44,8 @@ def compute_likelihood(p, data_var_list, data):
         output_dist = start_SOGA(cfg)
     except IndexError: # program has no valid paths
         #stats['invalids'] += 1
-        return -np.inf
+        #print("Program has no valid paths")
+        return torch.tensor(-1e6)
     
     data = torch.tensor(data)
     likelihood = 0
@@ -52,7 +53,8 @@ def compute_likelihood(p, data_var_list, data):
     try:
         data_var_index = [output_dist.var_list.index(element) for element in data_var_list ]
     except ValueError:  # if the program doesn't have all the variables we are using for the likelihood
-            return torch.tensor(-np.inf)
+            print("Program missing data variables")
+            return torch.tensor(-1e6)
     except:
             raise
     for k in range(output_dist.gm.n_comp()):
@@ -83,9 +85,12 @@ def compute_likelihood(p, data_var_list, data):
         #    raise
         likelihood += continuous_pdf*discrete_pmf # sums likelihood of every data over all components
     
+    if torch.sum(torch.log(likelihood))/len(data) < torch.tensor(-1e6):
+        return torch.tensor(-1e6)
+
     return torch.sum(torch.log(likelihood))/len(data)
 
-class soga_fitness(base_ff):
+class soga_fitness_SCM(base_ff):
     """Fitness function for finding the length of the shortest path between
     two nodes in a grade compared to the known shortest path. Takes a path (
     list of node labels as strings) and returns fitness. Penalises output
@@ -97,7 +102,7 @@ class soga_fitness(base_ff):
         
 
     def evaluate(self, ind, **kwargs):
-        self.default_fitness = -np.inf
+        self.default_fitness = torch.tensor(-1e6)
         p = ind.phenotype
         #p = smooth_program(p)
         #print("\n" + p)
@@ -107,11 +112,12 @@ class soga_fitness(base_ff):
         #timer = threading.Timer(10, timeout_handler)
         try:
             #timer.start()
-            fitness = likelihood_of_program_wrt_data(p)
+            fitness, processed_program = likelihood_of_program_wrt_data(p)
         except TimeoutException as e:
-            print("Caught TimeoutException")
+            #print("Caught TimeoutException")
             fitness = self.default_fitness
         except:
+            #print("Caught general SOGA exception")
             fitness = self.default_fitness
             #I do not define the indiviaduals as invalid in order to allow crossover
             #if not hasattr(params['FITNESS_FUNCTION'], "multi_objective"):
@@ -125,8 +131,8 @@ class soga_fitness(base_ff):
 def generate_list():
     return [random.randint(0, round(random.random() * 90 + 10)) for i in range(9)]
 
-def preprocess_program(program):
-    p = pre_process_instructions(program)
+def preprocess_program(p):
+    p = pre_process_instructions(p)
     p = convert_and_normalize_gm_structure(p)
     p = convert_uniform_structure(p)
     return p
@@ -153,7 +159,7 @@ def convert_and_normalize_gm_structure(text):
         
         # Normalize pi_list
         pi_sum = sum(pi_list)
-        normalized_pi_list = [pi / pi_sum for pi in pi_list] if pi_sum != 0 else pi_list
+        normalized_pi_list = [pi / pi_sum for pi in pi_list] if pi_sum != 0 else [pi + 1. for pi in pi_list]
         
         # Format the new gm structure with normalized pi_list
         new_gm = f'gm([{", ".join(f"{pi:.6f}" for pi in normalized_pi_list)}], [{", ".join(mu_list)}], [{", ".join(s_list)}])'
@@ -189,87 +195,94 @@ def convert_uniform_structure(text):
     
     return converted_text
 
-def smooth_program(program_text):
+def extract_perm_and_strip_program(program_str: str):
     """
-    Finds and modifies assignment lines where the variable is a letter or alphanumeric
-    and the right-hand side does not contain 'gm' or 'uniform'.
-    
-    Args:
-        program_text (str): The text of the program to analyze and modify.
-    
-    Returns:
-        str: The modified program text.
+    Extract the permutation integer from the first non-empty line
+    and return:
+       perm: int
+       program_without_perm: str
     """
-    # Define the regex pattern to identify assignments
-    pattern = r'^(\s*([a-zA-Z]\w*)\s*=\s*([^;]*))(;?)'
-    
-    # Split the program into lines
-    lines = program_text.splitlines()
-    modified_lines = []
-    
-    for line in lines:
-        match = re.match(pattern, line)
-        if match:
-            full_assignment, var, expression, semicolon = match.groups()
-            # Check if 'gm' or 'uniform' is in the expression
-            if 'gm' not in expression and 'uniform' not in expression:
-                # Modify the assignment
-                modified_assignment = f"{full_assignment} + gauss(0., 0.05){semicolon}"
-                modified_lines.append(modified_assignment)
-            else:
-                # Keep the original line
-                modified_lines.append(line)
-        else:
-            # Keep non-matching lines unchanged
-            modified_lines.append(line)
-    
-    # Join the lines back into a single text
-    return '\n'.join(modified_lines)   
+    lines = [line.rstrip() for line in program_str.split("\n")]
+
+    # Find the first non-empty line → perm
+    for i, line in enumerate(lines):
+        if line.strip():
+            perm = int(line.strip())
+            # Return program without that line
+            program_without_perm = "\n".join(lines[i+1:])
+            return perm, program_without_perm
+
+    raise ValueError("Program is empty or has no valid perm line.")
+
+import itertools
+
+def perm_to_mapping(perm: int, dataset_vars):
+    """
+    Given perm (1..N!) and a list of dataset variable names,
+    return mapping Vi -> dataset_vars according to the permutation index.
+    """
+
+    N = len(dataset_vars)
+
+    # All permutations in lexicographic order
+    all_perms = list(itertools.permutations(range(N)))
+
+    if perm < 1 or perm > len(all_perms):
+        raise ValueError(f"Invalid perm: must be between 1 and {len(all_perms)}")
+
+    chosen = all_perms[perm - 1]  # zero-based index
+
+    # Build Vi -> dataset_var mapping
+    return {
+        f"V{i+1}": dataset_vars[idx]
+        for i, idx in enumerate(chosen)
+    }
+
+import re
+
+def replace_variables_with_names(program_str: str, mapping: dict) -> str:
+    """
+    Replace occurrences of Vi in the program with their corresponding
+    dataset variable names from the mapping dict.
+
+    mapping must be like:
+        {"V1": "skill", "V2": "belief", "V3": "result"}
+
+    The replacement is done safely via regex to match whole variables only.
+    """
+
+    # Sort keys by descending length so V12 is replaced before V1
+    # (avoids partial replacements)
+    keys_sorted = sorted(mapping.keys(), key=lambda k: -len(k))
+
+    result = program_str
+
+    for key in keys_sorted:
+        # \b ensures whole-word match (V1 but not V10)
+        pattern = r"\b" + re.escape(key) + r"\b"
+        replacement = mapping[key]
+        result = re.sub(pattern, replacement, result)
+
+    return result
 
 
 def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM_NAME'] ):
 
-    # open (or create if not exists) a file containing reasons of invalidity
-    invalidity_reasons_file = "invalidity_reasons.txt"
-    #open file
-    invalidity_file = open(invalidity_reasons_file, "a")
-
-
-    #print(p)
-    p = preprocess_assign_conditionals(p)
-
-    if not check_no_assignment_after_use(p):
-        #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: Assignment after use detected.\n")
-        return -np.inf
-    if not check_no_reassignment_of_U(p):
-        #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: Reassignment of U detected.\n")
-        return -np.inf
-    
-    if not check_all_rhs_assigned_before_use(p):
-        #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: RHS variable used before assignment.\n")
-        return -np.inf
-    
-    if not check_boolean_vars_previously_assigned(p):
-        #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: Boolean variable used before assignment.\n")
-        return -np.inf
-
-     # Preprocess program
-    p = preprocess_program(p)
+    perm, p = extract_perm_and_strip_program(p)
+    #p = normalize_program_by_blocks(p)
     data_var_list, scm = dgp.get_vars(program)
+    mapping = perm_to_mapping(perm, data_var_list)
+    p = preprocess_program(p)
+    p = replace_variables_with_names(p, mapping)
+    
     data = dgp.generate_interventional_dataset(scm, data_var_list, data_size)
-    res = check_all_data_vars_assigned(p, data_var_list)
-    if res["num_missing"] > 0:
-        return -1e6 * res["num_missing"]
+
 
     # Calculate the likelihood of the data
     likelihood = compute_likelihood(p, data_var_list, data)
 
     if(params['INTERVENTIONAL_FITNESS']):
-        intervention_list = interventions.choose_interventions(data, data_var_list, max_interventions=5)
+        intervention_list = interventions.choose_interventions(data, mapping, max_interventions=3)
         for var, value in intervention_list:
             data_intervened = dgp.generate_interventional_dataset(scm, data_var_list, 1000, intervention={var: value})
             program_intervened = interventions.apply_intervention_to_program(p, var, value)
@@ -281,7 +294,7 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
     fitness = likelihood 
     #if not isfinite(fitness.item()):
         
-    return fitness.item()
+    return fitness.item(), p 
 
 import re
 from typing import List, Tuple
@@ -623,502 +636,125 @@ def pre_process_instructions(program: str) -> str:
     return "".join(out_instrs)
 
 
-# match assignment of form "   V3 = ..." or "TEMP2=..."
-assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
-
-# match variable names appearing on the RHS
-var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
-
-
-def extract_lhs_rhs(instr: str):
-    """
-    Extract (lhs, rhs_vars) from a single instruction IF it is an assignment.
-    Otherwise returns (None, empty_set).
-    """
-    m = assign_re.match(instr)
-    if not m:
-        return None, set()
-
-    lhs = m.group("lhs")
-
-    # RHS = everything after '='
-    rhs = instr.split("=", 1)[1]
-
-    # extract variables appearing on the RHS
-    rhs_vars = set(var_re.findall(rhs))
-
-    # self-reference (V3 = V3 + 1) is NOT a violation
-    rhs_vars.discard(lhs)
-
-    return lhs, rhs_vars
-
-
-def check_no_assignment_after_use(program: str):
-    """
-    Checks the rule: no variable may be assigned AFTER it has already been used
-    in any previous RHS.
-
-    Returns:
-        True if valid
-        False if invalid
-    """
-    # split instructions on semicolon, but KEEP the original text intact
-    instructions = [part for part in program.split(";") if part.strip()]
-
-    used_vars = set()
-
-    for instr in instructions:
-        instr = instr.rstrip()  # remove only trailing spaces (keep indentation)
-
-        lhs, rhs_vars = extract_lhs_rhs(instr)
-
-        # add RHS variables to the used set
-        used_vars.update(rhs_vars)
-
-        if lhs is not None:
-            # rule violation: lhs was previously used
-            if lhs in used_vars:
-                return False
-
-            # note: we don't add lhs to used_vars here,
-            # because only RHS appearances count as "use"
-
-    return True
-
-
 import re
 
-assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
-rhs_var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
+# Matches any variable Vn
+VAR_RE = re.compile(r"\bV([0-9]+)\b")
 
 
-def extract_lhs_rhs(instr: str):
-    """Extract LHS variable and RHS variable set from an assignment line."""
-    m = assign_re.match(instr)
-    if not m:
-        return None, set()
-
-    lhs = m.group("lhs")
-    rhs = instr.split("=", 1)[1]
-    rhs_vars = set(rhs_var_re.findall(rhs))
-    rhs_vars.discard(lhs)  # remove self reference
-    return lhs, rhs_vars
-
-
-def check_no_reassignment_of_U(program: str):
+def normalize_block(block: str, i: int) -> str:
     """
-    Rule:
-      (1) Each Ui must be assigned at most once.
-      (2) Each Ui may appear in RHS of at most one *V-assignment*.
+    Normalize all occurrences of Vn inside a <Vi> block (assignments, booleans,
+    nested IFs, etc.), using the rule:
+        Vn -> V[((n-1) mod (i-1)) + 1]
+    for i > 1, and all Vn -> V1 when i == 1.
+
+    IMPORTANT:
+      - Does NOT change LHS "Vj" when it is immediately followed by a single '='
+        (possibly with spaces). So "V2 = ..." stays "V2 = ...".
+      - But "V2 == 3" is NOT treated as LHS, so V2 is normalized there.
     """
-    instructions = [p for p in program.split(";") if p.strip()]
 
-    assigned_U = set()
-    used_by_V = {}   # map U -> name of V that used it
+    parts = []
+    last_idx = 0
+    L = len(block)
 
-    for instr in instructions:
-        instr = instr.rstrip()
+    for m in VAR_RE.finditer(block):
+        start, end = m.span()
+        n_str = m.group(1)
+        n = int(n_str)
 
-        lhs, rhs_vars = extract_lhs_rhs(instr)
-        if lhs is None:
-            continue
+        # Look ahead to see if this occurrence is followed by '=' (potential LHS)
+        j = end
+        while j < L and block[j].isspace():
+            j += 1
 
-        # ---------------------------------------
-        # (1) Ui assigned only once
-        # ---------------------------------------
-        if lhs.startswith("U"):
-            if lhs in assigned_U:
-                return False
-            assigned_U.add(lhs)
+        is_lhs = False
+        if j < L and block[j] == '=':
+            # Check if this is a single '=' (assignment) and NOT '==' (comparison)
+            if not (j + 1 < L and block[j + 1] == '='):
+                is_lhs = True
 
-        # ---------------------------------------
-        # (2) Ui used in at most one V-assignment
-        # ---------------------------------------
-        if lhs.startswith("V"):
-            for var in rhs_vars:
-                if var.startswith("U"):
-                    if var not in used_by_V:
-                        used_by_V[var] = lhs
-                    else:
-                        # Already used by a different V
-                        if used_by_V[var] != lhs:
-                            return False
+        # Copy text before the match
+        parts.append(block[last_idx:start])
 
-    return True
-
-assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
-var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
-
-
-def extract_lhs_rhs(instr: str):
-    """Extract (lhs, rhs_vars) from assignment. Otherwise (None, empty)."""
-    m = assign_re.match(instr)
-    if not m:
-        return None, set()
-
-    lhs = m.group("lhs")
-    rhs = instr.split("=", 1)[1]
-    rhs_vars = set(var_re.findall(rhs))
-
-    # IMPORTANT: do NOT discard lhs here.
-    # Self-reference must be checked dynamically based on assigned set.
-    return lhs, rhs_vars
-
-
-def check_all_rhs_assigned_before_use(program: str):
-    """
-    Ensures that every variable on the RHS has been assigned *before* use.
-    Self-references (e.g., V1 = V1 + 1) are allowed only if V1 was
-    previously assigned.
-    """
-    instructions = [part for part in program.split(";") if part.strip()]
-    assigned = set()
-
-    for instr in instructions:
-        instr = instr.rstrip()
-
-        lhs, rhs_vars = extract_lhs_rhs(instr)
-
-        # Check RHS usage validity
-        for var in rhs_vars:
-            if var == lhs:
-                # self-reference → allowed only if previously assigned
-                if lhs not in assigned:
-                    return False
+        if is_lhs:
+            # Keep LHS variable as-is (e.g., "V2" in "V2 = ...")
+            parts.append(m.group(0))
+        else:
+            # Normalize RHS/boolean occurrences
+            if i == 1:
+                new_var = "V1"
             else:
-                # normal use → must be assigned already
-                if var not in assigned:
-                    return False
+                m_idx = ((n - 1) % (i - 1)) + 1
+                new_var = f"V{m_idx}"
+            parts.append(new_var)
 
-        # After checking RHS, mark LHS as assigned
-        if lhs is not None:
-            assigned.add(lhs)
+        last_idx = end
 
-    return True
+    # Remainder
+    parts.append(block[last_idx:])
+    return "".join(parts)
 
-
-import re
-
-assign_directive_re = re.compile(
-    r'ASSIGN\s*\[\s*(V\d+)\s*,\s*(U\d+)\s*\]',
-    re.IGNORECASE
-)
-
-# word-boundary "if" and "end if;"
-_if_tok = re.compile(r'\bif\b', re.IGNORECASE)
-_end_if_tok = re.compile(r'end\s+if\s*;', re.IGNORECASE)
-
-
-def _find_matching_end_if(text: str, if_start: int) -> int | None:
+def split_into_vi_blocks(program_wo_perm: str):
     """
-    Return index just after the matching 'end if;' for the 'if' at if_start.
-    Counts nested if/end if.
+    Split the program into <V1>, <V2>, ... blocks.
+    Each block may span multiple lines (especially IF blocks).
     """
-    depth = 0
-    i = if_start
-    n = len(text)
 
-    while i < n:
-        m_if = _if_tok.match(text, i)
-        if m_if:
-            depth += 1
-            i = m_if.end()
+    lines = [ln for ln in program_wo_perm.split("\n") if ln.strip()]
+    blocks = []
+    current = []
+
+    nesting = 0
+    for line in lines:
+        stripped = line.strip()
+
+        # Start of IF?
+        if stripped.startswith("if "):
+            nesting += 1
+            current.append(line)
             continue
 
-        m_end = _end_if_tok.match(text, i)
-        if m_end:
-            depth -= 1
-            i = m_end.end()
-            if depth == 0:
-                return i
+        # End of IF?
+        if stripped.startswith("} end if"):
+            current.append(line)
+            nesting -= 1
+
+            # Finished a whole IF block
+            if nesting == 0:
+                blocks.append("\n".join(current))
+                current = []
             continue
 
-        i += 1
+        # Inside nested IF
+        if nesting > 0:
+            current.append(line)
+            continue
 
-    return None
+        # Outside IF: line must be "Vi = expr;"
+        if stripped.startswith("V") and "=" in stripped:
+            # This is a full single-line Vi assignment
+            if current:
+                raise RuntimeError("Dangling block before assignment")
+            blocks.append(line)
+            continue
 
+        raise RuntimeError(f"Unexpected line: {line}")
 
-def _skip_ws(text: str, i: int) -> int:
-    n = len(text)
-    while i < n and text[i].isspace():
-        i += 1
-    return i
+    if nesting != 0:
+        raise RuntimeError("Unbalanced IF / end if")
 
-
-def _parse_branch(text: str, i: int) -> tuple[str, int] | None:
-    """
-    Parse a branch of the form:
-        { : <single_statement> : }
-    where <single_statement> may contain nested braces.
-    Returns (statement_str, next_index_after_branch).
-    """
-    n = len(text)
-    i = _skip_ws(text, i)
-    if i >= n or text[i] != '{':
-        return None
-    i += 1
-    i = _skip_ws(text, i)
-
-    # expect ':'
-    if i >= n or text[i] != ':':
-        return None
-    i += 1  # after opening ':'
-
-    stmt_start = i
-    brace_depth = 0
-
-    # scan until closing ':' at brace_depth==0
-    while i < n:
-        c = text[i]
-        if c == '{':
-            brace_depth += 1
-        elif c == '}':
-            if brace_depth > 0:
-                brace_depth -= 1
-        elif c == ':' and brace_depth == 0:
-            stmt = text[stmt_start:i].strip()
-            i += 1  # consume closing ':'
-            i = _skip_ws(text, i)
-            if i < n and text[i] == '}':
-                i += 1
-                return stmt, i
-            return None
-        i += 1
-
-    return None
-
-
-def _find_header_assign(text: str, if_start: int) -> tuple[int, int, str, str] | None:
-    """
-    From an 'if' header starting at if_start, find ASSIGN[Vx,Uy] before the first '{'.
-    Returns (assign_match_start, assign_match_end, Vx, Uy) or None.
-    """
-    # find first '{' after this if
-    brace_pos = text.find('{', if_start)
-    if brace_pos == -1:
-        return None
-
-    header = text[if_start:brace_pos]
-    m = assign_directive_re.search(header)
-    if not m:
-        return None
-
-    # absolute positions
-    a0 = if_start + m.start()
-    a1 = if_start + m.end()
-    return a0, a1, m.group(1), m.group(2)
-
-
-def preprocess_assign_conditionals(program: str, forced_target=None) -> str:
-    """
-    If forced_target is None:
-        Behave normally: extract ASSIGN[Vx,Uy] and rewrite branches accordingly.
-        Nested conditionals inherit forced_target = (Vx,Uy).
-    
-    If forced_target = (v_var,u_var):
-        Ignore any inner ASSIGN[...] and rewrite using the forced variable/noise.
-    """
-
-    text = program
-    changed = True
-
-    while changed:
-        changed = False
-        i = 0
-        n = len(text)
-        out = []
-
-        while i < n:
-            m_if = _if_tok.search(text, i)
-            if not m_if:
-                out.append(text[i:])
-                break
-
-            if_start = m_if.start()
-            out.append(text[i:if_start])  
-            end_if = _find_matching_end_if(text, if_start)
-            if end_if is None:
-                out.append(text[if_start:])
-                break
-
-            full_if = text[if_start:end_if]
-
-            # Decide: use inner ASSIGN or ignore it due to forced_target
-            hdr_info = _find_header_assign(full_if, 0)
-
-            if forced_target is not None:
-                # Ignore inner ASSIGN; override with outer variables
-                v_var, u_var = forced_target
-                # Remove any ASSIGN inside header if present
-                if hdr_info:
-                    a0, a1, _, _ = hdr_info
-                    full_if_no_assign = full_if[:a0] + full_if[a1:]
-                else:
-                    full_if_no_assign = full_if
-            else:
-                # Normal case: look for ASSIGN directive
-                if hdr_info is None:
-                    out.append(full_if)
-                    i = end_if
-                    continue
-
-                a0, a1, v_var, u_var = hdr_info
-                # Remove ASSIGN from header
-                full_if_no_assign = full_if[:a0] + full_if[a1:]
-
-            # ---- Now parse branches as usual ----
-            first_brace = full_if_no_assign.find('{')
-            if first_brace == -1:
-                out.append(full_if)
-                i = end_if
-                continue
-
-            b1 = _parse_branch(full_if_no_assign, first_brace)
-            if b1 is None:
-                out.append(full_if)
-                i = end_if
-                continue
-            stmt1, after_b1 = b1
-
-            m_else = re.search(r'\belse\b', full_if_no_assign[after_b1:], re.IGNORECASE)
-            if not m_else:
-                out.append(full_if)
-                i = end_if
-                continue
-            else_pos = after_b1 + m_else.start()
-
-            second_brace = full_if_no_assign.find('{', else_pos)
-            if second_brace == -1:
-                out.append(full_if)
-                i = end_if
-                continue
-
-            b2 = _parse_branch(full_if_no_assign, second_brace)
-            if b2 is None:
-                out.append(full_if)
-                i = end_if
-                continue
-            stmt2, after_b2 = b2
-
-            # ---- RECURSION: pass forced_target downward ----
-            new_forced = (v_var, u_var)
-            stmt1 = preprocess_assign_conditionals(stmt1, forced_target=new_forced)
-            stmt2 = preprocess_assign_conditionals(stmt2, forced_target=new_forced)
-
-            # ---- Rebuild ----
-            header = full_if_no_assign[:first_brace].rstrip()
-            tail = full_if_no_assign[after_b2:]
-
-            new_if = (
-                f"{header} {{ {v_var} = {stmt1} + {u_var}; }} "
-                f"else {{ {v_var} = {stmt2} + {u_var}; }}{tail}"
-            )
-
-            out.append(new_if)
-            changed = True
-            i = end_if
-
-        text = "".join(out)
-
-    return text
+    return blocks
 
 
 
-# Matches: if <condition> {
-if_re = re.compile(
-    r'\bif\s+(?P<cond>.*?)\s*\{',
-    re.IGNORECASE | re.DOTALL
-)
+def normalize_program_by_blocks(program_wo_perm: str) -> str:
 
-# Variables V#, U#, TEMP#
-var_re = re.compile(r'\b(V\d+|U\d+|TEMP\d+)\b')
+    blocks = split_into_vi_blocks(program_wo_perm)
+    normalized = []
 
-# Assignment on LHS
-assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
+    for i, block in enumerate(blocks, start=1):
+        normalized.append(normalize_block(block, i))
 
-
-def extract_assigned_var(instr: str):
-    """Return LHS variable name or None."""
-    m = assign_re.match(instr)
-    return m.group("lhs") if m else None
-
-
-def check_boolean_vars_previously_assigned(program: str):
-    """
-    Ensures all variables used inside boolean conditions
-    have been assigned before their use.
-
-    Returns:
-        True  if valid
-        False if any variable in a condition was used before assignment
-    """
-    # Split program into instructions (semicolon separated)
-    instructions = [p for p in program.split(";") if p.strip()]
-
-    assigned = set()
-    line_no = 0
-
-    for instr in instructions:
-        line_no += 1
-        instr_clean = instr.strip()
-
-        # Check if this line contains an "if <cond> {"
-        m = if_re.search(instr_clean)
-        if m:
-            cond = m.group("cond")
-            vars_in_cond = set(var_re.findall(cond))
-
-            # Check all vars have been previously assigned
-            for v in vars_in_cond:
-                if v not in assigned:
-                    # violation
-                    return False
-
-        # Handle assignment updating assigned set
-        lhs = extract_assigned_var(instr_clean)
-        if lhs:
-            assigned.add(lhs)
-
-    return True
-
-
-assign_re = re.compile(r'^\s*(?P<lhs>(?:V|U|TEMP)\d+)\s*=')
-
-def extract_lhs(instr: str):
-    """Returns the assigned variable on the left side of '=' or None."""
-    m = assign_re.match(instr)
-    return m.group("lhs") if m else None
-
-
-def check_all_data_vars_assigned(program: str, data_var_list):
-    """
-    Checks which variables in data_var_list appear at least once
-    on the left-hand side of an assignment in the program.
-
-    Returns a dict with:
-        {
-            "all_assigned": bool,
-            "assigned": set,
-            "missing": set,
-            "num_missing": int
-        }
-    """
-    # split on semicolons; do NOT strip indentation
-    instructions = [p for p in program.split(";") if p.strip()]
-
-    assigned = set()
-
-    for instr in instructions:
-        lhs = extract_lhs(instr)
-        if lhs:
-            assigned.add(lhs)
-
-    missing = {v for v in data_var_list if v not in assigned}
-
-    return {
-        "all_assigned": len(missing) == 0,
-        "assigned": assigned,
-        "missing": missing,
-        "num_missing": len(missing),
-    }
-
+    return "\n".join(normalized)

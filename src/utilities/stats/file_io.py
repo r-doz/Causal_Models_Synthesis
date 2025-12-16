@@ -4,7 +4,8 @@ from shutil import rmtree
 
 from algorithm.parameters import params
 from utilities.stats import trackers
-from fitness.soga_fitness import likelihood_of_program_wrt_data
+from fitness.soga_fitness_SCM import likelihood_of_program_wrt_data
+
 
 def save_stats_to_file(stats, end=False):
     """
@@ -61,14 +62,15 @@ def save_best_ind_to_file(stats, ind, end=False, name="best"):
     :param name: The name of the individual. Default set to "best".
     :return: Nothing.
     """
-
+    likelihood, program = likelihood_of_program_wrt_data(ind.phenotype)
     filename = path.join(params['FILE_PATH'], (str(name) + ".txt"))
     savefile = open(filename, 'w')
     savefile.write("Generation:\n" + str(stats['gen']) + "\n\n")
     savefile.write("Phenotype:\n" + str(ind.phenotype) + "\n\n")
+    savefile.write("Pre-processed Program\n:" + str(program))
     savefile.write("Genotype:\n" + str(ind.genome) + "\n")
     savefile.write("Tree:\n" + str(ind.tree) + "\n")
-    savefile.write("Fitness on 5000 data:\n" + str(likelihood_of_program_wrt_data(ind.phenotype)) + "\n")
+    savefile.write("Fitness on 5000 data:\n" + str(likelihood) + "\n")
     if hasattr(params['FITNESS_FUNCTION'], "training_test"):
         if end:
             savefile.write("\nTraining fitness:\n" + str(ind.training_fitness))

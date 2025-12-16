@@ -12,22 +12,22 @@ params = {
     'STEP': 'step',
 
     # Evolutionary Parameters
-    'POPULATION_SIZE': 1000,
-    'GENERATIONS': 1000,
+    'POPULATION_SIZE': 40,
+    'GENERATIONS': 200,
     'HILL_CLIMBING_HISTORY': 1000,
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
     'EXPERIMENT_NAME': 'causal_skills_tests', # name of the folder
     'PROGRAM_NAME': 'causal_skills',
-    'DEPENDENCIES_BENEFIT': False,
+    'INTERVENTIONAL_FITNESS': True,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
     'RUNS': 4,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
-    'FITNESS_FUNCTION': "soga_fitness",
+    'FITNESS_FUNCTION': "soga_fitness_SCM",
 
     # Select problem dataset
     'DATASET_TRAIN': None,
@@ -36,7 +36,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_grammar.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_template.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
@@ -53,20 +53,20 @@ params = {
     'TARGET': "ponyge_rocks",
 
     # Set max sizes of individuals
-    'MAX_TREE_DEPTH': 90,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
+    'MAX_TREE_DEPTH': 50,  # SET TO 90 DUE TO PYTHON EVAL() STACK LIMIT.
     # INCREASE AT YOUR OWN RISK.
     'MAX_TREE_NODES': None,
-    'CODON_SIZE': 2000,
-    'MAX_GENOME_LENGTH': 4000,
+    'CODON_SIZE': 500,
+    'MAX_GENOME_LENGTH': 1000,
     'MAX_WRAPS': 5,
 
     # INITIALISATION
     # Set initialisation operator.
     'INITIALISATION': "operators.initialisation.uniform_genome", # operators.initialisation.PI_grow, operators.initialisation.rhh, operators.initialisation.uniform_genome, operators.initialisation.uniform_tree, operators.initialisation.rvd
     # Set the maximum genome length for initialisation.
-    'INIT_GENOME_LENGTH': 1000,
+    'INIT_GENOME_LENGTH': 100,
     # Set the maximum tree depth for initialisation.
-    'MAX_INIT_TREE_DEPTH': 50,
+    'MAX_INIT_TREE_DEPTH': 20,
     # Set the minimum tree depth for initialisation.
     'MIN_INIT_TREE_DEPTH': None,
 

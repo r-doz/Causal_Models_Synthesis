@@ -11,6 +11,9 @@ from utilities.stats.file_io import save_best_ind_to_file, \
     save_first_front_to_file, save_stats_headers, save_stats_to_file
 from utilities.stats.save_plots import save_pareto_fitness_plot, \
     save_plot_from_data
+import sys
+sys.path.insert(1, '../fitness')
+from fitness.soga_fitness_SCM import * 
 
 """Algorithm statistics"""
 stats = {
@@ -363,7 +366,7 @@ def print_final_stats():
 
     :return: Nothing.
     """
-
+    likelihood, preprocessedprogram = likelihood_of_program(trackers.best_ever.phenotype)
     if hasattr(params['FITNESS_FUNCTION'], "training_test"):
         print("\n\nBest:\n  Training fitness:\t",
               trackers.best_ever.training_fitness)
@@ -372,8 +375,9 @@ def print_final_stats():
         print("\n\nBest:\n  Fitness:\t", trackers.best_ever.fitness)
 
     print("  Phenotype:", trackers.best_ever.phenotype)
+    print(" Pre-processed Program:", preprocessedprogram)
     #print("  Genome:", trackers.best_ever.genome)
-    print("Likelihood on 5000 points: ", likelihood_of_program(trackers.best_ever.phenotype))
+    print("Likelihood on 5000 points: ", likelihood)
     print_generation_stats()
 
 
@@ -393,5 +397,5 @@ def print_final_moo_stats():
 def likelihood_of_program(phenotype):
     module = importlib.import_module(params['FITNESS_FUNCTION'].__module__)
     likelihood_func = getattr(module, 'likelihood_of_program_wrt_data')
-    fitness = likelihood_func(phenotype, 5000)
-    return fitness
+    fitness, processed_program = likelihood_func(phenotype, 5000)
+    return fitness, processed_program
