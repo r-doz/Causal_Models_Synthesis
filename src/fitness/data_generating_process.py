@@ -58,4 +58,4 @@ def sample_V2_causal_skills(skill):
     return 0.5 * skill + np.random.normal(5, 2)
 
 def sample_V3_causal_skills(skill, belief):
-    return 0.3 * skill + 0.7 * belief + np.random.normal(3, 1)
+    return 0.3 * skill + 5 * belief + np.random.normal(3, 0.1)

@@ -56,7 +56,7 @@ def save_pareto_fitness_plot():
     sm._A = []
 
     # Plot the colorbar.
-    cbar = plt.colorbar(sm, ticks=[0, len(first_pareto_list) - 1])
+    cbar = plt.colorbar(sm, ticks=[0, len(first_pareto_list) - 1], ax=ax1)
 
     # Set label of colorbar.
     # cbar.ax.get_yaxis().labelpad = 15
