@@ -173,3 +173,11 @@ def save_params_to_file():
                        str(params[param]) + "\n")
 
     savefile.close()
+
+
+def save_pareto_front(stats):
+    # Define the new file path.
+    filename = path.join(params['FILE_PATH'], "pareto_fitness.txt")
+    for i, ind in enumerate(trackers.best_ever):
+        savefile = open(filename, 'a')
+        savefile.write(str(stats['gen']) + "\t" + str(ind.fitness) + "\n")

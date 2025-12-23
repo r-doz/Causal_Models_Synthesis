@@ -8,7 +8,7 @@ from utilities.algorithm.NSGA2 import compute_pareto_metrics
 from utilities.algorithm.state import create_state
 from utilities.stats import trackers
 from utilities.stats.file_io import save_best_ind_to_file, \
-    save_first_front_to_file, save_stats_headers, save_stats_to_file
+    save_first_front_to_file, save_stats_headers, save_stats_to_file, save_pareto_front
 from utilities.stats.save_plots import save_pareto_fitness_plot, \
     save_plot_from_data
 import sys
@@ -172,6 +172,7 @@ def get_moo_stats(individuals, end):
     # Store stats about pareto fronts.
     stats['pareto_fronts'] = len(pareto.fronts)
     stats['first_front'] = len(pareto.fronts[0])
+    save_pareto_front(stats)
 
     if end or params['VERBOSE'] or not params['DEBUG']:
         # Update all stats.

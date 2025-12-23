@@ -38,6 +38,8 @@ def sample_scm_with_intervention(SCM, order, intervention=None):
 def get_vars(process_name):
     if process_name == 'causal_skills':
         return ORDER_causal_skills, SCM_causal_skills
+    if process_name == 'chain':
+        return ORDER_chain, SCM_chain
     else:
         raise ValueError(f"Unknown process name: {process_name}")
     
@@ -49,13 +51,26 @@ SCM_causal_skills = {
     "result": lambda skill, belief: sample_V3_causal_skills(skill, belief),
 }
 
+SCM_chain = {
+    "F": lambda: np.random.normal(10, 2),
+    "T": lambda F: sample_T_chain(F),
+    "P": lambda T: 3 * T*T + np.random.normal(0, 1),
+}
+
 ORDER_causal_skills = ["skill", "belief", "result"]
+ORDER_chain = ["F", "T", "P"]
 
 def sample_V1_causal_skills():
-    return np.random.normal(50, 10)
+    return np.random.normal(30, 5)
 
 def sample_V2_causal_skills(skill):
     return 0.5 * skill + np.random.normal(5, 2)
 
 def sample_V3_causal_skills(skill, belief):
     return 0.3 * skill + 5 * belief + np.random.normal(3, 0.1)
+
+def sample_T_chain(F):
+    if F < 8.5:
+        return np.random.normal(1, 0.1)
+    else: 
+        return np.random.normal(7, 1)

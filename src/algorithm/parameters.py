@@ -13,18 +13,18 @@ params = {
 
     # Evolutionary Parameters
     'POPULATION_SIZE': 80,
-    'GENERATIONS': 200,
+    'GENERATIONS': 300,
     'HILL_CLIMBING_HISTORY': 1000,
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'causal_skills_tests', # name of the folder
-    'PROGRAM_NAME': 'causal_skills',
+    'EXPERIMENT_NAME': 'chain_test', # name of the folder
+    'PROGRAM_NAME': 'chain',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 4,
+    'RUNS': 10,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
@@ -75,7 +75,7 @@ params = {
     # Set selection operator.
     'SELECTION':"operators.selection.nsga2_selection", #"operators.selection.truncation", "operators.selection.tournament"
     # For tournament selection
-    'TOURNAMENT_SIZE': 10,
+    'TOURNAMENT_SIZE': 5,
     # For truncation selection
     'SELECTION_PROPORTION': 0.1, #0.5,
     # Allow for selection of invalid individuals during selection process.
@@ -90,16 +90,16 @@ params = {
     # Set crossover operator.
     'CROSSOVER': "operators.crossover.variable_twopoint",
     # Set crossover probability.
-    'CROSSOVER_PROBABILITY': 0.30,
+    'CROSSOVER_PROBABILITY': 0.20,
     # Prevents crossover from generating invalids.
     'NO_CROSSOVER_INVALIDS': False,
 
     # MUTATION
     # Set mutation operator.
-    'MUTATION': "operators.mutation.int_flip_per_codon",
+    'MUTATION': "operators.mutation.int_flip_per_codon", #"operators.mutation.int_flip_per_codon",
     # Set mutation probability (None defaults to 1 over the length of
     # the genome for each codon)
-    'MUTATION_PROBABILITY': 0.15,
+    'MUTATION_PROBABILITY': 0.1,
     # Set number of mutation events
     'MUTATION_EVENTS': 1,
     # Prevents mutation from generating invalids.
