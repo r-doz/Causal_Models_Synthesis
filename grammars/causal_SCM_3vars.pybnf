@@ -1,9 +1,9 @@
-<program> ::= <perm>{::}<V1>{::}<V2>{::}<V3>
+<program> ::= <perm>{::}<V1>{::}<V2>{::}V2 = V2 + <distribution_expression>;{::}<V3>{::}V3 = V3 + <distribution_expression>;
 <perm> ::= 1|2|3|4|5|6
 <V1> ::= V1 = <distribution_expression>;
 
-<V2> ::= V2 = <function_expression2> + <distribution_expression>; | if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
-<V3> ::= V3 = <function_expression3> + <distribution_expression>; | if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
+<V2> ::= V2 = <function_expression2>; | if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
+<V3> ::= V3 = <function_expression3>; | if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
 
 <distribution_expression> ::= <weighted_distribution> 
                             | <distribution_expression> <add_op> <weighted_distribution>

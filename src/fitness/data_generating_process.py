@@ -40,6 +40,14 @@ def get_vars(process_name):
         return ORDER_causal_skills, SCM_causal_skills
     if process_name == 'chain':
         return ORDER_chain, SCM_chain
+    if process_name == 'common_cause':
+        return ORDER_common_cause, SCM_common_cause
+    if process_name == 'common_effect':
+        return ORDER_common_effect, SCM_common_effect
+    if process_name == 'diamond':
+        return ORDER_diamond, SCM_diamond
+    if process_name == 'complex':
+        return ORDER_complex, SCM_complex
     else:
         raise ValueError(f"Unknown process name: {process_name}")
     
@@ -53,12 +61,42 @@ SCM_causal_skills = {
 
 SCM_chain = {
     "F": lambda: np.random.normal(10, 2),
-    "T": lambda F: sample_T_chain(F),
-    "P": lambda T: 3 * T*T + np.random.normal(0, 1),
+    "T": lambda F: sample_T_chain(F) + np.random.normal(0,1),
+    "P": lambda T: T*T + np.random.normal(0, 10),
+}
+
+SCM_common_cause = {
+    "F": lambda: np.random.normal(10, 2),
+    "C": lambda F: 0.5*F + np.random.uniform(-1,1),
+    "T": lambda F: sample_T_chain(F)+ np.random.normal(0,1),
+}
+
+SCM_common_effect = {
+    "F": lambda: np.random.normal(10, 2),
+    "W": lambda: np.random.uniform(0,10),
+    "T": lambda F, W: sample_T_chain(F) + W + np.random.normal(0,1),
+}
+
+SCM_diamond = {
+    "F": lambda: np.random.normal(10, 2),
+    "C": lambda F: 0.5*F + np.random.uniform(-1,1),
+    "T": lambda F: sample_T_chain(F) + np.random.normal(0,1),
+    "E": lambda C, T: 50 * C + T * T + np.random.normal(0,10),
+}
+SCM_complex = {
+    "F": lambda: np.random.normal(10, 2),
+    "C": lambda F: 0.5*F + np.random.uniform(-1,1),
+    "W": lambda: np.random.uniform(0,10),
+    "T": lambda F, W: sample_T_chain(F) + W + np.random.normal(0,1),
+    "P": lambda T: T*T + np.random.normal(0, 10),
 }
 
 ORDER_causal_skills = ["skill", "belief", "result"]
 ORDER_chain = ["F", "T", "P"]
+ORDER_common_cause = ["F", "C", "T"]
+ORDER_common_effect = ["F", "W", "T"]
+ORDER_diamond = ["F", "C", "T", "E"]
+ORDER_complex = ["F", "C", "W", "T", "P"]
 
 def sample_V1_causal_skills():
     return np.random.normal(30, 5)
@@ -71,6 +109,6 @@ def sample_V3_causal_skills(skill, belief):
 
 def sample_T_chain(F):
     if F < 8.5:
-        return np.random.normal(1, 0.1)
+        return F
     else: 
-        return np.random.normal(7, 1)
+        return 20
