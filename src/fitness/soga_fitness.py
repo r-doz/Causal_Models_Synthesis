@@ -229,32 +229,21 @@ def smooth_program(program_text):
 
 def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM_NAME'] ):
 
-    # open (or create if not exists) a file containing reasons of invalidity
-    invalidity_reasons_file = "invalidity_reasons.txt"
-    #open file
-    invalidity_file = open(invalidity_reasons_file, "a")
-
-
-    #print(p)
     p = preprocess_assign_conditionals(p)
 
     if not check_no_assignment_after_use(p):
         #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: Assignment after use detected.\n")
         return -np.inf
     if not check_no_reassignment_of_U(p):
         #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: Reassignment of U detected.\n")
         return -np.inf
     
     if not check_all_rhs_assigned_before_use(p):
         #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: RHS variable used before assignment.\n")
         return -np.inf
     
     if not check_boolean_vars_previously_assigned(p):
         #stats['invalids'] += 1
-        invalidity_file.write("Invalidity: Boolean variable used before assignment.\n")
         return -np.inf
 
      # Preprocess program
