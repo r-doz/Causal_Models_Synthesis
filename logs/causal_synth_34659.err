@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/resource_sharer.py", line 145, in _serve
+    send(conn, destination_pid)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/resource_sharer.py", line 50, in send
+    reduction.send_handle(conn, new_fd, pid)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/reduction.py", line 183, in send_handle
+    with socket.fromfd(conn.fileno(), socket.AF_UNIX, socket.SOCK_STREAM) as s:
+         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/u/rominadoz/miniconda3/lib/python3.13/socket.py", line 548, in fromfd
+    nfd = dup(fd)
+OSError: [Errno 24] Too many open files
+slurmstepd: error: *** JOB 34659 ON babbage CANCELLED AT 2026-01-10T14:44:40 ***
+slurmstepd: error: Detected 17 oom_kill events in StepId=34659.batch. Some of the step tasks have been OOM Killed.
