@@ -22,9 +22,9 @@ export VECLIB_MAXIMUM_THREADS=1
 export TORCH_NUM_THREADS=1
 export TORCH_NUM_INTEROP_THREADS=1
 
-ulimit -n 65535
+ulimit -n 262144
 echo "ulimit -n = $(ulimit -n)"
 
-python experiment_manager.py
+python -u ponyge.py
 
 echo "Job finished at $(date)"
