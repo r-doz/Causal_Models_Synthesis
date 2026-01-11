@@ -24,7 +24,7 @@ params = {
     'NUM_INTERVENTIONS': 10,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 8,
+    'RUNS': 5,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
