@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH -p Main
 #SBATCH --job-name=causal_synth
-#SBATCH --time=36:00:00
+#SBATCH --time=24:00:00
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=2
 #SBATCH --mem=32G
 #SBATCH --output=logs/%x_%j.out
 #SBATCH --error=logs/%x_%j.err
@@ -21,9 +21,6 @@ export NUMEXPR_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 export TORCH_NUM_THREADS=1
 export TORCH_NUM_INTEROP_THREADS=1
-
-ulimit -n 262144
-echo "ulimit -n = $(ulimit -n)"
 
 python -u ponyge.py
 
