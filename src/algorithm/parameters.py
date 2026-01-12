@@ -133,7 +133,7 @@ params = {
 
     # MULTIPROCESSING
     # Multi-core parallel processing of phenotype evaluations.
-    'MULTICORE': True,
+    'MULTICORE': False,
     # Set the number of cpus to be used for multiprocessing
     'CORES': 8, #cpu_count()-1,
 
