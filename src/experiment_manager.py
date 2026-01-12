@@ -11,7 +11,7 @@ from sys import path, executable
 from utilities.algorithm.general import check_python_version
 
 check_python_version()
-
+import multiprocessing as mp
 from multiprocessing import Pool
 from subprocess import call
 import sys
@@ -106,4 +106,5 @@ def main():
 
 
 if __name__ == "__main__":
+    mp.set_start_method("spawn", force=True)
     main()

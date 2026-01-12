@@ -14,6 +14,7 @@ check_python_version()
 from stats.stats import get_stats
 from algorithm.parameters import params, set_params
 import sys
+import multiprocessing as mp
 
 
 def mane():
@@ -28,4 +29,5 @@ def mane():
 
 
 if __name__ == "__main__":
+    mp.set_start_method("spawn", force=True)
     mane()

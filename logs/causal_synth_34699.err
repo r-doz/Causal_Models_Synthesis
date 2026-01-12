@@ -1,0 +1,2 @@
+slurmstepd: error: *** JOB 34699 ON babbage CANCELLED AT 2026-01-11T20:21:28 ***
+slurmstepd: error: Detected 1 oom_kill event in StepId=34699.batch. Some of the step tasks have been OOM Killed.
