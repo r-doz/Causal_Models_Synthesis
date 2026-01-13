@@ -1,0 +1,2 @@
+/var/spool/slurm/slurmd/job34722/slurm_script: line 25: 2822040 Killed                  python -u ponyge.py
+slurmstepd: error: Detected 1 oom_kill event in StepId=34722.batch. Some of the step tasks have been OOM Killed.

@@ -1,0 +1,23 @@
+Job started on babbage.units.it at Mon Jan 12 03:50:37 PM CET 2026
+
+Start:	 2026-01-12 15:50:45.073340 
+
+Warning: Grammar contains unit production for production rule <program>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <V1>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <gm>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <uniform>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression2>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <var_v2>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression3>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression4>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression5>
+         Unit productions consume GE codons.
+Evolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 1% completeEvolution: 1% completeEvolution: 1% completeJob finished at Mon Jan 12 04:25:47 PM CET 2026
