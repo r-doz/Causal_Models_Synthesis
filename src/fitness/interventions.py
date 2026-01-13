@@ -123,7 +123,7 @@ def _is_endif(stmt: str) -> bool:
 
 def apply_intervention_to_program(program: str, var: str, value) -> str:
     """
-    Apply do(var = value) to a SOGA program.
+    Apply do(var = value) to a SOGA if F < 8.5 {;T = F;} else {;T = 20;} end if;program.
 
     - Remove any assignment to var (e.g. "var = ...")
     - Remove any IF block whose body contains an assignment to var
@@ -172,6 +172,137 @@ def apply_intervention_to_program(program: str, var: str, value) -> str:
     # Prepend intervention assignment
     intervention_stmt = f"{var} = {value}"
     kept = [intervention_stmt] + kept
-
+    kept = remove_empty_if_blocks_tokens(kept)
     # Re-join in the same “semicolon program” style you use
-    return ";".join(kept) + ";"
+    out = []
+    for stmt in kept:
+        stmt = stmt.strip()
+        if not stmt:
+            continue
+
+        if _is_control_statement(stmt):
+            out.append(stmt)
+        else:
+            out.append(stmt + ";")
+    
+    return "\n".join(out)
+
+
+
+def _is_control_statement(stmt: str) -> bool:
+    s = stmt.strip().lower()
+    return (
+        s.startswith("if ")
+        or s == "else"
+        or s.startswith("else ")
+        or s.endswith("{")
+        or s == "}"
+        or s.startswith("end if")
+    )
+
+from typing import List
+
+def remove_empty_if_blocks_tokens(tokens: List[str]) -> List[str]:
+    """
+    Remove IF blocks that became empty after intervention removal.
+
+    Expected token patterns (your case):
+      - IF start token:        "if ... {"
+      - ELSE marker token:     "} else {"
+      - END marker token:      "} end if;"   (or "} endif;")
+
+    Works with nested IFs (stack-based). If an inner IF is removed, outer IF emptiness
+    is evaluated after that, so nested cleanup works in one pass.
+    """
+
+    def is_if(tok: str) -> bool:
+        return tok.strip().lower().startswith("if ")
+
+    def is_else(tok: str) -> bool:
+        return tok.strip().lower().startswith("} else")
+
+    def is_end_if(tok: str) -> bool:
+        s = tok.strip().lower()
+        return s.startswith("} end if") or s.startswith("} endif")
+
+    changed = True
+    cur = tokens
+
+    # Loop-to-stability (cheap + safe)
+    while changed:
+        changed = False
+        out: List[str] = []
+
+        # frame: dict with keys: if_tok, then, else, mode, else_tok, end_tok
+        stack = []
+
+        def append_to_current(tok: str):
+            if stack:
+                frame = stack[-1]
+                if frame["mode"] == "then":
+                    frame["then"].append(tok)
+                else:
+                    frame["else"].append(tok)
+            else:
+                out.append(tok)
+
+        for tok in cur:
+            t = tok.strip()
+
+            if is_if(t):
+                stack.append({
+                    "if_tok": tok,
+                    "then": [],
+                    "else": [],
+                    "mode": "then",
+                    "else_tok": None,
+                    "end_tok": None
+                })
+                continue
+
+            if stack and is_else(t):
+                stack[-1]["mode"] = "else"
+                stack[-1]["else_tok"] = tok
+                continue
+
+            if stack and is_end_if(t):
+                frame = stack.pop()
+                frame["end_tok"] = tok
+
+                # IF is empty if both branches have no tokens
+                if len(frame["then"]) == 0 and len(frame["else"]) == 0:
+                    changed = True
+                    # drop the whole if/else/end-if structure
+                    continue
+
+                # otherwise, reconstruct the block exactly as tokenized
+                rebuilt = [frame["if_tok"]] + frame["then"]
+
+                # In your grammar, else exists; keep it if present
+                if frame["else_tok"] is not None:
+                    rebuilt += [frame["else_tok"]] + frame["else"]
+
+                rebuilt += [frame["end_tok"]]
+
+                # append rebuilt block to parent or output
+                for rt in rebuilt:
+                    append_to_current(rt)
+
+                continue
+
+            # normal token
+            append_to_current(tok)
+
+        # If malformed program (unclosed if), just flush frames (conservatively keep)
+        while stack:
+            frame = stack.pop(0)
+            # keep what we saw, rather than deleting anything
+            out.append(frame["if_tok"])
+            out.extend(frame["then"])
+            if frame["else_tok"] is not None:
+                out.append(frame["else_tok"])
+                out.extend(frame["else"])
+
+        cur = out
+
+    return cur

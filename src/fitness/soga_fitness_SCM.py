@@ -281,9 +281,12 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
     likelihood = compute_likelihood(p, data_var_list, data)
 
     if(params['INTERVENTIONAL_FITNESS']):
-        intervention_list = interventions.choose_interventions(data, mapping, max_interventions=params['NUM_INTERVENTIONS'])
+        #intervention_list = interventions.choose_interventions(data, mapping, max_interventions=params['NUM_INTERVENTIONS'])
+        intervention_list = dgp.get_intervention_list(program)
         for var, value in intervention_list:
-            data_intervened = dgp.generate_interventional_dataset(scm, data_var_list, 1000, intervention={var: value})
+            #data_intervened = dgp.generate_interventional_dataset(scm, data_var_list, 1000, intervention={var: value})
+            #read the dataset from ../../datasets/
+            data_intervened = np.loadtxt(f'../../datasets/{program}_intervention_{var}_{value}.csv', delimiter=',')
             program_intervened = interventions.apply_intervention_to_program(p, var, value)
             interventional_likelihood = compute_likelihood(program_intervened, data_var_list, data_intervened)
 

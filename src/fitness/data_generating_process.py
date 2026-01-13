@@ -10,6 +10,10 @@ def generate_interventional_dataset(SCM, order, data_size, intervention=None):
         data.append([sample[var] for var in order])
     return np.array(data)
 
+def get_intervention_list(program: str):
+    if program == 'chain':
+        return [("F", 5.0), ("F", 15.0), ("T", 10.0)]
+
 def sample_scm_with_intervention(SCM, order, intervention=None):
     """
     Sample a single SCM instance with optional intervention.
@@ -112,3 +116,28 @@ def sample_T_chain(F):
         return F
     else: 
         return 20
+    
+
+def get_real_program(program):
+    if program == 'chain':
+        code = """
+        F = gauss(10, 2);
+        if F < 8.5 {
+            T = F;
+        } else {
+            T = 20; 
+        } end if;
+        T = T + gauss(0, 1);
+        P = T * T;
+        P = P + gauss(0, 10);
+        """
+    return code
+
+def get_baseline_program(program):
+    if program == 'chain':
+        code = """
+        F = gauss(10, 2);
+        T = gauss(16.75, 5.67);
+        P = gauss(312.56, 156.30);   
+        """
+    return code
