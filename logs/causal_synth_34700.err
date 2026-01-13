@@ -1,0 +1,2 @@
+/var/spool/slurm/slurmd/job34700/slurm_script: line 25: ulimit: open files: cannot modify limit: Operation not permitted
+slurmstepd: error: *** JOB 34700 ON babbage CANCELLED AT 2026-01-11T20:31:42 ***
