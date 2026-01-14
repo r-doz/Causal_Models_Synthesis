@@ -14,6 +14,7 @@ import fitness.data_generating_process as dgp
 import threading
 from math import isfinite
 import fitness.interventions as interventions
+from os import path
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 sys.path.insert(1, '../SOGA-main/src')
@@ -265,13 +266,13 @@ def replace_variables_with_names(program_str: str, mapping: dict) -> str:
     return result
 
 
-def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM_NAME'] ):
+def likelihood_of_program_wrt_data(input_p, data_size = 500, program = params['PROGRAM_NAME'] ):
 
-    perm, p = extract_perm_and_strip_program(p)
+    perm, input_p = extract_perm_and_strip_program(input_p)
     #p = normalize_program_by_blocks(p)
     data_var_list, scm = dgp.get_vars(program)
     mapping = perm_to_mapping(perm, data_var_list)
-    p = preprocess_program(p)
+    p = preprocess_program(input_p)
     p = replace_variables_with_names(p, mapping)
     
     data = dgp.generate_interventional_dataset(scm, data_var_list, data_size)
@@ -285,9 +286,21 @@ def likelihood_of_program_wrt_data(p, data_size = 500, program = params['PROGRAM
         intervention_list = dgp.get_intervention_list(program)
         for var, value in intervention_list:
             #data_intervened = dgp.generate_interventional_dataset(scm, data_var_list, 1000, intervention={var: value})
-            #read the dataset from ../../datasets/
-            data_intervened = np.loadtxt(f'../../datasets/{program}_intervention_{var}_{value}.csv', delimiter=',')
-            program_intervened = interventions.apply_intervention_to_program(p, var, value)
+            # Read the dataset from src/fitness/datasets, relative to this file.
+            datasets_dir = path.join(path.dirname(__file__), "datasets")
+            dataset_file = f"{program}_intervention_{var}_{value}.csv"
+            data_intervened = np.loadtxt(path.join(datasets_dir, dataset_file), delimiter=',')
+
+            #use the mapping to get the Vi corresponding to var
+            vi_var = None
+            for k, v in mapping.items():
+                if v == var:
+                    vi_var = k
+                    break
+
+            program_intervened = interventions.apply_intervention_to_program(input_p, vi_var, value)
+            program_intervened = preprocess_program(program_intervened)
+            program_intervened = replace_variables_with_names(program_intervened, mapping)
             interventional_likelihood = compute_likelihood(program_intervened, data_var_list, data_intervened)
 
             likelihood += interventional_likelihood

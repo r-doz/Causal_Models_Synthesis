@@ -12,7 +12,8 @@ def generate_interventional_dataset(SCM, order, data_size, intervention=None):
 
 def get_intervention_list(program: str):
     if program == 'chain':
-        return [("F", 5.0), ("F", 15.0), ("T", 10.0)]
+        return [("F", 5.0), ("F", 15.0),("T", 5.0), ("T", 20.0), ("F", 1.0), ("T", 1.0), ("F", 8.5), ("P", 50.0), ("P", 150.0), ("P", 500.0)]
+
 
 def sample_scm_with_intervention(SCM, order, intervention=None):
     """
@@ -131,6 +132,17 @@ def get_real_program(program):
         P = T * T;
         P = P + gauss(0, 10);
         """
+    if program == 'common_cause':
+        code = """
+        F = gauss(10, 2);
+        C = 0.5 * F + uniform([-1, 2], 2);
+        if F < 8.5 {
+            T = F;
+        } else {
+            T = 20; 
+        } end if;
+        T = T + gauss(0, 1);
+        """
     return code
 
 def get_baseline_program(program):
@@ -139,5 +151,11 @@ def get_baseline_program(program):
         F = gauss(10, 2);
         T = gauss(16.75, 5.67);
         P = gauss(312.56, 156.30);   
+        """
+    if program == 'common_cause':
+        code = """
+        F = gauss(10, 2);
+        C = gauss(5, 1.15);
+        T = gauss(17.16, 5.44);
         """
     return code
