@@ -8,3 +8,4 @@ src/python_log.txt
 SOGAtorch/
 results/tests
 *.tsv
+.venv/
