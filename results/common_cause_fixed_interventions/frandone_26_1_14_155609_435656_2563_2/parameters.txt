@@ -1,7 +1,7 @@
 AGENT_SIZE:              100
 CACHE:                   True
 CODON_SIZE:              500
-CORES:                   23
+CORES:                   10
 CROSSOVER:               operators.crossover.variable_twopoint
 CROSSOVER_PROBABILITY:   0.2
 DATASET_DELIMITER:       None
@@ -11,7 +11,7 @@ DEBUG:                   False
 ELITE_SIZE:              4
 ERROR_METRIC:            None
 EXPERIMENT_NAME:         common_cause_fixed_interventions
-FILE_PATH:               C:\Users\frara\GitHub\Causal_Models_Synthesis\src\..\results\common_cause_fixed_interventions\frandone_26_1_14_114105_507085_27384_2
+FILE_PATH:               /mnt/c/Users/frara/GitHub/Causal_Models_Synthesis/src/../results/common_cause_fixed_interventions/frandone_26_1_14_155609_435656_2563_2
 FITNESS_FUNCTION:        soga_fitness_SCM_moo
 GENERATIONS:             300
 GENERATION_SIZE:         76
@@ -62,7 +62,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              frandone_26_1_14_114105_507085_27384_2
+TIME_STAMP:              frandone_26_1_14_155609_435656_2563_2
 TOURNAMENT_SIZE:         5
 VERBOSE:                 False
 WITHIN_USED:             True

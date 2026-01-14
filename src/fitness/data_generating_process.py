@@ -14,7 +14,7 @@ def get_intervention_list(program: str):
     if program == 'chain':
         return [("F", 5.0), ("F", 15.0),("T", 5.0), ("T", 20.0), ("F", 1.0), ("T", 1.0), ("F", 8.5), ("P", 50.0), ("P", 150.0), ("P", 500.0)]
     if program == 'common_cause':
-        return [("F", 5.0), ("F", 15.0),("T", 5.0), ("T", 20.0), ("C", 1.0), ("F", 1.0), ("F", 8.5), ("C", 50.0), ("F", 30.0), ("F", 50.0)]
+        return [("F", 5.0), ("F", 15.0),("T", 3.0), ("T", 20.0), ("C", 2.0), ("F", 10.0), ("F", 8.5), ("C", 8.0), ("F", 12.0), ("F", 8.0)]
 
 
 def sample_scm_with_intervention(SCM, order, intervention=None):
