@@ -143,6 +143,47 @@ def get_real_program(program):
         } end if;
         T = T + gauss(0, 1);
         """
+    if program == 'common_effect':
+        code = """
+        F = gauss(10, 2);
+        W = uniform([0, 10], 2);
+        if F < 8.5 {
+            T = F;
+        } else {
+            T = 20; 
+        } end if;
+        T = T + W + gauss(0, 1);
+        """
+    if program == 'diamond':
+        code = """
+        F = gauss(10, 2);
+        C = 0.5 * F;
+        C = C + uniform([-1, 2], 2);
+        if F < 8.5 {
+            T = F;
+        } else {
+            T = 20; 
+        } end if;
+        T = T + gauss(0, 1);
+        E = 50 * C;
+        TEMP0 = T * T 
+        E = E + TEMP0 + gauss(0, 10);
+        """
+    if program == 'complex':
+        code = """
+        F = gauss(10, 2);
+        C = 0.5 * F;
+        C = C + uniform([-1, 2], 2);
+        W = uniform([0, 10], 2);
+        if F < 8.5 {
+            T = F;
+        } else {
+            T = 20; 
+        } end if;
+        T = T + W + gauss(0, 1);
+        P = T * T;
+        P = P + gauss(0, 10);
+        """
     return code
 
 def get_baseline_program(program):
@@ -157,5 +198,11 @@ def get_baseline_program(program):
         F = gauss(10, 2);
         C = gauss(5, 1.15);
         T = gauss(17.16, 5.44);
+        """
+    if program == 'common_effect':
+        code = """
+        F = gauss(10, 2);
+        W = gauss(5, 2.89);
+        T = gauss(22.0, 6.18);
         """
     return code
