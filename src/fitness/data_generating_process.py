@@ -132,6 +132,17 @@ def get_real_program(program):
         P = T * T;
         P = P + gauss(0, 10);
         """
+    if program == 'common_cause':
+        code = """
+        F = gauss(10, 2);
+        C = 0.5 * F + uniform([-1, 2], 2);
+        if F < 8.5 {
+            T = F;
+        } else {
+            T = 20; 
+        } end if;
+        T = T + gauss(0, 1);
+        """
     return code
 
 def get_baseline_program(program):
@@ -140,5 +151,11 @@ def get_baseline_program(program):
         F = gauss(10, 2);
         T = gauss(16.75, 5.67);
         P = gauss(312.56, 156.30);   
+        """
+    if program == 'common_cause':
+        code = """
+        F = gauss(10, 2);
+        C = gauss(5, 1.15);
+        T = gauss(17.16, 5.44);
         """
     return code
