@@ -174,6 +174,8 @@ def apply_intervention_to_program(program: str, var: str, value) -> str:
     kept = [intervention_stmt] + kept
     kept = remove_empty_if_blocks_tokens(kept)
     # Re-join in the same “semicolon program” style you use
+    #return ";".join(kept) + ";"
+
     out = []
     for stmt in kept:
         stmt = stmt.strip()
@@ -193,11 +195,12 @@ def _is_control_statement(stmt: str) -> bool:
     s = stmt.strip().lower()
     return (
         s.startswith("if ")
-        or s == "else"
-        or s.startswith("else ")
-        or s.endswith("{")
-        or s == "}"
-        or s.startswith("end if")
+        or s.startswith("} else")
+        #or s == "else"
+        #or s.startswith("else ")
+        #or s.endswith("{")
+        #or s == "}"
+        #or s.startswith("end if")
     )
 
 from typing import List
