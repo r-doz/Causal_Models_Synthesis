@@ -14,8 +14,13 @@ def get_intervention_list(program: str):
     if program == 'chain':
         return [("F", 5.0), ("F", 15.0),("T", 5.0), ("T", 20.0), ("F", 1.0), ("T", 1.0), ("F", 8.5), ("P", 50.0), ("P", 150.0), ("P", 500.0)]
     if program == 'common_cause':
-        return [("F", 5.0), ("F", 15.0),("T", 3.0), ("T", 20.0), ("C", 2.0), ("F", 10.0), ("F", 8.5), ("C", 8.0), ("F", 12.0), ("F", 8.0)]
-
+         return [("F", 5.0), ("F", 15.0),("T", 3.0), ("T", 20.0), ("C", 2.0), ("F", 10.0), ("F", 8.5), ("C", 8.0), ("F", 12.0), ("F", 8.0)]
+    if program == 'common_effect':
+        return [("F", 5.0), ("F", 15.0),("T", 5.0), ("T", 30.0), ("W", 1.0), ("F", 1.0), ("F", 8.5), ("W", 9.0), ("T", 15.0), ("W", 5.0)]
+    if program == 'diamond':
+        return [("F", 5.0), ("F", 15.0),("F", 10.0), ("C", 2.0), ("C", 7.0), ("T", 5.0), ("T", 18.0), ("T", 9.0), ("E", 200.0), ("E", 500.0)]
+    if program == 'complex':
+        return [("F", 5.0), ("F", 15.0), ("C", 2.0), ("C", 7.0),  ("W", 2.0), ("W", 7.0), ("T", 25.0), ("T", 7.0), ("P", 200.0), ("P", 700.0)]
 
 def sample_scm_with_intervention(SCM, order, intervention=None):
     """
@@ -168,7 +173,7 @@ def get_real_program(program):
         } end if;
         T = T + gauss(0, 1);
         E = 50 * C;
-        TEMP0 = T * T 
+        TEMP0 = T * T;
         E = E + TEMP0 + gauss(0, 10);
         """
     if program == 'complex':
@@ -206,5 +211,20 @@ def get_baseline_program(program):
         F = gauss(10, 2);
         W = gauss(5, 2.89);
         T = gauss(22.0, 6.18);
+        """
+    if program == 'diamond':
+        code = """
+        F = gauss(10, 2);
+        C = gauss(5, 1.15);
+        T = gauss(17., 5.43);
+        E = gauss(571.74, 191.46);
+        """
+    if program == 'complex':
+        code = """
+        F = gauss(10, 2);
+        C = gauss(5, 1.15);
+        W = gauss(5, 2.87);
+        T = gauss(22.13, 6.08);
+        P = gauss(526.83, 240.91);
         """
     return code
