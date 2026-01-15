@@ -18,13 +18,13 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'common_cause_fixed_interventions', # name of the folder
-    'PROGRAM_NAME': 'common_cause',
+    'EXPERIMENT_NAME': 'chain_fixed_interventions', # name of the folder
+    'PROGRAM_NAME': 'chain',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 3,
+    'RUNS': 5,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
@@ -135,7 +135,7 @@ params = {
     # Multi-core parallel processing of phenotype evaluations.
     'MULTICORE': True,
     # Set the number of cpus to be used for multiprocessing
-    'CORES': 10, #cpu_count()-1,
+    'CORES': cpu_count()-1,
 
     # STATE SAVING/LOADING
     # Save the state of the evolutionary run every generation. You can

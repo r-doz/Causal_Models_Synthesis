@@ -11,7 +11,7 @@ DEBUG:                   False
 ELITE_SIZE:              4
 ERROR_METRIC:            None
 EXPERIMENT_NAME:         chain_fixed_interventions
-FILE_PATH:               /Users/rominadoz/Causal_Synthesis/src/../results/chain_fixed_interventions/e243-012.eduroam.tuwien.ac.at_26_1_14_111735_809952_17247_809952
+FILE_PATH:               /Users/rominadoz/Causal_Synthesis/src/../results/chain_fixed_interventions/e243-012.eduroam.tuwien.ac.at_26_1_15_103419_735598_91557_3
 FITNESS_FUNCTION:        soga_fitness_SCM_moo
 GENERATIONS:             300
 GENERATION_SIZE:         76
@@ -45,10 +45,10 @@ OPTIMIZE_CONSTANTS:      False
 PERMUTATION_RAMPS:       5
 POPULATION_SIZE:         80
 PROGRAM_NAME:            chain
-RANDOM_SEED:             809952
+RANDOM_SEED:             3
 REPLACEMENT:             operators.replacement.nsga2_replacement
 REVERSE_MAPPING_TARGET:  None
-RUNS:                    3
+RUNS:                    5
 SAVE_ALL:                False
 SAVE_PLOTS:              True
 SAVE_STATE:              False
@@ -62,7 +62,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              e243-012.eduroam.tuwien.ac.at_26_1_14_111735_809952_17247_809952
+TIME_STAMP:              e243-012.eduroam.tuwien.ac.at_26_1_15_103419_735598_91557_3
 TOURNAMENT_SIZE:         5
 VERBOSE:                 False
 WITHIN_USED:             True
