@@ -1,6 +1,7 @@
 from fitness.base_ff_classes.base_ff import base_ff
 import re
 from typing import List, Set, Tuple
+from algorithm.parameters import params
 
 class minimise_causal_arrows(base_ff):
     """
@@ -202,7 +203,8 @@ def count_causal_arrows(program: str, return_edges: bool = False):
 
             for dep in deps:
                 edges.add((dep, lhs))
-
+    #if params['SAVE_STRUCTURES']:
+        
     if return_edges:
         return len(edges), edges
     return len(edges)

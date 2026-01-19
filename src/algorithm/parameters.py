@@ -22,9 +22,10 @@ params = {
     'PROGRAM_NAME': 'diamond',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
+    'SAVE_STRUCTURES': True,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 5,
+    'RUNS': 3,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
