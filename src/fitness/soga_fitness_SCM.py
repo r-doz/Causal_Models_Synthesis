@@ -45,7 +45,7 @@ def compute_likelihood(p, data_var_list, data):
         output_dist = start_SOGA(cfg)
     except IndexError: # program has no valid paths
         #stats['invalids'] += 1
-        #print("Program has no valid paths")
+        print("Program has no valid paths")
         return torch.tensor(-1e6)
     
     data = torch.tensor(data)
@@ -87,6 +87,7 @@ def compute_likelihood(p, data_var_list, data):
         likelihood += continuous_pdf*discrete_pmf # sums likelihood of every data over all components
     
     if torch.sum(torch.log(likelihood))/len(data) < torch.tensor(-1e6):
+        #print("Likelihood too low")
         return torch.tensor(-1e6)
 
     return torch.sum(torch.log(likelihood))/len(data)
