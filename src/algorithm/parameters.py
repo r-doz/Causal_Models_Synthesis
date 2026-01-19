@@ -18,8 +18,8 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'chain_fixed_interventions', # name of the folder
-    'PROGRAM_NAME': 'chain',
+    'EXPERIMENT_NAME': 'diamond_fixed_interventions', # name of the folder
+    'PROGRAM_NAME': 'diamond',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     # Set default number of runs to be done.
@@ -37,7 +37,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_SCM_3vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_4vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
@@ -135,7 +135,7 @@ params = {
     # Multi-core parallel processing of phenotype evaluations.
     'MULTICORE': True,
     # Set the number of cpus to be used for multiprocessing
-    'CORES': cpu_count()-1,
+    'CORES': cpu_count()-2,
 
     # STATE SAVING/LOADING
     # Save the state of the evolutionary run every generation. You can
