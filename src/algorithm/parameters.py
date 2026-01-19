@@ -136,7 +136,7 @@ params = {
     # Multi-core parallel processing of phenotype evaluations.
     'MULTICORE': True,
     # Set the number of cpus to be used for multiprocessing
-    'CORES': cpu_count()-2,
+    'CORES': 4,
 
     # STATE SAVING/LOADING
     # Save the state of the evolutionary run every generation. You can
