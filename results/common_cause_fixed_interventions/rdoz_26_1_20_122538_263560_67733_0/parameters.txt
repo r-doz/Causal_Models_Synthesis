@@ -11,7 +11,7 @@ DEBUG:                   False
 ELITE_SIZE:              4
 ERROR_METRIC:            None
 EXPERIMENT_NAME:         common_cause_fixed_interventions
-FILE_PATH:               /home/rdoz/PhD/Causal_Models_Synthesis/src/../results/common_cause_fixed_interventions/rdoz_26_1_20_112250_428190_58861_428190
+FILE_PATH:               /home/rdoz/PhD/Causal_Models_Synthesis/src/../results/common_cause_fixed_interventions/rdoz_26_1_20_122538_263560_67733_0
 FITNESS_FUNCTION:        soga_fitness_SCM_moo
 GENERATIONS:             300
 GENERATION_SIZE:         76
@@ -45,10 +45,10 @@ OPTIMIZE_CONSTANTS:      False
 PERMUTATION_RAMPS:       5
 POPULATION_SIZE:         80
 PROGRAM_NAME:            common_cause
-RANDOM_SEED:             428190
+RANDOM_SEED:             0
 REPLACEMENT:             operators.replacement.nsga2_replacement
 REVERSE_MAPPING_TARGET:  None
-RUNS:                    3
+RUNS:                    1
 SAVE_ALL:                False
 SAVE_PLOTS:              True
 SAVE_STATE:              False
@@ -63,7 +63,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              rdoz_26_1_20_112250_428190_58861_428190
+TIME_STAMP:              rdoz_26_1_20_122538_263560_67733_0
 TOURNAMENT_SIZE:         5
 VERBOSE:                 False
 WITHIN_USED:             True
