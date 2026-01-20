@@ -1,0 +1,108 @@
+Job started on babbage.units.it at Tue Jan 20 02:40:54 PM CET 2026
+
+Start:	 2026-01-20 14:41:01.409581 
+
+Warning: Grammar contains unit production for production rule <program>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <V1>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <gm>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <uniform>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression2>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <var_v2>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression3>
+         Unit productions consume GE codons.
+Warning: Only 1 run has been specified for this set of runs.
+         The number of runs can be specified with the command-line parameter `--runs`.
+
+Start:	 2026-01-20 14:41:06.039636 
+
+Warning: Grammar contains unit production for production rule <program>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <V1>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <gm>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <uniform>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression2>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <var_v2>
+         Unit productions consume GE codons.
+Warning: Grammar contains unit production for production rule <boolean_expression3>
+         Unit productions consume GE codons.
+Evolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 1% completeEvolution: 1% completeEvolution: 1% completeEvolution: 2% completeEvolution: 2% completeEvolution: 2% completeEvolution: 3% completeEvolution: 3% completeEvolution: 3% completeEvolution: 4% completeEvolution: 4% completeEvolution: 4% completeEvolution: 5% completeEvolution: 5% completeEvolution: 5% completeEvolution: 6% completeEvolution: 6% completeEvolution: 6% completeEvolution: 7% completeEvolution: 7% completeEvolution: 7% completeEvolution: 8% completeEvolution: 8% completeEvolution: 8% completeEvolution: 9% completeEvolution: 9% completeEvolution: 9% completeEvolution: 10% completeEvolution: 10% completeEvolution: 10% completeEvolution: 11% completeEvolution: 11% completeEvolution: 11% completeEvolution: 12% completeEvolution: 12% completeEvolution: 12% completeEvolution: 13% completeEvolution: 13% completeEvolution: 13% completeEvolution: 14% completeEvolution: 14% completeEvolution: 14% completeEvolution: 15% completeEvolution: 15% completeEvolution: 15% completeEvolution: 16% completeEvolution: 16% completeEvolution: 16% completeEvolution: 17% completeEvolution: 17% completeEvolution: 17% completeEvolution: 18% completeEvolution: 18% completeEvolution: 18% completeEvolution: 19% completeEvolution: 19% completeEvolution: 19% completeEvolution: 20% completeEvolution: 20% completeEvolution: 20% completeEvolution: 21% completeEvolution: 21% completeEvolution: 21% completeEvolution: 22% completeEvolution: 22% completeEvolution: 22% completeEvolution: 23% completeEvolution: 23% completeEvolution: 23% completeEvolution: 24% completeEvolution: 24% completeEvolution: 24% completeEvolution: 25% completeEvolution: 25% completeEvolution: 25% completeEvolution: 26% completeEvolution: 26% completeEvolution: 26% completeEvolution: 27% completeEvolution: 27% completeEvolution: 27% completeEvolution: 28% completeEvolution: 28% completeEvolution: 28% completeEvolution: 29% completeEvolution: 29% completeEvolution: 29% completeEvolution: 30% completeEvolution: 30% completeEvolution: 30% completeEvolution: 31% completeEvolution: 31% completeEvolution: 31% completeEvolution: 32% completeEvolution: 32% completeEvolution: 32% completeEvolution: 33% completeEvolution: 33% completeEvolution: 33% completeEvolution: 34% completeEvolution: 34% completeEvolution: 34% completeEvolution: 35% completeEvolution: 35% completeEvolution: 35% completeEvolution: 36% completeEvolution: 36% completeEvolution: 36% completeEvolution: 37% completeEvolution: 37% completeEvolution: 37% completeEvolution: 38% completeEvolution: 38% completeEvolution: 38% completeEvolution: 39% completeEvolution: 39% completeEvolution: 39% completeEvolution: 40% completeEvolution: 40% completeEvolution: 40% completeEvolution: 41% completeEvolution: 41% completeEvolution: 41% completeEvolution: 42% completeEvolution: 42% completeEvolution: 42% completeEvolution: 43% completeEvolution: 43% completeEvolution: 43% completeEvolution: 44% completeEvolution: 44% completeEvolution: 44% completeEvolution: 45% completeEvolution: 45% completeEvolution: 45% completeEvolution: 46% completeEvolution: 46% completeEvolution: 46% completeEvolution: 47% completeEvolution: 47% completeEvolution: 47% completeEvolution: 48% completeEvolution: 48% completeEvolution: 48% completeEvolution: 49% completeEvolution: 49% completeEvolution: 49% completeEvolution: 50% completeEvolution: 50% completeEvolution: 50% completeEvolution: 51% completeEvolution: 51% completeEvolution: 51% completeEvolution: 52% completeEvolution: 52% completeEvolution: 52% completeEvolution: 53% completeEvolution: 53% completeEvolution: 53% completeEvolution: 54% completeEvolution: 54% completeEvolution: 54% completeEvolution: 55% completeEvolution: 55% completeEvolution: 55% completeEvolution: 56% completeEvolution: 56% completeEvolution: 56% completeEvolution: 57% completeEvolution: 57% completeEvolution: 57% completeEvolution: 58% completeEvolution: 58% completeEvolution: 58% completeEvolution: 59% completeEvolution: 59% completeEvolution: 59% completeEvolution: 60% completeEvolution: 60% completeEvolution: 60% completeEvolution: 61% completeEvolution: 61% completeEvolution: 61% completeEvolution: 62% completeEvolution: 62% completeEvolution: 62% completeEvolution: 63% completeEvolution: 63% completeEvolution: 63% completeEvolution: 64% completeEvolution: 64% completeEvolution: 64% completeEvolution: 65% completeEvolution: 65% completeEvolution: 65% completeEvolution: 66% completeEvolution: 66% completeEvolution: 66% completeEvolution: 67% completeEvolution: 67% completeEvolution: 67% completeEvolution: 68% completeEvolution: 68% completeEvolution: 68% completeEvolution: 69% completeEvolution: 69% completeEvolution: 69% completeEvolution: 70% completeEvolution: 70% completeEvolution: 70% completeEvolution: 71% completeEvolution: 71% completeEvolution: 71% completeEvolution: 72% completeEvolution: 72% completeEvolution: 72% completeEvolution: 73% completeEvolution: 73% completeEvolution: 73% completeEvolution: 74% completeEvolution: 74% completeEvolution: 74% completeEvolution: 75% completeEvolution: 75% completeEvolution: 75% completeEvolution: 76% completeEvolution: 76% completeEvolution: 76% completeEvolution: 77% completeEvolution: 77% completeEvolution: 77% completeEvolution: 78% completeEvolution: 78% completeEvolution: 78% completeEvolution: 79% completeEvolution: 79% completeEvolution: 79% completeEvolution: 80% completeEvolution: 80% completeEvolution: 80% completeEvolution: 81% completeEvolution: 81% completeEvolution: 81% completeEvolution: 82% completeEvolution: 82% completeEvolution: 82% completeEvolution: 83% completeEvolution: 83% completeEvolution: 83% completeEvolution: 84% completeEvolution: 84% completeEvolution: 84% completeEvolution: 85% completeEvolution: 85% completeEvolution: 85% completeEvolution: 86% completeEvolution: 86% completeEvolution: 86% completeEvolution: 87% completeEvolution: 87% completeEvolution: 87% completeEvolution: 88% completeEvolution: 88% completeEvolution: 88% completeEvolution: 89% completeEvolution: 89% completeEvolution: 89% completeEvolution: 90% completeEvolution: 90% completeEvolution: 90% completeEvolution: 91% completeEvolution: 91% completeEvolution: 91% completeEvolution: 92% completeEvolution: 92% completeEvolution: 92% completeEvolution: 93% completeEvolution: 93% completeEvolution: 93% completeEvolution: 94% completeEvolution: 94% completeEvolution: 94% completeEvolution: 95% completeEvolution: 95% completeEvolution: 95% completeEvolution: 96% completeEvolution: 96% completeEvolution: 96% completeEvolution: 97% completeEvolution: 97% completeEvolution: 97% completeEvolution: 98% completeEvolution: 98% completeEvolution: 98% completeEvolution: 99% completeEvolution: 99% completeEvolution: 99% complete[-187.7243128254099, -168.26785516974718, -131.2101057769111, -131.2101057769111, -127.697886276054, -98.79008910787094, -98.79008910787094, -98.79008910787094, -98.79008910787094, -98.79008910787094, -97.8325225842779, -89.76827370439256, -89.76827370439256, -89.76827370439256, -89.76827370439256, -89.76827370439256, -89.76827370439256, -89.76827370439256, -89.76827370439256, -89.76827370439256, -87.90154812711921, -87.90154812711921, -87.90154812711921, -87.90154812711921, -87.90154812711921, -87.90154812711921, -84.97904672098343, -84.97904672098343, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -78.67956037818286, -77.87975444213912, -76.76741561088168, -76.76741561088168, -76.76741561088168, -76.76741561088168, -75.6100550735939, -74.6129742138879, -74.6129742138879, -74.6129742138879, -74.43275043932118, -74.43275043932118, -74.43275043932118, -74.43275043932118, -74.43275043932118, -74.43275043932118, -74.43275043932118, -74.43275043932118, -74.25761421435494, -74.13445866439274, -74.13445866439274, -73.77293114437327, -70.27459546137524, -70.27459546137524, -70.27459546137524, -70.27459546137524, -70.27459546137524, -70.27459546137524, -70.27459546137524, -70.25715222146287, -67.10872856825432, -67.10872856825432, -67.10872856825432, -67.10872856825432, -67.10872856825432, -67.10872856825432, -67.10872856825432, -67.10872856825432, -67.10872856825432, -65.09338316042721, -65.09338316042721, -65.09338316042721, -65.09338316042721, -65.09338316042721, -65.09338316042721, -65.09338316042721, -65.09338316042721, -64.88114922550533, -64.88114922550533, -64.88114922550533, -64.88114922550533, -64.88114922550533, -64.88114922550533, -64.40488487803773, -64.40488487803773, -64.40488487803773, -64.40488487803773, -64.40488487803773, -64.40488487803773, -64.40488487803773, -64.40488487803773, -64.3751378499085, -64.32211438145464, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.31466408743455, -64.30263595331834, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.2617186633506, -64.11304367031214, -64.11304367031214, -64.11304367031214, -64.11304367031214, -64.11304367031214, -64.11304367031214, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.835303749841266, -62.80528868577211, -62.80528868577211, -61.728935289182004, -61.728935289182004, -61.728935289182004, -61.728935289182004, -61.697661770995126, -61.697661770995126, -61.697661770995126, -61.697661770995126, -61.697661770995126, -60.81011340207089, -60.81011340207089, -60.81011340207089, -60.81011340207089, -60.81011340207089, -60.81011340207089, -60.81011340207089, -60.81011340207089, -60.7175460468704, -60.7175460468704, -60.669148265510984, -60.669148265510984, -60.669148265510984, -60.669148265510984, -60.669148265510984, -60.669148265510984, -60.669148265510984, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.608926936945345, -60.588568513973, -60.588568513973, -60.588568513973, -60.588568513973, -60.521000997843636, -60.521000997843636, -60.521000997843636, -59.37262596552258, -59.37262596552258, -59.37262596552258, -59.37262596552258, -59.37262596552258, -59.37262596552258, -59.3105195862037, -59.3105195862037, -59.24829419283846, -59.24829419283846, -59.24829419283846, -59.24829419283846, -59.24829419283846, -59.24829419283846, -59.24829419283846, -59.24829419283846, -59.19142318406735, -59.19142318406735, -59.19142318406735, -59.19142318406735, -59.19142318406735, -59.19142318406735, -59.19142318406735, -59.19142318406735, -59.18881584348244, -59.18881584348244, -59.18718179938034, -59.18718179938034, -58.956497609105256, -58.956497609105256, -58.956497609105256, -58.956497609105256, -58.956497609105256, -58.956497609105256, -58.956497609105256, -58.95606955113521, -58.95606955113521, -58.95606955113521, -58.95606955113521, -58.95606955113521, -58.92686911257719, -58.92686911257719, -58.70996221661598, -58.70996221661598, -58.579746092386074, -58.579746092386074, -58.579746092386074, -57.92899146626561, -57.92899146626561, -57.92899146626561, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.95525343798866, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.32746564118022, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.026389857262814, -56.011215216167464, -56.011215216167464, -56.011215216167464, -56.011215216167464, -56.011215216167464, -56.011215216167464, -55.994008103929694, -55.994008103929694, -55.994008103929694, -55.994008103929694, -55.994008103929694, -55.98317579539726, -55.98317579539726, -55.98317579539726]
+[-1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Evolution: 99% complete
+
+First Front:
+  Individual: 3
+V1 = gm([38.9, 3.9, 2]);
+V2 = 3 * 1.2;
+V2 = V2 + 2.1 * gm([27.1, 3, 1.1]);
+V3 = 10;
+V3 = V3 + gm([3.6, 6.4, 7]);; [-58.19931482092667, 0]
+  Individual: 3
+V1 = gm([38.9, 3.9, 2]);
+V2 = 3 * 1.2;
+V2 = V2 + 2.1 * gm([27.1, 3, 1.1]);
+V3 = 10;
+V3 = V3 + gm([3.6, 6.4, 7]);; [-58.19931482092667, 0]
+  Individual: 3
+V1 = gm([38.9, 3.9, 2]);
+V2 = 3 * 1.2;
+V2 = V2 + 2.1 * gm([31.1, 3, 2]);
+V3 = V2;
+V3 = V3 + gm([48.6, 8, 6.4]);; [-58.14787875581813, -1]
+  Individual: 3
+V1 = gm([38.9, 3.9, 2]);
+V2 = 3 * 1.2;
+V2 = V2 + 2.1 * gm([31.1, 3, 2]);
+V3 = V2;
+V3 = V3 + gm([48.6, 8, 6.4]);; [-58.14787875581813, -1]
+  Individual: 3
+V1 = gm([38.9, 3.9, 2]);
+V2 = 3 * 1.2;
+V2 = V2 + 2.1 * gm([31.1, 3, 2]);
+V3 = V2;
+V3 = V3 + gm([48.6, 8, 6.4]);; [-58.14787875581813, -1]
+  Individual: 3
+V1 = gm([42.9, 4.9, 2], [1, 8.2, 3.6]);
+V2 = V1;
+V2 = V2 + gm([27.2, 5, 2]);
+V3 = V2;
+V3 = V3 + gm([13.1, 7.1, 6]);; [-55.98317579539726, -2]
+______
+
+  ave_genome_length : 	 143.0
+  ave_tree_depth : 	 10.6
+  ave_tree_nodes : 	 83.3625
+  ave_used_codons : 	 61.1625
+  first_front : 	 6
+  gen : 	 300
+  invalids : 	 1509
+  max_genome_length : 	 143
+  max_tree_depth : 	 11
+  max_tree_nodes : 	 87
+  max_used_codons : 	 63
+  min_genome_length : 	 143
+  min_tree_depth : 	 10
+  min_tree_nodes : 	 81
+  min_used_codons : 	 60
+  pareto_fronts : 	 18
+  runtime_error : 	 0
+  time_adjust : 	 0
+  time_taken : 	 5.559302091598511
+  total_inds : 	 24080
+  total_time : 	 2590.7431552410126
+  unique_inds : 	 21089
+  unused_search : 	 12.421096345514954
+
+
+Total time taken: 2600.479556083679 seconds.
+Average time per run: 2600.479556083679
+Job finished at Tue Jan 20 03:24:22 PM CET 2026
