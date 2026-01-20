@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/u/rominadoz/projects/Causal_Models_Synthesis/src/ponyge.py", line 32, in <module>
+    mane()
+    ~~~~^^
+  File "/u/rominadoz/projects/Causal_Models_Synthesis/src/ponyge.py", line 25, in mane
+    individuals = params['SEARCH_LOOP']()
+  File "/u/rominadoz/projects/Causal_Models_Synthesis/src/algorithm/search_loop.py", line 39, in search_loop
+    individuals = params['STEP'](individuals)
+  File "/u/rominadoz/projects/Causal_Models_Synthesis/src/algorithm/step.py", line 32, in step
+    new_pop = evaluate_fitness(new_pop)
+  File "/u/rominadoz/projects/Causal_Models_Synthesis/src/fitness/evaluation.py", line 81, in evaluate_fitness
+    ind = result.get()
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/pool.py", line 540, in _handle_tasks
+    put(task)
+    ~~~^^^^^^
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/connection.py", line 206, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+                     ~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/u/rominadoz/demetra_env/lib/python3.13/site-packages/torch/multiprocessing/reductions.py", line 619, in reduce_storage
+    df = multiprocessing.reduction.DupFd(fd)
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/reduction.py", line 198, in DupFd
+    return resource_sharer.DupFd(fd)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/resource_sharer.py", line 48, in __init__
+    new_fd = os.dup(fd)
+OSError: [Errno 24] Too many open files
