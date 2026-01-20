@@ -1,0 +1,2 @@
+generation median_fitness fitness_25perc fitness_75perc
+4 -231.71192310690702 -231.71192310690702 -231.71192310690702
