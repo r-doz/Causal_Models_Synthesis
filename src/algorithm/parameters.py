@@ -18,8 +18,8 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'diamond_fixed_interventions', # name of the folder
-    'PROGRAM_NAME': 'diamond',
+    'EXPERIMENT_NAME': 'common_cause_fixed_interventions', # name of the folder
+    'PROGRAM_NAME': 'common_cause',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': True,
