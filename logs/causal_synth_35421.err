@@ -29,3 +29,5 @@ Traceback (most recent call last):
   File "/u/rominadoz/miniconda3/lib/python3.13/multiprocessing/resource_sharer.py", line 48, in __init__
     new_fd = os.dup(fd)
 OSError: [Errno 24] Too many open files
+slurmstepd: error: *** JOB 35421 ON babbage CANCELLED AT 2026-01-20T15:35:30 DUE TO TIME LIMIT ***
+slurmstepd: error: Detected 3 oom_kill events in StepId=35421.batch. Some of the step tasks have been OOM Killed.

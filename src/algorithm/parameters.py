@@ -18,8 +18,8 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'common_effect_fixed_interventions', # name of the folder
-    'PROGRAM_NAME': 'common_effect',
+    'EXPERIMENT_NAME': 'common_cause_fixed_interventions', # name of the folder
+    'PROGRAM_NAME': 'common_cause',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': True,
@@ -38,7 +38,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_SCM_3vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_4vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
