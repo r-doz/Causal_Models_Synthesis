@@ -11,7 +11,7 @@ DEBUG:                   False
 ELITE_SIZE:              4
 ERROR_METRIC:            None
 EXPERIMENT_NAME:         common_effect_fixed_interventions
-FILE_PATH:               /Users/rominadoz/Causal_Synthesis/src/../results/common_effect_fixed_interventions/e243-012.eduroam.tuwien.ac.at_26_1_20_151131_229479_97935_229479
+FILE_PATH:               /Users/rominadoz/Causal_Synthesis/src/../results/common_effect_fixed_interventions/e243-012.eduroam.tuwien.ac.at_26_1_21_094542_417436_26656_0
 FITNESS_FUNCTION:        soga_fitness_SCM_moo
 GENERATIONS:             300
 GENERATION_SIZE:         76
@@ -45,10 +45,10 @@ OPTIMIZE_CONSTANTS:      False
 PERMUTATION_RAMPS:       5
 POPULATION_SIZE:         80
 PROGRAM_NAME:            common_effect
-RANDOM_SEED:             229479
+RANDOM_SEED:             0
 REPLACEMENT:             operators.replacement.nsga2_replacement
 REVERSE_MAPPING_TARGET:  None
-RUNS:                    4
+RUNS:                    1
 SAVE_ALL:                False
 SAVE_PLOTS:              True
 SAVE_STATE:              False
@@ -63,7 +63,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              e243-012.eduroam.tuwien.ac.at_26_1_20_151131_229479_97935_229479
+TIME_STAMP:              e243-012.eduroam.tuwien.ac.at_26_1_21_094542_417436_26656_0
 TOURNAMENT_SIZE:         5
 VERBOSE:                 False
 WITHIN_USED:             True
