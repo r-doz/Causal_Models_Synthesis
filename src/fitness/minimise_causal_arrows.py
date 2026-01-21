@@ -2,6 +2,7 @@ from fitness.base_ff_classes.base_ff import base_ff
 import re
 from typing import List, Set, Tuple
 from algorithm.parameters import params
+from os import path
 
 class minimise_causal_arrows(base_ff):
     """
@@ -16,7 +17,13 @@ class minimise_causal_arrows(base_ff):
     def evaluate(self, ind, **kwargs):
         p = ind.phenotype
 
-        return count_causal_arrows(p)
+        num, edges =count_causal_arrows(p)
+
+        if params['SAVE_STRUCTURES']:
+            structure_id = structure_to_id(edges)
+            ind.structure_id = structure_id
+
+        return num
 
 
 V_VAR_RE = re.compile(r"\bV\d+\b")
@@ -203,8 +210,71 @@ def count_causal_arrows(program: str, return_edges: bool = False):
 
             for dep in deps:
                 edges.add((dep, lhs))
-    #if params['SAVE_STRUCTURES']:
         
-    if return_edges:
-        return len(edges), edges
-    return len(edges)
+    return len(edges), edges
+
+def structure_to_id(edge_set):
+    """
+    edge_set: iterable of ('Vi','Vj') tuples
+    returns: integer ID in [1,27]
+    """
+    key = frozenset(edge_set)
+    try:
+        return STRUCTURE_TO_ID[key]
+    except KeyError:
+        raise ValueError(f"Invalid causal structure: {edge_set}")
+
+
+# ============================================================
+# Manual mapping: frozenset({(Vi, Vj), ...}) -> contiguous ID
+# Grouped by number of edges
+# ============================================================
+
+STRUCTURE_TO_ID = {
+
+    # --------------------------------------------------------
+    # 0 EDGES (1 structure)
+    # --------------------------------------------------------
+    frozenset(): 1,
+
+    # --------------------------------------------------------
+    # 1 EDGE (6 structures) -> IDs 2–7
+    # --------------------------------------------------------
+    frozenset({('V1', 'V2')}): 2,
+    frozenset({('V2', 'V1')}): 3,
+    frozenset({('V1', 'V3')}): 4,
+    frozenset({('V3', 'V1')}): 5,
+    frozenset({('V2', 'V3')}): 6,
+    frozenset({('V3', 'V2')}): 7,
+
+    # --------------------------------------------------------
+    # 2 EDGES (12 structures) -> IDs 8–19
+    # --------------------------------------------------------
+    frozenset({('V1', 'V2'), ('V1', 'V3')}): 8,
+    frozenset({('V1', 'V2'), ('V3', 'V1')}): 9,
+    frozenset({('V2', 'V1'), ('V1', 'V3')}): 10,
+    frozenset({('V2', 'V1'), ('V3', 'V1')}): 11,
+
+    frozenset({('V1', 'V2'), ('V2', 'V3')}): 12,
+    frozenset({('V1', 'V2'), ('V3', 'V2')}): 13,
+    frozenset({('V2', 'V1'), ('V2', 'V3')}): 14,
+    frozenset({('V2', 'V1'), ('V3', 'V2')}): 15,
+
+    frozenset({('V1', 'V3'), ('V2', 'V3')}): 16,
+    frozenset({('V1', 'V3'), ('V3', 'V2')}): 17,
+    frozenset({('V3', 'V1'), ('V2', 'V3')}): 18,
+    frozenset({('V3', 'V1'), ('V3', 'V2')}): 19,
+
+    # --------------------------------------------------------
+    # 3 EDGES (8 structures) -> IDs 20–27
+    # --------------------------------------------------------
+    frozenset({('V1', 'V2'), ('V1', 'V3'), ('V2', 'V3')}): 20,
+    frozenset({('V1', 'V2'), ('V1', 'V3'), ('V3', 'V2')}): 21,
+    frozenset({('V1', 'V2'), ('V3', 'V1'), ('V2', 'V3')}): 22,
+    frozenset({('V1', 'V2'), ('V3', 'V1'), ('V3', 'V2')}): 23,
+
+    frozenset({('V2', 'V1'), ('V1', 'V3'), ('V2', 'V3')}): 24,
+    frozenset({('V2', 'V1'), ('V1', 'V3'), ('V3', 'V2')}): 25,
+    frozenset({('V2', 'V1'), ('V3', 'V1'), ('V2', 'V3')}): 26,
+    frozenset({('V2', 'V1'), ('V3', 'V1'), ('V3', 'V2')}): 27,
+}

@@ -55,6 +55,13 @@ def get_stats(individuals, end=False):
     :param end: Boolean flag for indicating the end of an evolutionary run.
     :return: Nothing.
     """
+    if params['SAVE_STRUCTURES']:
+        dir = path.join(path.dirname(__file__), "..", "..", "results", "structures")
+        dataset_file = "structure.csv"
+        for ind in individuals:
+            if ind.structure_id is not None:
+                append_structure_id(path.join(dir, dataset_file), ind.structure_id)
+        new_iteration(path.join(dir, dataset_file))
 
     if hasattr(params['FITNESS_FUNCTION'], 'multi_objective'):
         # Multiple objective optimisation is being used.
@@ -400,3 +407,11 @@ def likelihood_of_program(phenotype):
     likelihood_func = getattr(module, 'likelihood_of_program_wrt_data')
     fitness, processed_program = likelihood_func(phenotype, 5000)
     return fitness, processed_program
+
+def new_iteration(file_path):
+    with open(file_path, "a") as f:
+        f.write("\n")
+
+def append_structure_id(file_path, structure_id):
+    with open(file_path, "a") as f:
+        f.write(f"{structure_id} ")

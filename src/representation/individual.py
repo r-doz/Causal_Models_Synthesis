@@ -34,6 +34,7 @@ class Individual(object):
         self.fitness = params['FITNESS_FUNCTION'].default_fitness
         self.runtime_error = False
         self.name = None
+        self.structure_id = None
 
     def __lt__(self, other):
         """
