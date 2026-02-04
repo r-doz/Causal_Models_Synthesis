@@ -9,7 +9,7 @@
             "console": "integratedTerminal",
             "cwd": "${fileDirname}",
             "purpose":["debug-in-terminal"],
-            "args": ["--fitness_function", "soga_fitness_SCM_moo", "--grammar_file", "causal_SCM_3vars.pybnf"]
+            "args": []
         },
         {
             "name": "Python Debugger: Python File",

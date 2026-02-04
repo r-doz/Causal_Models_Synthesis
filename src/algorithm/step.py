@@ -34,7 +34,7 @@ def step(individuals):
     # Replace the old population with the new population.
     individuals = replacement(new_pop, individuals)
 
-    # Generate statistics for run so far
+    # Generate statistics for run so far<sign>
     get_stats(individuals)
 
     return individuals

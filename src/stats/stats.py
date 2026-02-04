@@ -4,6 +4,7 @@ from time import time
 import importlib
 import numpy as np
 from algorithm.parameters import params
+from fitness.minimise_causal_arrows import count_causal_arrows, structure_to_id
 from utilities.algorithm.NSGA2 import compute_pareto_metrics
 from utilities.algorithm.state import create_state
 from utilities.stats import trackers
@@ -56,11 +57,20 @@ def get_stats(individuals, end=False):
     :return: Nothing.
     """
     if params['SAVE_STRUCTURES']:
-        dir = path.join(path.dirname(__file__), "..", "..", "results", "structures")
+        #dir = path.join(path.dirname(__file__), "..", "..", "results", "structures")
+        dir = params['FILE_PATH']
         dataset_file = "structure.csv"
         for ind in individuals:
-            if ind.structure_id is not None:
-                append_structure_id(path.join(dir, dataset_file), ind.structure_id)
+            if ind.phenotype is not None:
+                if ind.structure_id is not None:
+                    append_structure_id(path.join(dir, dataset_file), ind.structure_id)
+                else:
+                    p = ind.phenotype
+                    num, edges =count_causal_arrows(p)
+                    structure_id = structure_to_id(edges)
+                    ind.structure_id = structure_id
+                    append_structure_id(path.join(dir, dataset_file), ind.structure_id)
+
         new_iteration(path.join(dir, dataset_file))
 
     if hasattr(params['FITNESS_FUNCTION'], 'multi_objective'):

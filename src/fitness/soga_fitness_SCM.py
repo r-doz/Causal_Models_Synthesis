@@ -37,17 +37,22 @@ def timeout_handler():
 def compute_likelihood(p, data_var_list, data):
     """ computes the likelihood of output_dist with respect to variables data_var_list sampled in data """
 
-    
+    time_start_execution = timeit.time()
     # Computes output distribution of the program
-    compiledText=compile2SOGA_text(p)
-    cfg = produce_cfg_text(compiledText)
+    try:
+        compiledText=compile2SOGA_text(p)
+        cfg = produce_cfg_text(compiledText)
+    except Exception as e:
+        print(p)
     try:                                
         output_dist = start_SOGA(cfg)
     except IndexError: # program has no valid paths
         #stats['invalids'] += 1
         print("Program has no valid paths")
         return torch.tensor(-1e6)
-    
+    time_end_execution = timeit.time()
+    #print(f"Time to execute program: {time_end_execution - time_start_execution} seconds")
+    time_comptation_start = timeit.time()
     data = torch.tensor(data)
     likelihood = 0
     # extract indexes of the variables in the data
@@ -85,7 +90,8 @@ def compute_likelihood(p, data_var_list, data):
         #except:
         #    raise
         likelihood += continuous_pdf*discrete_pmf # sums likelihood of every data over all components
-    
+    time_comptation_end = timeit.time()
+    #print(f"Time to compute likelihood: {time_comptation_end - time_comptation_start} seconds")
     if torch.sum(torch.log(likelihood))/len(data) < torch.tensor(-1e6):
         #print("Likelihood too low")
         return torch.tensor(-1e6)
@@ -133,6 +139,7 @@ def generate_list():
     return [random.randint(0, round(random.random() * 90 + 10)) for i in range(9)]
 
 def preprocess_program(p):
+    p = convert_numbers_to_floats(p)
     p = pre_process_instructions(p)
     p = convert_and_normalize_gm_structure(p)
     p = convert_uniform_structure(p)
@@ -188,7 +195,7 @@ def convert_uniform_structure(text):
         new_b = a + b
         
         # Format the new uniform structure
-        new_uniform = f'uniform([{a:.6f}, {new_b:.6f}], {c})'
+        new_uniform = f'uniform([{a:.6f}, {new_b:.6f}], 2)'
         
         # Replace the old structure with the new one in the text
         old_uniform = f'uniform([{match[0]}, {match[1]}], {match[2]})'
@@ -276,19 +283,30 @@ def likelihood_of_program_wrt_data(input_p, data_size = 500, program = params['P
     p = preprocess_program(input_p)
     p = replace_variables_with_names(p, mapping)
     
-    data = dgp.generate_interventional_dataset(scm, data_var_list, data_size)
+    #data = dgp.generate_interventional_dataset(scm, data_var_list, data_size)
+    datasets_dir = path.join(path.dirname(__file__), "datasets")
+    dataset_file = f"{program}.csv"
+    data = np.loadtxt(path.join(datasets_dir, dataset_file), delimiter=',')
 
 
+    time_start = timeit.time()
     # Calculate the likelihood of the data
     likelihood = compute_likelihood(p, data_var_list, data)
+    time_end = timeit.time()
+    #print(f"Time to compute likelihood: {time_end - time_start} seconds")
+    if (time_end - time_start) > 20:
+        print("Likelihood computation took too long:")
+        print(time_end - time_start)
+        print(p)
 
+    time_start = timeit.time()
     if(params['INTERVENTIONAL_FITNESS']):
         #intervention_list = interventions.choose_interventions(data, mapping, max_interventions=params['NUM_INTERVENTIONS'])
         intervention_list = dgp.get_intervention_list(program)
         for var, value in intervention_list:
             #data_intervened = dgp.generate_interventional_dataset(scm, data_var_list, 1000, intervention={var: value})
             # Read the dataset from src/fitness/datasets, relative to this file.
-            datasets_dir = path.join(path.dirname(__file__), "datasets")
+            
             dataset_file = f"{program}_intervention_{var}_{value}.csv"
             data_intervened = np.loadtxt(path.join(datasets_dir, dataset_file), delimiter=',')
 
@@ -305,472 +323,560 @@ def likelihood_of_program_wrt_data(input_p, data_size = 500, program = params['P
             interventional_likelihood = compute_likelihood(program_intervened, data_var_list, data_intervened)
 
             likelihood += interventional_likelihood
-
+    time_end = timeit.time()
+    #print(f"Time to compute interventional likelihoods: {time_end - time_start} seconds")
     # Calculate fitness
     fitness = likelihood 
     #if not isfinite(fitness.item()):
         
     return fitness.item(), p 
 
+
 import re
 from typing import List, Tuple
 
-# -------------------------
+# ============================================================
 # Regex helpers
-# -------------------------
-_dist_re   = re.compile(r'^\s*(gm\s*\(|uniform\s*\(|bern\s*\()', re.IGNORECASE)
-_number_re = re.compile(r'^[+-]?\d+(\.\d+)?$')   # normalized numbers only (no surrounding spaces)
-_varv_re    = re.compile(r'^V\d+$')
-_varu_re    = re.compile(r'^U\d+$')
-_temp_re    = re.compile(r'^TEMP\d+$')
+# ============================================================
 
-# -------------------------
-# Token predicates
-# -------------------------
+_dist_re = re.compile(r'^\s*(gm\s*\(|uniform\s*\(|bern\s*\()', re.IGNORECASE)
+_number_re = re.compile(r'^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$')
+_varv_re = re.compile(r'^V\d+$')
+_temp_re = re.compile(r'^TEMP\d+$')
+
+VAR_RE = re.compile(r"\bV([0-9]+)\b")
+
+# ============================================================
+# Small helpers
+# ============================================================
+
 def is_distribution(token: str) -> bool:
     return bool(_dist_re.match(token.strip()))
 
 def is_number_token(token: str) -> bool:
     return bool(_number_re.match(token.strip()))
 
-def is_varv(token: str) -> bool:
-    return bool(_varv_re.match(token.strip()))
+def _strip_unary(token: str) -> str:
+    return re.sub(r'^[+-]', '', token.strip())
 
-def is_varu(token: str) -> bool:
-    return bool(_varu_re.match(token.strip()))
+def is_varv(token: str) -> bool:
+    return bool(_varv_re.match(_strip_unary(token)))
 
 def is_temp(token: str) -> bool:
-    return bool(_temp_re.match(token.strip()))
+    return bool(_temp_re.match(_strip_unary(token)))
 
 def is_variable(token: str) -> bool:
-    return is_varv(token) or is_varu(token) or is_temp(token)
+    return is_varv(token) or is_temp(token)
 
-# -------------------------
-# Parsing helpers
-# -------------------------
-def split_factors(product_str: str) -> List[str]:
-    """Split top-level product factors (respecting parentheses and square brackets)."""
-    parts = []
-    buf = ""
-    depth_square = 0
-    depth_paren = 0
-    for c in product_str:
-        if c == '[': depth_square += 1
-        elif c == ']': depth_square -= 1
-        elif c == '(': depth_paren += 1
-        elif c == ')': depth_paren -= 1
 
-        if c == '*' and depth_square == 0 and depth_paren == 0:
-            parts.append(buf.strip())
-            buf = ""
+def sanitize_distribution_token(token: str) -> str:
+    """
+    With your new grammar, gm pos params have no leading '+', so this is mostly optional.
+    Still, keep it to guarantee:
+      uniform([-0.1, +7.0], 2) -> uniform([-0.1, 7.0], 2)
+    """
+    t = token.strip()
+    if not is_distribution(t):
+        return t
+    return re.sub(r'(?<![eE])\+(\d|\.)', r'\1', t)
+
+def prepare_factors_for_temp_emission(factors: List[str]) -> Tuple[List[str], bool]:
+    """
+    Prepare factors for TEMP chain emission with the rule:
+      - If the product is negative AND it involves >=2 variable-like factors,
+        do NOT place '-' on a variable. Emit unsigned product, then negate TEMP.
+    Returns: (factors_for_multiplication, needs_post_negation)
+    """
+    overall_sign = 1
+    num_prod = 1.0
+    has_num = False
+
+    unsigned_vars: List[str] = []
+    other_tokens: List[str] = []
+    var_count = 0
+
+    for f in factors:
+        f = f.strip()
+        if not f:
+            continue
+
+        # numeric factor
+        if is_number_token(f):
+            v = float(f)
+            if v < 0:
+                overall_sign *= -1
+                v = -v
+            num_prod *= v
+            has_num = True
+            continue
+
+        # variable-like factor (Vn or TEMPn), possibly signed
+        if is_variable(f):
+            var_count += 1
+            if f.startswith('-'):
+                overall_sign *= -1
+                unsigned_vars.append(f[1:])
+            elif f.startswith('+'):
+                unsigned_vars.append(f[1:])
+            else:
+                unsigned_vars.append(f)
+            continue
+
+        # anything else (rare in your TEMP products, but keep safe)
+        if f.startswith('+'):
+            f = f[1:].lstrip()
+        other_tokens.append(f)
+
+    out: List[str] = []
+
+    # fold numeric product into a single leading number if any
+    if has_num:
+        if overall_sign < 0:
+            num_prod = -num_prod
+            overall_sign = 1
+        out.append(format_number(num_prod))
+
+    out.extend(unsigned_vars)
+    out.extend(other_tokens)
+
+    # Decide where the remaining negative sign goes
+    needs_post_neg = False
+    if overall_sign < 0:
+        if var_count >= 2:
+            # NEW RULE: can't put '-' on variables inside multiplication
+            needs_post_neg = True
         else:
-            buf += c
-    if buf.strip():
-        parts.append(buf.strip())
+            # For single-variable products, "-V1" is still allowed
+            if out and is_variable(out[0]) and not out[0].startswith('-'):
+                out[0] = "-" + out[0]
+            else:
+                # fallback
+                out.insert(0, "-1")
+
+    return out, needs_post_neg
+
+
+def split_unary_minus_atom(expr: str) -> Tuple[bool, str]:
+    """
+    Detect RHS of the form '-<atom>' where <atom> is a variable/TEMP/number.
+    Returns (True, atom_without_minus) if matched, else (False, expr).
+    """
+    s = expr.strip()
+    if not s.startswith('-'):
+        return False, expr
+    rest = s[1:].lstrip()
+
+    # unary-negative variable or TEMP
+    if is_variable(rest):
+        return True, rest
+
+    # unary-negative number
+    if is_number_token(rest):
+        return True, rest
+
+    return False, expr
+
+
+
+# ============================================================
+# Depth-aware splitters for the new grammar
+# ============================================================
+
+def split_top_level_by_spaced_ops(expr: str, ops: List[str]) -> List[Tuple[str, str]]:
+    """
+    Split expr by spaced operators (e.g. [" + ", " - "]) at top level only.
+    Returns: [(op, chunk), ...] where op is "" for first chunk, then the operator string.
+    """
+    expr = expr.strip()
+    if not expr:
+        return []
+
+    # sort longer ops first (e.g. " <= " before " < " if you reuse it)
+    ops = sorted(ops, key=len, reverse=True)
+
+    parts: List[Tuple[str, str]] = []
+    buf = []
+    depth_paren = 0
+    depth_square = 0
+
+    i = 0
+    current_op = ""  # op that led to current chunk
+    L = len(expr)
+
+    while i < L:
+        c = expr[i]
+        if c == '(':
+            depth_paren += 1
+        elif c == ')':
+            depth_paren -= 1
+        elif c == '[':
+            depth_square += 1
+        elif c == ']':
+            depth_square -= 1
+
+        if depth_paren == 0 and depth_square == 0:
+            matched = None
+            for op in ops:
+                if expr.startswith(op, i):
+                    matched = op
+                    break
+            if matched is not None:
+                chunk = "".join(buf).strip()
+                parts.append((current_op, chunk))
+                buf = []
+                current_op = matched.strip()  # "+" or "-" or "*"
+                i += len(matched)
+                continue
+
+        buf.append(c)
+        i += 1
+
+    chunk = "".join(buf).strip()
+    parts.append((current_op, chunk))
     return parts
 
-def split_top_level_plus_minus(expr: str) -> List[Tuple[str,str]]:
+def split_sum(expr: str) -> List[Tuple[str, str]]:
     """
-    Split expr into signed top-level terms.
-    Return list of tuples (sign, term) where sign is '+' or '-'.
+    Split into (op, term) where op in {"", "+", "-"}.
+    Relies on grammar: binary +/− are emitted as ' + ' / ' - '.
     """
-    terms = []
-    buf = ""
-    depth_square = 0
-    depth_paren = 0
-    for c in expr:
-        if c == '[': depth_square += 1
-        elif c == ']': depth_square -= 1
-        elif c == '(': depth_paren += 1
-        elif c == ')': depth_paren -= 1
+    raw = split_top_level_by_spaced_ops(expr, [" + ", " - "])
+    # normalize ops
+    out = []
+    for op, chunk in raw:
+        if not chunk:
+            continue
+        out.append((op if op else "", chunk))
+    return out
 
-        if (c == '+' or c == '-') and depth_square == 0 and depth_paren == 0 and buf:
-            terms.append(buf.strip())
-            buf = c
+def split_product(term: str) -> List[str]:
+    """
+    Split term into factors by ' * ' at top level.
+    """
+    raw = split_top_level_by_spaced_ops(term, [" * "])
+    # raw gives (op, chunk) but op is "" for first, "*" afterwards
+    factors = []
+    for _, chunk in raw:
+        chunk = chunk.strip()
+        if chunk:
+            factors.append(sanitize_distribution_token(chunk))
+    return factors
+
+# ============================================================
+# Product normalization: move sign to beginning, fold numeric factors
+# ============================================================
+
+def normalize_product_signs(raw_factors: List[str]) -> List[str]:
+    """
+    - Pull unary signs off signed atoms (+V2, -V2, -1.23e-2)
+    - Combine all numeric factors into ONE leading numeric factor
+    - Move leftover negative sign to:
+        * the numeric factor if present, else
+        * the first variable factor (e.g. -V1 * V2), else
+        * prepend -1
+    """
+    overall_sign = 1
+    num_prod = 1.0
+    has_num = False
+    rest: List[str] = []
+
+    for f in raw_factors:
+        f = sanitize_distribution_token(f.strip())
+        if not f:
+            continue
+
+        # signed number
+        if is_number_token(f):
+            v = float(f)
+            if v < 0:
+                overall_sign *= -1
+                v = -v
+            num_prod *= v
+            has_num = True
+            continue
+
+        # signed var/temp
+        if is_variable(f):
+            if f.startswith('-'):
+                overall_sign *= -1
+                rest.append(f[1:])
+            elif f.startswith('+'):
+                rest.append(f[1:])
+            else:
+                rest.append(f)
+            continue
+
+        # unknown token: keep it; if it starts with '+', drop it cosmetically
+        if f.startswith('+'):
+            f = f[1:].lstrip()
+        rest.append(f)
+
+    out: List[str] = []
+
+    if has_num:
+        if overall_sign < 0:
+            num_prod = -num_prod
+            overall_sign = 1
+        out.append(format_number(num_prod))
+
+    out.extend(rest)
+
+    if overall_sign < 0:
+        if out and is_variable(out[0]) and not out[0].startswith('-'):
+            out[0] = "-" + out[0]  # allow -V1 as first factor
         else:
-            buf += c
-    if buf.strip():
-        terms.append(buf.strip())
+            out.insert(0, "-1")
 
-    signed = []
-    for t in terms:
-        if t.startswith('+'):
-            signed.append(('+', t[1:].strip()))
-        elif t.startswith('-'):
-            signed.append(('-', t[1:].strip()))
-        else:
-            signed.append(('+', t))
-    return signed
+    return out
 
-# -------------------------
-# Pair canonicalization helper
-# -------------------------
-def order_pair_for_mul(a: str, b: str) -> Tuple[str,str]:
-    """
-    Canonical order for a single multiplication pair: return (lhs, rhs).
-    If exactly one operand is numeric, return (number, other).
-    Otherwise return (a.strip(), b.strip()) unchanged.
-    """
-    a_s = a.strip()
-    b_s = b.strip()
-    a_is_num = is_number_token(a_s)
-    b_is_num = is_number_token(b_s)
-
-    if a_is_num and not b_is_num:
+def order_pair_for_mul(a: str, b: str) -> Tuple[str, str]:
+    """Put numeric first if exactly one operand is numeric."""
+    a_s, b_s = a.strip(), b.strip()
+    a_is = is_number_token(a_s)
+    b_is = is_number_token(b_s)
+    if a_is and not b_is:
         return a_s, b_s
-    if b_is_num and not a_is_num:
+    if b_is and not a_is:
         return b_s, a_s
     return a_s, b_s
 
-# -------------------------
-# Normalization helpers
-# -------------------------
-def fold_numeric_factors(factors: List[str]):
-    """If all factors are numeric, fold product and return string; else return None."""
-    if all(is_number_token(f.strip()) for f in factors):
-        prod = 1.0
-        for f in factors:
-            prod *= float(f)
-        return str(int(prod)) if prod.is_integer() else repr(prod)
-    return None
-
-def reorder_number_first(factors: List[str]) -> List[str]:
-    """
-    If exactly one non-numeric factor and >=1 numeric factors, fold numbers and put number first.
-    """
-    stripped = [f.strip() for f in factors]
-    numbers = [f for f in stripped if is_number_token(f)]
-    non_numbers = [f for f in stripped if not is_number_token(f)]
-
-    if len(non_numbers) == 1 and len(numbers) >= 1:
-        num_val = 1.0
-        for n in numbers:
-            num_val *= float(n)
-        num_str = str(int(num_val)) if num_val.is_integer() else repr(num_val)
-        return [num_str, non_numbers[0]]
-    return stripped
-
-def normalize_factors_for_key(factors: List[str]) -> Tuple[str,...]:
-    """Normalized, hashable tuple used as key (spacing + numbers-first)."""
-    facs = [f.strip() for f in factors]
-    facs = reorder_number_first(facs)
-    return tuple(facs)
-
 def format_product(factors: List[str]) -> str:
     """
-    Canonical string for a product of factors, used when we emit a non-TEMP product.
+    Canonical product string with '*' separators, after sign normalization.
     """
-    facs = [f.strip() for f in factors]
-    folded = fold_numeric_factors(facs)
-    if folded is not None:
-        return folded
+    facs = normalize_product_signs(factors)
+    return " * ".join(facs) if facs else "0"
 
-    if len([f for f in facs if not is_number_token(f)]) == 1:
-        facs2 = reorder_number_first(facs)
-        return " * ".join(facs2)
+# ============================================================
+# Add/Sub emission normalization (fixes: X = X - -0.01)
+# ============================================================
 
-    out = [facs[0]]
-    for nxt in facs[1:]:
-        prev = out[-1]
-        if is_number_token(prev) and not is_number_token(nxt):
-            out.append(nxt)
-        elif is_number_token(nxt) and not is_number_token(prev):
-            out[-1] = nxt
-            out.append(prev)
-        else:
-            out.append(nxt)
-    return " * ".join(out)
+def emit_addsub(indent: str, lhs: str, op: str, expr: str) -> str:
+    """
+    Emit: lhs = lhs <op> expr;
+    Simplify:
+      - lhs - -a -> lhs + a
+      - lhs + -a -> lhs - a
+      - strip unary '+' on expr
+    """
+    op = op.strip()
+    e = expr.strip()
 
-# -------------------------
-# Main preprocessor
-# -------------------------
+    if e.startswith('+'):
+        e = e[1:].lstrip()
+
+    if e.startswith('-'):
+        e2 = e[1:].lstrip()
+        if op == '+':
+            return f"{indent}{lhs} = {lhs} - {e2};"
+        if op == '-':
+            return f"{indent}{lhs} = {lhs} + {e2};"
+
+    return f"{indent}{lhs} = {lhs} {op} {e};"
+
+# ============================================================
+# Main preprocessor (ONLY V variables)
+# ============================================================
+
 def pre_process_instructions(program: str) -> str:
     """
-    Preprocess program.
-    - Splits on newlines and semicolons, but preserves indentation.
-    - Returns a single-line string, no extra ';' after '{' or 'else {'.
+    Robust for your new grammar:
+      - sums use spaced '+/-'
+      - products use spaced '*'
+      - signed atoms have no spaces (e.g., -V2, +9.64e+2)
     """
     lines = program.split('\n')
-    out_instrs: List[str] = []
+    out: List[str] = []
     temp_counter = 0
 
-    def new_temp():
+    def new_temp() -> str:
         nonlocal temp_counter
-        name = f"TEMP{temp_counter}"
+        t = f"TEMP{temp_counter}"
         temp_counter += 1
-        return name
+        return t
 
     for line in lines:
-        # Keep original line (for indentation and to know if it had trailing ';')
         raw_line = line.rstrip('\n')
         if not raw_line.strip():
             continue
 
-        # Compute indentation and content
         indent_len = len(raw_line) - len(raw_line.lstrip())
         indent = raw_line[:indent_len]
-        content = raw_line[indent_len:]
+        content = raw_line[indent_len:].rstrip()
 
-        # Detect if the line ended with a semicolon
-        content_rstrip = content.rstrip()
-        ends_with_semicolon = content_rstrip.endswith(';')
-        # Strip the trailing semicolon (if any) before splitting segments
-        if ends_with_semicolon:
-            content_core = content_rstrip[:-1]
-        else:
-            content_core = content_rstrip
+        # split by ';' but keep structure
+        segs = [s.strip() for s in content.split(';') if s.strip()]
+        for seg in segs:
+            if not re.match(r'^V\d+\s*=', seg):
+                s = seg.strip()
 
-        # Split this line into segments separated by ';'
-        segments = content_core.split(';')
-
-        for i, seg in enumerate(segments):
-            seg_stripped = seg.strip()
-            if not seg_stripped:
-                continue
-
-            # This segment had a semicolon in the original line if:
-            # - it's not the last segment of the line, OR
-            # - it is last but the original line ended with ';'
-            seg_had_semicolon = (i < len(segments) - 1) or (ends_with_semicolon and i == len(segments) - 1)
-
-            instr_stripped = seg_stripped
-
-            # Non-assignment: keep exactly as-is, re-adding semicolon only if it was in original.
-            if not re.match(r'^(U|V)\d+\s*=', instr_stripped):
-                if seg_had_semicolon:
-                    out_instrs.append(f"{indent}{instr_stripped};")
+                # Do NOT add ';' after block openers/closers
+                if s.endswith('{') or s in ('}', 'else {') or s.endswith('} else {'):
+                    out.append(f"{indent}{s}")
+                # Keep ';' for end-if (your syntax uses it)
+                elif s.lower() == 'end if':
+                    out.append(f"{indent}{s};")
                 else:
-                    out_instrs.append(f"{indent}{instr_stripped}")
+                    # default: keep ';' for other statements
+                    out.append(f"{indent}{s};")
+
                 continue
 
-            # Now we know we have an assignment U* or V*
-            left, right = instr_stripped.split("=", 1)
+
+            left, rhs = seg.split("=", 1)
             left = left.strip()
-            rhs  = right.strip()
+            rhs = rhs.strip()
 
-            # ---------- Endogenous (V*) ----------
-            if left.startswith("V"):
-                signed_terms = split_top_level_plus_minus(rhs)
+            # 1) split sum into terms by spaced +/-
+            terms = split_sum(rhs)
 
-                temp_map = {}
-                pre_temps = []
+            # 2) create TEMP map for products with any V-factor and len>1
+            temp_map: dict[Tuple[str, ...], str] = {}
+            pre_temps: List[Tuple[str, Tuple[str, ...]]] = []
 
-                # identify all products with V* that need TEMPs
-                for sign, term in signed_terms:
-                    factors = split_factors(term)
-                    key = normalize_factors_for_key(factors)
-                    if len(factors) > 1 and any(is_varv(f) for f in factors):
-                        if key not in temp_map:
-                            t = new_temp()
-                            temp_map[key] = t
-                            pre_temps.append((t, key))
+            for op, term in terms:
+                # op is "" for first, "+" or "-"
+                factors = split_product(term)
+                factors = normalize_product_signs(factors)
+                key = tuple(factors)
 
-                # generate TEMP assignments
-                for tname, key in pre_temps:
-                    factors = list(key)
-                    a, b = order_pair_for_mul(factors[0], factors[1])
-                    out_instrs.append(f"{indent}{tname} = {a} * {b};")
-                    for f in factors[2:]:
-                        a, b = order_pair_for_mul(tname, f)
-                        out_instrs.append(f"{indent}{tname} = {a} * {b};")
+                if len(factors) > 1 and any(is_varv(f) for f in factors):
+                    if key not in temp_map:
+                        t = new_temp()
+                        temp_map[key] = t
+                        pre_temps.append((t, key))
 
-                # build final V assignment sequence
-                first_term = True
-                for sign, term in signed_terms:
-                    factors = split_factors(term)
-                    key = normalize_factors_for_key(factors)
-                    if key in temp_map:
-                        expr = temp_map[key]
-                    else:
-                        expr = format_product(factors)
+            # 3) emit TEMP chains
+            # emit TEMP chains (explicit '*', numeric-first at every step)
+            for tname, key in pre_temps:
+                raw_factors = list(key)
 
-                    if first_term:
-                        if sign == '+':
-                            out_instrs.append(f"{indent}{left} = {expr};")
-                        else:
-                            out_instrs.append(f"{indent}{left} = 0;")
-                            out_instrs.append(f"{indent}{left} = {left} - {expr};")
-                        first_term = False
-                    else:
-                        if sign == '+':
-                            out_instrs.append(f"{indent}{left} = {left} + {expr};")
-                        else:
-                            out_instrs.append(f"{indent}{left} = {left} - {expr};")
+                # NEW: enforce "no signed vars in var*var products"
+                factors, post_negate = prepare_factors_for_temp_emission(raw_factors)
 
-                continue  # next segment
+                # build multiplication chain
+                a, b = order_pair_for_mul(factors[0], factors[1])
+                out.append(f"{indent}{tname} = {a} * {b};")
 
-            # ---------- Exogenous (U*) ----------
-            signed_terms = split_top_level_plus_minus(rhs)
-            term_outputs: List[Tuple[str,str]] = []
+                for f in factors[2:]:
+                    a, b = order_pair_for_mul(tname, f)
+                    out.append(f"{indent}{tname} = {a} * {b};")
 
-            for sign, term in signed_terms:
-                factors = split_factors(term)
-                factors = reorder_number_first(factors)
+                # NEW: apply sign after the product if needed
+                if post_negate:
+                    out.append(f"{indent}{tname} = 0 - {tname};")
 
-                folded = fold_numeric_factors(factors)
-                if folded is not None:
-                    term_outputs.append((sign, folded))
+
+            # 4) emit final assignment as sequential updates
+            first = True
+            for op, term in terms:
+                factors = normalize_product_signs(split_product(term))
+                key = tuple(factors)
+
+                expr = temp_map.get(key, format_product(factors))
+
+                if first:
+                    # skip no-op initialization: V = V
+                    if expr == left and (op == "" or op == "+"):
+                        first = False
+                        continue
+
+                    # NEW RULE: catch unary negatives that come with no spaced '-' operator, e.g. "T=-F" or "T=-3.2"
+                    # (in this case split_sum() returns op == "" and expr == "-F")
+                    is_unary_neg, atom = split_unary_minus_atom(expr)
+                    if is_unary_neg and (op == "" or op == "+"):
+                        out.append(f"{indent}{left} = 0;")
+                        out.append(emit_addsub(indent, left, "-", atom))
+                        first = False
+                        continue
+
+                    if op == "-":
+                        # IMPORTANT: distributions cannot be unary-negated
+                        out.append(f"{indent}{left} = 0;")
+                        out.append(emit_addsub(indent, left, "-", expr))  # becomes: left = left - dist
+                        first = False
+                        continue
+
+                    # first positive term
+                    out.append(f"{indent}{left} = {expr};")
+                    first = False
                     continue
 
-                if len(factors) == 1:
-                    term_outputs.append((sign, factors[0]))
-                    continue
+                # subsequent terms always use add/sub updates
+                out.append(emit_addsub(indent, left, op if op in {"+", "-"} else "+", expr))
 
-                # Build chained TEMPs with pair canonicalization
-                f0, f1, *rest = factors
-                t0 = new_temp()
-                a, b = order_pair_for_mul(f0, f1)
-                out_instrs.append(f"{indent}{t0} = {a} * {b};")
-                prev = t0
-                for f in rest:
-                    tnext = new_temp()
-                    a, b = order_pair_for_mul(prev, f)
-                    out_instrs.append(f"{indent}{tnext} = {a} * {b};")
-                    prev = tnext
-                term_outputs.append((sign, prev))
+    return "".join(out)
 
-            # combine signed terms for U*
-            expr_parts = []
-            first_term = True
-            for sign, term_expr in term_outputs:
-                if first_term:
-                    if sign == '-':
-                        expr_parts.append(f"0 - {term_expr}")
-                    else:
-                        expr_parts.append(term_expr)
-                    first_term = False
-                else:
-                    if sign == '-':
-                        expr_parts.append(f"- {term_expr}")
-                    else:
-                        expr_parts.append(f"+ {term_expr}")
+# ============================================================
+# Optional: number conversion (keeps your behavior)
+# ============================================================
+from decimal import Decimal, InvalidOperation, getcontext
 
-            final_rhs = " ".join(expr_parts) if expr_parts else "0"
-            out_instrs.append(f"{indent}{left} = {final_rhs};")
-
-    # Concatenate everything exactly as generated (no extra separators).
-    return "".join(out_instrs)
-
-
-import re
-
-# Matches any variable Vn
-VAR_RE = re.compile(r"\bV([0-9]+)\b")
-
-
-def normalize_block(block: str, i: int) -> str:
+def _decimal_str_fixed(num_str: str, ndigits: int = 4) -> str:
     """
-    Normalize all occurrences of Vn inside a <Vi> block (assignments, booleans,
-    nested IFs, etc.), using the rule:
-        Vn -> V[((n-1) mod (i-1)) + 1]
-    for i > 1, and all Vn -> V1 when i == 1.
-
-    IMPORTANT:
-      - Does NOT change LHS "Vj" when it is immediately followed by a single '='
-        (possibly with spaces). So "V2 = ..." stays "V2 = ...".
-      - But "V2 == 3" is NOT treated as LHS, so V2 is normalized there.
+    Convert a numeric literal to fixed-point decimal with rounding.
+    - No scientific notation
+    - Rounded to `ndigits`
+    - Trailing zeros trimmed
     """
+    s = num_str.strip()
+    getcontext().prec = 50  # enough precision for safe rounding
 
-    parts = []
-    last_idx = 0
-    L = len(block)
+    try:
+        d = Decimal(s)
+    except InvalidOperation:
+        return num_str
 
-    for m in VAR_RE.finditer(block):
-        start, end = m.span()
-        n_str = m.group(1)
-        n = int(n_str)
+    # Round to fixed decimal places
+    q = Decimal("1").scaleb(-ndigits)   # e.g. 1e-4
+    d = d.quantize(q)
 
-        # Look ahead to see if this occurrence is followed by '=' (potential LHS)
-        j = end
-        while j < L and block[j].isspace():
-            j += 1
+    # Fixed-point formatting
+    out = format(d, "f")
 
-        is_lhs = False
-        if j < L and block[j] == '=':
-            # Check if this is a single '=' (assignment) and NOT '==' (comparison)
-            if not (j + 1 < L and block[j + 1] == '='):
-                is_lhs = True
+    # Trim trailing zeros and trailing dot
+    if "." in out:
+        out = out.rstrip("0").rstrip(".")
 
-        # Copy text before the match
-        parts.append(block[last_idx:start])
+    # Avoid "-0"
+    if out == "-0":
+        out = "0"
 
-        if is_lhs:
-            # Keep LHS variable as-is (e.g., "V2" in "V2 = ...")
-            parts.append(m.group(0))
-        else:
-            # Normalize RHS/boolean occurrences
-            if i == 1:
-                new_var = "V1"
-            else:
-                m_idx = ((n - 1) % (i - 1)) + 1
-                new_var = f"V{m_idx}"
-            parts.append(new_var)
+    return out
 
-        last_idx = end
 
-    # Remainder
-    parts.append(block[last_idx:])
-    return "".join(parts)
-
-def split_into_vi_blocks(program_wo_perm: str):
+def convert_numbers_to_floats(program: str) -> str:
     """
-    Split the program into <V1>, <V2>, ... blocks.
-    Each block may span multiple lines (especially IF blocks).
+    Convert all numeric literals to fixed-point decimals rounded to 4 places.
+    - No scientific notation
+    - Doesn't touch variable names (V1, TEMP0, etc.)
     """
+    number_pattern = re.compile(
+        r'(?<![A-Za-z0-9_])([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)(?![A-Za-z0-9_])'
+    )
 
-    lines = [ln for ln in program_wo_perm.split("\n") if ln.strip()]
-    blocks = []
-    current = []
+    def repl(m):
+        return _decimal_str_fixed(m.group(0), ndigits=4)
 
-    nesting = 0
-    for line in lines:
-        stripped = line.strip()
+    return number_pattern.sub(repl, program)
 
-        # Start of IF?
-        if stripped.startswith("if "):
-            nesting += 1
-            current.append(line)
-            continue
+getcontext().prec = 50
 
-        # End of IF?
-        if stripped.startswith("} end if"):
-            current.append(line)
-            nesting -= 1
+def format_number(x) -> str:
+    """
+    Canonical numeric formatter:
+    - accepts float, Decimal, or str
+    - fixed-point
+    - rounded to 4 decimals
+    - never scientific notation
+    """
+    d = Decimal(str(x))
+    q = Decimal("1e-4")   # 4 decimal places
+    d = d.quantize(q)
 
-            # Finished a whole IF block
-            if nesting == 0:
-                blocks.append("\n".join(current))
-                current = []
-            continue
-
-        # Inside nested IF
-        if nesting > 0:
-            current.append(line)
-            continue
-
-        # Outside IF: line must be "Vi = expr;"
-        if stripped.startswith("V") and "=" in stripped:
-            # This is a full single-line Vi assignment
-            if current:
-                raise RuntimeError("Dangling block before assignment")
-            blocks.append(line)
-            continue
-
-        raise RuntimeError(f"Unexpected line: {line}")
-
-    if nesting != 0:
-        raise RuntimeError("Unbalanced IF / end if")
-
-    return blocks
-
-
-
-def normalize_program_by_blocks(program_wo_perm: str) -> str:
-
-    blocks = split_into_vi_blocks(program_wo_perm)
-    normalized = []
-
-    for i, block in enumerate(blocks, start=1):
-        normalized.append(normalize_block(block, i))
-
-    return "\n".join(normalized)
+    s = format(d, "f")
+    if "." in s:
+        s = s.rstrip("0").rstrip(".")
+    if s == "-0":
+        s = "0"
+    return s

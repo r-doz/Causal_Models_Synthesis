@@ -18,7 +18,7 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'common_cause_fixed_interventions', # name of the folder
+    'EXPERIMENT_NAME': 'common_cause_new_grammar', # name of the folder
     'PROGRAM_NAME': 'common_cause',
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
@@ -29,7 +29,7 @@ params = {
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
-    'FITNESS_FUNCTION': "soga_fitness_SCM_moo",
+    'FITNESS_FUNCTION': "soga_fitness_SCM" , #"soga_fitness_SCM", "soga_fitness_SCM_moo"
 
     # Select problem dataset
     'DATASET_TRAIN': None,
@@ -38,7 +38,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_SCM_4vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_3vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
@@ -74,7 +74,7 @@ params = {
 
     # SELECTION
     # Set selection operator.
-    'SELECTION':"operators.selection.nsga2_selection", #"operators.selection.truncation", "operators.selection.tournament"
+    'SELECTION': "operators.selection.tournament",  #"operators.selection.truncation", "operators.selection.tournament", "operators.selection.nsga2_selection"
     # For tournament selection
     'TOURNAMENT_SIZE': 5,
     # For truncation selection
@@ -108,7 +108,7 @@ params = {
 
     # REPLACEMENT
     # Set replacement operator.
-    'REPLACEMENT': "operators.replacement.nsga2_replacement",
+    'REPLACEMENT':  "operators.replacement.generational", # "operators.replacement.generational", nsga2_replacement
     # Set elite size.
     'ELITE_SIZE': 4,
 
@@ -134,7 +134,7 @@ params = {
 
     # MULTIPROCESSING
     # Multi-core parallel processing of phenotype evaluations.
-    'MULTICORE': True,
+    'MULTICORE': False,
     # Set the number of cpus to be used for multiprocessing
     'CORES': 4,
 

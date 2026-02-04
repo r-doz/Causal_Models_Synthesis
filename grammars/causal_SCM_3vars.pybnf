@@ -1,37 +1,35 @@
-<program> ::= <perm>{::}<V1>{::}<V2>{::}V2 = V2 + <distribution_expression>;{::}<V3>{::}V3 = V3 + <distribution_expression>;
+<program> ::= <perm>{::}<V1>{::}<V2>{::}V2 = V2 + <base_distribution>;{::}<V3>{::}V3 = V3 + <base_distribution>;
 <perm> ::= 1|2|3|4|5|6
-<V1> ::= V1 = <distribution_expression>;
+<V1> ::= V1 = <base_distribution>;
 
 <V2> ::= V2 = <function_expression2>; | if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
 <V3> ::= V3 = <function_expression3>; | if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
 
-<distribution_expression> ::= <weighted_distribution> 
-                            | <distribution_expression> <add_op> <weighted_distribution>
-<weighted_distribution> ::= <number> * <base_distribution> | <base_distribution>
-<base_distribution> ::= <gm> | <uniform> #| bern(0.<int_pos>) | 1
+<base_distribution> ::= <gm> | <uniform>
 
 <gm> ::= gm(<triplets>)
-<triplets> ::= [<number>, <number>, <number>] | [<number>, <number>, <number>], <triplets>
+<triplets> ::= [<pos_number>, <number>, <pos_number>] | [<pos_number>, <number>, <pos_number>], <triplets>
 
-<uniform> ::= uniform([<num>, <num_pos>], <int_pos_trunc>)
-<num_pos> ::= <int_pos> | <num>.<int_pos>
+<uniform> ::= uniform([<number>, <pos_number>], 2)
 
-<function_expression2> ::=  <term2> | <function_expression2> <add_op> <term2>
+<function_expression2> ::=  <term2> | <function_expression2> <sign> <term2>
 <term2> ::= <factor2> | <term2> * <factor2>
-<factor2> ::= <var_v2> | <number> 
+<factor2> ::= <sign><var_v2> | <number> 
+
 <boolean_expression2> ::= <var_v2> <comparison_op> <number>
 <var_v2> ::= V1
 
-<function_expression3> ::=  <term3> | <function_expression3> <add_op> <term3>
+<function_expression3> ::=  <term3> | <function_expression3> <sign> <term3>
 <term3> ::= <factor3> | <term3> * <factor3>
-<factor3> ::= <var_v3> | <number> 
+<factor3> ::= <sign><var_v3> | <number>
+
 <boolean_expression3> ::= <var_v3> <comparison_op> <number>
 <var_v3> ::= V1 | V2
 
-<add_op> ::= + | -
+<sign> ::= + | -
 <comparison_op> ::= < | <= | > | >=
 
-<num> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 #| 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 60 | 61 | 62 | 63 | 64 | 65 | 66 | 67 | 68 | 69 | 70 | 71 | 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 100
-<int_pos> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
-<int_pos_trunc> ::= 1 | 2 | 3 
-<number> ::= <num> | <num>.<int_pos>
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
+<exp_digit> ::= 0 | 1 | 2 | 3
+<number> ::= <sign><digit>.<digit><digit>e<sign><exp_digit>
+<pos_number> ::= <digit>.<digit><digit>e<sign><exp_digit>
