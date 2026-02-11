@@ -1,0 +1,14 @@
+/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:564: RuntimeWarning: invalid value encountered in divide
+  return mu + sigma.dot(c)/P
+/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:564: RuntimeWarning: divide by zero encountered in divide
+  return mu + sigma.dot(c)/P
+/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:607: RuntimeWarning: invalid value encountered in dot
+  new_sigma = new_P*mu.reshape(-1,1).dot(new_mu.reshape(1,-1)) + sigma.dot(np.transpose(C))
+/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:607: RuntimeWarning: invalid value encountered in multiply
+  new_sigma = new_P*mu.reshape(-1,1).dot(new_mu.reshape(1,-1)) + sigma.dot(np.transpose(C))
+/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:608: RuntimeWarning: invalid value encountered in dot
+  new_sigma = new_sigma/new_P - new_mu.reshape(-1,1).dot(new_mu.reshape(1,-1))
+/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:77: RuntimeWarning: invalid value encountered in dot
+  new_mu = A_inv.dot(new_transl_mu)[:d]
+slurmstepd: error: *** JOB 35771 ON babbage CANCELLED AT 2026-01-21T12:06:26 ***
+slurmstepd: error: Detected 1 oom_kill event in StepId=35771.batch. Some of the step tasks have been OOM Killed.
