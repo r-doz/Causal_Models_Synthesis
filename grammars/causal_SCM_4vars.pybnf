@@ -41,6 +41,6 @@
 <comparison_op> ::= < | <= | > | >=
 
 <digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
-<exp_digit> ::= 0 | 1 | 2 | 3
-<number> ::= <sign><digit>.<digit><digit>e<sign><exp_digit>
-<pos_number> ::= <digit>.<digit><digit>e<sign><exp_digit>
+<exp_digit> ::= 0 | 1 | 2
+<number> ::= <sign><digit>.<digit>e<sign><exp_digit>
+<pos_number> ::= <digit>.<digit>e<sign><exp_digit>

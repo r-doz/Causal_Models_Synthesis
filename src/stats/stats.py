@@ -150,6 +150,9 @@ def get_soo_stats(individuals, end):
     if params['VERBOSE'] or (not params['DEBUG'] and not end):
         trackers.stats_list.append(copy(stats))
 
+    if len(trackers.time_list) in [400, 800, 1200]:
+        save_best_ind_to_file(stats, trackers.best_ever, end= True, name='best_' + str(len(trackers.time_list)))
+
     # Save stats to file.
     if not params['DEBUG']:
 

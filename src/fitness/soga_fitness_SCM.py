@@ -301,6 +301,7 @@ def likelihood_of_program_wrt_data(input_p, data_size = 500, program = params['P
 
     time_start = timeit.time()
     if(params['INTERVENTIONAL_FITNESS']):
+        likelihood_intervened = 0
         #intervention_list = interventions.choose_interventions(data, mapping, max_interventions=params['NUM_INTERVENTIONS'])
         intervention_list = dgp.get_intervention_list(program)
         for var, value in intervention_list:
@@ -322,11 +323,11 @@ def likelihood_of_program_wrt_data(input_p, data_size = 500, program = params['P
             program_intervened = replace_variables_with_names(program_intervened, mapping)
             interventional_likelihood = compute_likelihood(program_intervened, data_var_list, data_intervened)
 
-            likelihood += interventional_likelihood
+            likelihood_intervened += interventional_likelihood
     time_end = timeit.time()
     #print(f"Time to compute interventional likelihoods: {time_end - time_start} seconds")
     # Calculate fitness
-    fitness = likelihood 
+    fitness = (likelihood + likelihood_intervened) if params['INTERVENTIONAL_FITNESS'] else likelihood
     #if not isfinite(fitness.item()):
         
     return fitness.item(), p 

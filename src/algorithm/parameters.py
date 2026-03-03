@@ -12,14 +12,14 @@ params = {
     'STEP': 'step',
 
     # Evolutionary Parameters
-    'POPULATION_SIZE': 80,
-    'GENERATIONS': 500,
+    'POPULATION_SIZE': 100,
+    'GENERATIONS': 1500,
     'HILL_CLIMBING_HISTORY': 1000,
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'diamond_500', # name of the folder
-    'PROGRAM_NAME': 'diamond',
+    'EXPERIMENT_NAME': 'complex_old_params', # name of the folder
+    'PROGRAM_NAME': 'complex', # name of the program being synthesised
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': False,
@@ -38,7 +38,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_SCM_4vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_5vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
@@ -76,7 +76,7 @@ params = {
     # Set selection operator.
     'SELECTION': "operators.selection.tournament",  #"operators.selection.truncation", "operators.selection.tournament", "operators.selection.nsga2_selection"
     # For tournament selection
-    'TOURNAMENT_SIZE': 5,
+    'TOURNAMENT_SIZE': 5, #3,
     # For truncation selection
     'SELECTION_PROPORTION': 0.1, #0.5,
     # Allow for selection of invalid individuals during selection process.
@@ -91,7 +91,7 @@ params = {
     # Set crossover operator.
     'CROSSOVER': "operators.crossover.variable_twopoint",
     # Set crossover probability.
-    'CROSSOVER_PROBABILITY': 0.20,
+    'CROSSOVER_PROBABILITY': 0.20, #0.80,
     # Prevents crossover from generating invalids.
     'NO_CROSSOVER_INVALIDS': False,
 

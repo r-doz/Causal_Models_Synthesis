@@ -21,6 +21,8 @@ def get_intervention_list(program: str):
         return [("F", 5.0), ("F", 15.0),("F", 10.0), ("C", 2.0), ("C", 7.0), ("T", 5.0), ("T", 18.0), ("T", 9.0), ("E", 200.0), ("E", 500.0)]
     if program == 'complex':
         return [("F", 5.0), ("F", 15.0), ("C", 2.0), ("C", 7.0),  ("W", 2.0), ("W", 7.0), ("T", 25.0), ("T", 7.0), ("P", 200.0), ("P", 700.0)]
+    if program == 'causal_skills':
+        return [("skill", 15.0), ("skill", 45.0),("skill", 25.0), ("skill", 35.0), ("belief", 9.0), ("belief", 29.0), ("belief", 20.0), ("result", 50.0), ("result", 100.0), ("result", 150.0)]
 
 def sample_scm_with_intervention(SCM, order, intervention=None):
     """
@@ -191,6 +193,16 @@ def get_real_program(program):
         P = T * T;
         P = P + gauss(0, 10);
         """
+
+    if program == 'causal_skills':
+        code = """
+        skill = gauss(30,5);
+        belief = 0.5 * skill;
+        belief = belief + gauss(5,2);
+        result = 0.3 * skill;
+        var = 5 * belief;
+        result = result + var + gauss(3,0.1);
+        """
     return code
 
 def get_baseline_program(program):
@@ -226,5 +238,11 @@ def get_baseline_program(program):
         W = gauss(5, 2.87);
         T = gauss(22.13, 6.08);
         P = gauss(526.83, 240.91);
+        """
+    if program == 'causal_skills':
+        code = """
+        skill = gauss(30,5);
+        belief = gauss(20,3.2);
+        result = gauss(112,17.2);
         """
     return code
