@@ -2,8 +2,8 @@
 <perm> ::= 1|2|3|4|5|6
 <V1> ::= V1 = <base_distribution>;
 
-<V2> ::= V2 = <function_expression2>; | if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
-<V3> ::= V3 = <function_expression3>; | if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
+<V2> ::= V2 = <function_expression2>; #| if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
+<V3> ::= V3 = <function_expression3>; #| if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
 
 <base_distribution> ::= <gm> | <uniform>
 
@@ -30,6 +30,6 @@
 <comparison_op> ::= < | <= | > | >=
 
 <digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
-<exp_digit> ::= 0 | 1 | 2 
-<number> ::= <sign><digit>.<digit>e<sign><exp_digit>
-<pos_number> ::= <digit>.<digit>e<sign><exp_digit>
+<exp_digit> ::= 0 | 1
+<number> ::= <sign><digit>.<digit>e<exp_digit>
+<pos_number> ::= <digit>.<digit>e<exp_digit>

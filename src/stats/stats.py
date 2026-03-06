@@ -4,7 +4,7 @@ from time import time
 import importlib
 import numpy as np
 from algorithm.parameters import params
-from fitness.minimise_causal_arrows import count_causal_arrows, structure_to_id
+from fitness.minimise_causal_arrows import count_causal_arrows, structure_to_id, structure_to_id_undirected
 from utilities.algorithm.NSGA2 import compute_pareto_metrics
 from utilities.algorithm.state import create_state
 from utilities.stats import trackers
@@ -67,7 +67,8 @@ def get_stats(individuals, end=False):
                 else:
                     p = ind.phenotype
                     num, edges =count_causal_arrows(p)
-                    structure_id = structure_to_id(edges)
+                    #structure_id = structure_to_id(edges)
+                    structure_id = structure_to_id_undirected(edges)
                     ind.structure_id = structure_id
                     append_structure_id(path.join(dir, dataset_file), ind.structure_id)
 

@@ -1,4 +1,7 @@
 from random import sample
+import random
+from collections import defaultdict
+from typing import List
 
 from algorithm.parameters import params
 from utilities.algorithm.NSGA2 import compute_pareto_metrics, \
@@ -130,3 +133,56 @@ def pareto_tournament(population, pareto, tournament_size):
 
 # Set attributes for all operators to define multi-objective operators.
 nsga2_selection.multi_objective = True
+
+
+
+def stratified_selection(population):
+    """
+    Stratified (Class-Conditional) Selection.
+
+    Two-stage selection:
+        1) Sample a class (structure_id)
+        2) Perform tournament selection within that class
+    """
+    tournament_size = params['TOURNAMENT_SIZE']
+    selection_size = params['GENERATION_SIZE']
+
+    winners = []
+    # ------------------------------------------------------------
+    # Step 0: filter valid individuals
+    # ------------------------------------------------------------
+    available = [i for i in population if not i.invalid]
+
+    if not available:
+        raise ValueError("No valid individuals available for selection.")
+
+    # ------------------------------------------------------------
+    # Step 1: group individuals by class (structure_id)
+    # ------------------------------------------------------------
+    class_groups = defaultdict(list)
+    for ind in available:
+        class_groups[ind.structure_id].append(ind)
+
+    classes = list(class_groups.keys())
+
+    for _ in range(selection_size):
+        # ------------------------------------------------------------
+        # Step 2: sample a class (Stage A)
+        # ------------------------------------------------------------
+        chosen_class = random.choice(classes)
+        # ------------------------------------------------------------
+        # Step 3: tournament selection within chosen class (Stage B)
+        # ------------------------------------------------------------
+        candidates = class_groups[chosen_class]
+
+        # If class is small, reduce tournament size
+        k = min(tournament_size, len(candidates))
+
+        tournament = random.sample(candidates, k)
+
+        # Max fitness wins (assuming maximization)
+        winner = max(tournament, key=lambda ind: ind.fitness)
+
+        winners.append(winner)
+
+    return winners

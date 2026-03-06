@@ -15,6 +15,7 @@ import threading
 from math import isfinite
 import fitness.interventions as interventions
 from os import path
+from fitness.minimise_causal_arrows import count_causal_arrows, structure_to_id_undirected
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 sys.path.insert(1, '../SOGA-main/src')
@@ -111,6 +112,9 @@ class soga_fitness_SCM(base_ff):
     def evaluate(self, ind, **kwargs):
         self.default_fitness = torch.tensor(-1e6)
         p = ind.phenotype
+        #num, edges =count_causal_arrows(p)
+        #structure_id = structure_to_id_undirected(edges)
+        #ind.structure_id = structure_id
         #p = smooth_program(p)
         #print("\n" + p)
         #print("\n -----------------------------------------")

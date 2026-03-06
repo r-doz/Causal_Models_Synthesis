@@ -1,10 +1,10 @@
 <program> ::= <perm>{::}<V1>{::}<V2>{::}V2 = V2 + <base_distribution>;{::}<V3>{::}V3 = V3 + <base_distribution>;{::}<V4>{::}V4 = V4 + <base_distribution>;
-<perm> ::= 1|2|3|4|5|6
+<perm> ::= 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24
 <V1> ::= V1 = <base_distribution>;
 
-<V2> ::= V2 = <function_expression2>; | if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
-<V3> ::= V3 = <function_expression3>; | if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
-<V4> ::= V4 = <function_expression4>; | if <boolean_expression4> { {: <V4> :} } else { {: <V4> :} } end if;
+<V2> ::= V2 = <function_expression2>; #| if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
+<V3> ::= V3 = <function_expression3>; #| if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
+<V4> ::= V4 = <function_expression4>; #| if <boolean_expression4> { {: <V4> :} } else { {: <V4> :} } end if;
 
 
 <base_distribution> ::= <gm> | <uniform>
@@ -41,6 +41,6 @@
 <comparison_op> ::= < | <= | > | >=
 
 <digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
-<exp_digit> ::= 0 | 1 | 2
-<number> ::= <sign><digit>.<digit>e<sign><exp_digit>
-<pos_number> ::= <digit>.<digit>e<sign><exp_digit>
+<exp_digit> ::= 0 | 1
+<number> ::= <sign><digit>.<digit>e<exp_digit>
+<pos_number> ::= <digit>.<digit>e<exp_digit>
