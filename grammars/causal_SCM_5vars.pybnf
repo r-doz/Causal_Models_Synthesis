@@ -17,10 +17,10 @@
 97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120
 <V1> ::= V1 = <base_distribution>;
 
-<V2> ::= V2 = <function_expression2>; | if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
-<V3> ::= V3 = <function_expression3>; | if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
-<V4> ::= V4 = <function_expression4>; | if <boolean_expression4> { {: <V4> :} } else { {: <V4> :} } end if;
-<V5> ::= V5 = <function_expression5>; | if <boolean_expression5> { {: <V5> :} } else { {: <V5> :} } end if;
+<V2> ::= V2 = <function_expression2>; #| if <boolean_expression2> { {: <V2> :} } else { {: <V2> :} } end if;
+<V3> ::= V3 = <function_expression3>; #| if <boolean_expression3> { {: <V3> :} } else { {: <V3> :} } end if;
+<V4> ::= V4 = <function_expression4>; #| if <boolean_expression4> { {: <V4> :} } else { {: <V4> :} } end if;
+<V5> ::= V5 = <function_expression5>; #| if <boolean_expression5> { {: <V5> :} } else { {: <V5> :} } end if;
 
 
 <base_distribution> ::= <gm> | <uniform>

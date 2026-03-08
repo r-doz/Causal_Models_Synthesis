@@ -11,7 +11,7 @@ DEBUG:                   False
 ELITE_SIZE:              4
 ERROR_METRIC:            None
 EXPERIMENT_NAME:         diamond_no_if
-FILE_PATH:               /u/rominadoz/projects/Causal_Models_Synthesis/src/../results/diamond_no_if/babbage.units.it_26_3_7_172452_955056_176820_0
+FILE_PATH:               /home/rdoz/PhD/Causal_Models_Synthesis/src/../results/diamond_no_if/rdoz_26_3_8_080155_870095_234666_0
 FITNESS_FUNCTION:        soga_fitness_SCM
 GENERATIONS:             1500
 GENERATION_SIZE:         76
@@ -25,7 +25,7 @@ INVALID_SELECTION:       True
 LOAD_STATE:              None
 LOOKUP_BAD_FITNESS:      True
 LOOKUP_FITNESS:          True
-MACHINE:                 babbage
+MACHINE:                 rdoz
 MAX_GENOME_LENGTH:       1000
 MAX_INIT_TREE_DEPTH:     20
 MAX_TREE_DEPTH:          50
@@ -63,7 +63,7 @@ SILENT:                  False
 STEP:                    step
 TARGET:                  ponyge_rocks
 TARGET_SEED_FOLDER:      None
-TIME_STAMP:              babbage.units.it_26_3_7_172452_955056_176820_0
+TIME_STAMP:              rdoz_26_3_8_080155_870095_234666_0
 TOURNAMENT_SIZE:         5
 VERBOSE:                 False
 WITHIN_USED:             True
