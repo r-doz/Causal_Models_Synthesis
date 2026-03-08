@@ -18,8 +18,8 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'diamond_no_if', # name of the folder
-    'PROGRAM_NAME': 'diamond', # name of the program being synthesised
+    'EXPERIMENT_NAME': 'complex_no_if', # name of the folder
+    'PROGRAM_NAME': 'complex', # name of the program being synthesised
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': False,
@@ -38,7 +38,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_SCM_4vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_5vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
