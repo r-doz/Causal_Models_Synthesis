@@ -7,6 +7,5 @@ Banknote_shuf.csv
 src/python_log.txt
 SOGAtorch/
 results/tests
-*.tsv
 .venv/
 src/experiment_manager.py
