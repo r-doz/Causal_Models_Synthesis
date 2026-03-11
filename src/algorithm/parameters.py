@@ -25,7 +25,7 @@ params = {
     'SAVE_STRUCTURES': False,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 4,
+    'RUNS': 2,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
