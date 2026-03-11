@@ -19,6 +19,7 @@ import time as timeit
 
 from algorithm.parameters import params, set_params
 from stats_parser import parse_stats_from_runs
+import random
 
 def execute_run(seed):
     """
@@ -49,7 +50,7 @@ def execute_runs():
 
     for run in range(params['RUNS']):
         # Execute a single evolutionary run.
-        results.append(pool.apply_async(execute_run, (run,)))
+        results.append(pool.apply_async(execute_run, (random.randint(0, 10000),)))
 
     for result in results:
         result.get()
