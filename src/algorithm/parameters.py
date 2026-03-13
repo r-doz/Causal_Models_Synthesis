@@ -18,11 +18,11 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'diamond_no_interventions', # name of the folder
-    'PROGRAM_NAME': 'diamond', # name of the program being synthesised
+    'EXPERIMENT_NAME': 'common_cause_no_interventions', # name of the folder
+    'PROGRAM_NAME': 'common_cause', # name of the program being synthesised
     'INTERVENTIONAL_FITNESS': False,
     'NUM_INTERVENTIONS': 10,
-    'SAVE_STRUCTURES': False,
+    'SAVE_STRUCTURES': True,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
     'RUNS': 2,
@@ -38,7 +38,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "causal_SCM_4vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_3vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
