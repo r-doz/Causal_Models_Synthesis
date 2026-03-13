@@ -66,9 +66,11 @@ def get_stats(individuals, end=False):
                     append_structure_id(path.join(dir, dataset_file), ind.structure_id)
                 else:
                     p = ind.phenotype
+                    perm, p = extract_perm_and_strip_program(p)
                     num, edges =count_causal_arrows(p)
+                    data_var_list, scm = dgp.get_vars(params['PROGRAM_NAME'])
                     #structure_id = structure_to_id(edges)
-                    structure_id = structure_to_id_undirected(edges)
+                    structure_id = structure_to_id_undirected(edges, perm, data_var_list)
                     ind.structure_id = structure_id
                     append_structure_id(path.join(dir, dataset_file), ind.structure_id)
 

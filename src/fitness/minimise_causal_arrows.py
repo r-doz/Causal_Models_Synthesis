@@ -3,6 +3,10 @@ import re
 from typing import List, Set, Tuple, Iterable, FrozenSet
 from algorithm.parameters import params
 from os import path
+import itertools
+from typing import Iterable, Tuple, FrozenSet, List, Dict
+
+Edge = Tuple[str, str]
 
 class minimise_causal_arrows(base_ff):
     """
@@ -383,13 +387,130 @@ STRUCTURE_TO_ID_UNDIRECTED = {
 }
 
 
-def structure_to_id_undirected(edge_set: Iterable[Edge]) -> int:
+
+def perm_to_mapping(perm: int, dataset_vars: List[str]) -> Dict[str, str]:
     """
-    edge_set: iterable of directed edges, e.g. {('V2','V1'), ('V1','V3')}
-    returns: undirected-structure ID in [1,8]
+    Given perm (1..N!) and a list of dataset variable names,
+    return mapping Vi -> dataset_vars according to the permutation index.
+
+    Example:
+        dataset_vars = ["A", "B", "C"]
+
+        perm=1 -> {"V1":"A", "V2":"B", "V3":"C"}
+        perm=2 -> {"V1":"A", "V2":"C", "V3":"B"}
+        ...
     """
-    key = _undirected_key(edge_set)
+    N = len(dataset_vars)
+
+    # All permutations in lexicographic order
+    all_perms = list(itertools.permutations(range(N)))
+
+    if perm < 1 or perm > len(all_perms):
+        raise ValueError(f"Invalid perm: must be between 1 and {len(all_perms)}")
+
+    chosen = all_perms[perm - 1]  # zero-based index
+
+    return {
+        f"V{i+1}": dataset_vars[idx]
+        for i, idx in enumerate(chosen)
+    }
+
+
+def _undirected_key_dataset(edge_set: Iterable[Edge], v_to_data: Dict[str, str]) -> FrozenSet[FrozenSet[str]]:
+    """
+    Convert program edges like ('V2','V1') into undirected edges between dataset variables.
+
+    Example:
+        edge_set = {('V2','V1'), ('V1','V3')}
+        v_to_data = {'V1':'X', 'V2':'Y', 'V3':'Z'}
+
+        returns:
+        frozenset({
+            frozenset({'X','Y'}),
+            frozenset({'X','Z'})
+        })
+    """
+    undirected_edges = set()
+
+    for a, b in edge_set:
+        if a == b:
+            continue  # ignore self loops
+
+        if a not in v_to_data or b not in v_to_data:
+            raise ValueError(f"Edge contains unknown variable: {(a, b)}")
+
+        da = v_to_data[a]
+        db = v_to_data[b]
+
+        if da == db:
+            continue
+
+        undirected_edges.add(frozenset((da, db)))
+
+    return frozenset(undirected_edges)
+
+
+def build_structure_to_id_undirected(dataset_vars: List[str]) -> Dict[FrozenSet[FrozenSet[str]], int]:
+    """
+    Build the manual undirected mapping using the actual dataset variable names.
+
+    IDs are:
+        1   : no edges
+        2-4 : one edge
+        5-7 : two edges
+        8   : three edges
+
+    The order is deterministic and follows the order of dataset_vars:
+        e12 = (dataset_vars[0], dataset_vars[1])
+        e13 = (dataset_vars[0], dataset_vars[2])
+        e23 = (dataset_vars[1], dataset_vars[2])
+    """
+    if len(dataset_vars) != 3:
+        raise ValueError("This function is only defined for exactly 3 dataset variables")
+
+    x1, x2, x3 = dataset_vars
+
+    e12 = frozenset((x1, x2))
+    e13 = frozenset((x1, x3))
+    e23 = frozenset((x2, x3))
+
+    return {
+        # 0 edges
+        frozenset(): 1,
+
+        # 1 edge
+        frozenset({e12}): 2,
+        frozenset({e13}): 3,
+        frozenset({e23}): 4,
+
+        # 2 edges
+        frozenset({e12, e13}): 5,
+        frozenset({e12, e23}): 6,
+        frozenset({e13, e23}): 7,
+
+        # 3 edges
+        frozenset({e12, e13, e23}): 8,
+    }
+
+
+def structure_to_id_undirected(edge_set: Iterable[Edge], perm: int, dataset_vars: List[str]) -> int:
+    """
+    edge_set: iterable of directed program edges, e.g. {('V2','V1'), ('V1','V3')}
+    perm: permutation index used by the individual/program
+    dataset_vars: real dataset variable names, e.g. ['A', 'B', 'C']
+
+    Returns:
+        undirected structure ID in [1,8], computed on DATA variables
+        rather than on V1,V2,V3.
+    """
+    v_to_data = perm_to_mapping(perm, dataset_vars)
+    key = _undirected_key_dataset(edge_set, v_to_data)
+    structure_to_id_map = build_structure_to_id_undirected(dataset_vars)
+
     try:
-        return STRUCTURE_TO_ID_UNDIRECTED[key]
+        return structure_to_id_map[key]
     except KeyError:
-        raise ValueError(f"Invalid undirected causal structure key={key} from edge_set={set(edge_set)}")
+        raise ValueError(
+            f"Invalid undirected causal structure key={key} "
+            f"from edge_set={set(edge_set)}, perm={perm}, mapping={v_to_data}"
+        )
