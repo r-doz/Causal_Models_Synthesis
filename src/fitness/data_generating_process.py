@@ -122,21 +122,14 @@ def sample_V3_causal_skills(skill, belief):
     return 0.3 * skill + 5 * belief + np.random.normal(3, 0.1)
 
 def sample_T_chain(F):
-    if F < 8.5:
-        return F
-    else: 
-        return 20
+    return F
     
 
 def get_real_program(program):
     if program == 'chain':
         code = """
         F = gauss(10, 2);
-        if F < 8.5 {
-            T = F;
-        } else {
-            T = 20; 
-        } end if;
+        T = F;
         T = T + gauss(0, 1);
         P = T * T;
         P = P + gauss(0, 10);
@@ -145,22 +138,14 @@ def get_real_program(program):
         code = """
         F = gauss(10, 2);
         C = 0.5 * F + uniform([-1, 2], 2);
-        if F < 8.5 {
-            T = F;
-        } else {
-            T = 20; 
-        } end if;
+        T = F;
         T = T + gauss(0, 1);
         """
     if program == 'common_effect':
         code = """
         F = gauss(10, 2);
         W = uniform([0, 10], 2);
-        if F < 8.5 {
-            T = F;
-        } else {
-            T = 20; 
-        } end if;
+        T = F;
         T = T + W + gauss(0, 1);
         """
     if program == 'diamond':
@@ -168,11 +153,7 @@ def get_real_program(program):
         F = gauss(10, 2);
         C = 0.5 * F;
         C = C + uniform([-1, 2], 2);
-        if F < 8.5 {
-            T = F;
-        } else {
-            T = 20; 
-        } end if;
+        T = F;
         T = T + gauss(0, 1);
         E = 50 * C;
         TEMP0 = T * T;
@@ -184,11 +165,7 @@ def get_real_program(program):
         C = 0.5 * F;
         C = C + uniform([-1, 2], 2);
         W = uniform([0, 10], 2);
-        if F < 8.5 {
-            T = F;
-        } else {
-            T = 20; 
-        } end if;
+        T = F;
         T = T + W + gauss(0, 1);
         P = T * T;
         P = P + gauss(0, 10);
@@ -209,35 +186,35 @@ def get_baseline_program(program):
     if program == 'chain':
         code = """
         F = gauss(10, 2);
-        T = gauss(16.75, 5.67);
-        P = gauss(312.56, 156.30);   
+        T = gauss(10, 2);
+        P = gauss(105, 46);   
         """
     if program == 'common_cause':
         code = """
         F = gauss(10, 2);
         C = gauss(5, 1.15);
-        T = gauss(17.16, 5.44);
+        T = gauss(10, 2);
         """
     if program == 'common_effect':
         code = """
         F = gauss(10, 2);
         W = gauss(5, 2.89);
-        T = gauss(22.0, 6.18);
+        T = gauss(15.0, 3.6);
         """
     if program == 'diamond':
         code = """
         F = gauss(10, 2);
         C = gauss(5, 1.15);
-        T = gauss(17., 5.43);
-        E = gauss(571.74, 191.46);
+        T = gauss(10., 2.);
+        E = gauss(354, 97);
         """
     if program == 'complex':
         code = """
         F = gauss(10, 2);
         C = gauss(5, 1.15);
         W = gauss(5, 2.87);
-        T = gauss(22.13, 6.08);
-        P = gauss(526.83, 240.91);
+        T = gauss(15, 3.6);
+        P = gauss(238, 111);
         """
     if program == 'causal_skills':
         code = """
