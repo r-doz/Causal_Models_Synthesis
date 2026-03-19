@@ -1,0 +1,15 @@
+<program> ::= <perm>{::}V1 = <base_distribution>;{::}V2 = <base_distribution>;{::}V3 = <base_distribution>;
+<perm> ::= 1|2|3|4|5|6
+
+<base_distribution> ::= <gm> | <uniform>
+
+<gm> ::= gm(<triplets>)
+<triplets> ::= [<pos_number>, <number>, <pos_number>] | [<pos_number>, <number>, <pos_number>], <triplets>
+
+<uniform> ::= uniform([<number>, <pos_number>], 2)
+
+<sign> ::= + | -
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
+<exp_digit> ::= 0 | 1
+<number> ::= <sign><digit>.<digit>e<exp_digit>
+<pos_number> ::= <digit>.<digit>e<exp_digit>
