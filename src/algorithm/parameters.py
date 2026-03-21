@@ -18,14 +18,14 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'chain_no_if', # name of the folder
-    'PROGRAM_NAME': 'chain', # name of the program being synthesised
+    'EXPERIMENT_NAME': 'common_cause', # name of the folder
+    'PROGRAM_NAME': 'common_cause', # name of the program being synthesised
     'INTERVENTIONAL_FITNESS': True,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': True,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 4,
+    'RUNS': 2,
 
     # Class of problem
     #'FITNESS_FUNCTION': "supervised_learning.regression",
