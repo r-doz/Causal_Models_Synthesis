@@ -18,9 +18,9 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'common_effect', # name of the folder
+    'EXPERIMENT_NAME': 'common_effect_no_interventions', # name of the folder
     'PROGRAM_NAME': 'common_effect', # name of the program being synthesised
-    'INTERVENTIONAL_FITNESS': True,
+    'INTERVENTIONAL_FITNESS': False,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': True,
     # Set default number of runs to be done.
