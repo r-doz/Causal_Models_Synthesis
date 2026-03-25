@@ -18,19 +18,15 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'chain_independent', # name of the folder
-    'PROGRAM_NAME': 'chain', # name of the program being synthesised
-    'INTERVENTIONAL_FITNESS': True,
+    'EXPERIMENT_NAME': 'common_effect_no_interventions', # name of the folder
+    'PROGRAM_NAME': 'common_effect', # name of the program being synthesised
+    'INTERVENTIONAL_FITNESS': False,
     'NUM_INTERVENTIONS': 10,
-    'SAVE_STRUCTURES': False,
+    'SAVE_STRUCTURES': True,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 10,
-
-    # Class of problem
-    #'FITNESS_FUNCTION': "supervised_learning.regression",
+    'RUNS': 4,
     'FITNESS_FUNCTION': "soga_fitness_SCM" , #"soga_fitness_SCM", "soga_fitness_SCM_moo"
-
     # Select problem dataset
     'DATASET_TRAIN': None,
     'DATASET_TEST': None,
@@ -38,7 +34,7 @@ params = {
 
     # Set grammar file
     #'GRAMMAR_FILE': "soga_holes.pybnf",
-    'GRAMMAR_FILE': "independent_3vars.pybnf",
+    'GRAMMAR_FILE': "causal_SCM_3vars.pybnf",
 
     # Set the number of depths permutations are calculated for
     # (starting from the minimum path of the grammar).
