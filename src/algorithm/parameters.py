@@ -18,14 +18,14 @@ params = {
     'SCHC_COUNT_METHOD': "count_all", 
 
     # Set optional experiment name
-    'EXPERIMENT_NAME': 'complex', # name of the folder
+    'EXPERIMENT_NAME': 'complex_no_interventions', # name of the folder
     'PROGRAM_NAME': 'complex', # name of the program being synthesised
-    'INTERVENTIONAL_FITNESS': True,
+    'INTERVENTIONAL_FITNESS': False,
     'NUM_INTERVENTIONS': 10,
     'SAVE_STRUCTURES': False,
     # Set default number of runs to be done.
     # ONLY USED WITH EXPERIMENT MANAGER.
-    'RUNS': 6,
+    'RUNS': 10,
     'FITNESS_FUNCTION': "soga_fitness_SCM" , #"soga_fitness_SCM", "soga_fitness_SCM_moo"
     # Select problem dataset
     'DATASET_TRAIN': None,
