@@ -137,7 +137,7 @@ def get_real_program(program):
     if program == 'common_cause':
         code = """
         F = gauss(10, 2);
-        C = 0.5 * F + uniform([-1, 2], 2);
+        C = 0.5 * F + uniform([-1, 1], 2);
         T = F;
         T = T + gauss(0, 1);
         """
@@ -152,7 +152,7 @@ def get_real_program(program):
         code = """
         F = gauss(10, 2);
         C = 0.5 * F;
-        C = C + uniform([-1, 2], 2);
+        C = C + uniform([-1, 1], 2);
         T = F;
         T = T + gauss(0, 1);
         E = 50 * C;
@@ -163,7 +163,7 @@ def get_real_program(program):
         code = """
         F = gauss(10, 2);
         C = 0.5 * F;
-        C = C + uniform([-1, 2], 2);
+        C = C + uniform([-1, 1], 2);
         W = uniform([0, 10], 2);
         T = F;
         T = T + W + gauss(0, 1);
