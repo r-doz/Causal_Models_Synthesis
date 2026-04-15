@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-
 ## Overview
-This repository contains the implementation of the methods described in the paper **"Evolutionary Synthesis of Probabilistic Programs"**. It exploits grammar-based evolution (by using PonyGE2) to synthesize probabilistic programs from data, in order to learn the data generating process represented by a probabilistic program. 
+This repository contains the implementation of the methods described in the paper **"Inferring Structural Causal Models from Data through Grammatical Evolution"**. It exploits grammar-based evolution (by using PonyGE2) to synthesize SCMs in the form of probabilistic programs from data.
 
 ## Requirements
 To run the code, install the dependencies reported in the file requirements.txt
@@ -15,9 +13,10 @@ The parameters of the synthesis process are set in the file algorithm/parameters
 - POPULATION_SIZE: Population size
 - GENERATIONS: Number of generations of the evolutionary process
 - EXPERIMENT_NAME: Name of the folder where you want to store the results
-- PROGRAM_NAME: The program you aim to synthesize, which has to be specified in baselines/PROGRAM_NAME.soga for comparison. Moreover, in fitness/data_generating_process.py the data generating process related to the process "PROGRAM_NAME" has to be described in order to generate data during the synthesis process.
+- PROGRAM_NAME: The SCM structure you aim to synthesize. You can use "chain", "common_cause", "common_effect", or "complex" to reproduce the results of the paper. If you want to try your own structure, you need to specify in src/fitness/data_generating_process.py the set of interventions, the set of variables involved, the data generating process (for generating the synthetic dataset), the true and the baseline probabilistic programs in soga language representing your SCM (for the comparisons).
 - RUNS: if you are using the experiment manager
-- GRAMMAR_FILE: name of the file .pybnf contained in the folder "grammar". The program structure (skecth) can be set in the <fc> line, the variable names can be specified in the <idv> line.
+- GRAMMAR_FILE: name of the file causal_SCM_**n**vars.pybnf contained in the folder "grammar", where **n** is the number of variables involved in the SCM you aim to synthesize. For the baseline evolution in which all the variables are independent, use independent_**n**vars.pybnf
+- 'INTERVENTIONAL_FITNESS': True for including interventions in the computation of the fitness, False otherwise
 
 Other evolutionary parameters can be changed accordingly to the specific problems, but for the benchmark problems they were fixed. 
 
@@ -43,10 +42,10 @@ If you use this code, please cite our paper:
 
 ```bibtex
 @inproceedingsdoz2025evolutionary,
-  title={Evolutionary Synthesis of Probabilistic Programs},
+  title={Inferring Structural Causal Models from Data through Grammatical Evolution},
   author={Doz, Romina and Randone, Francesca and Medvet, Eric and Bortolussi, Luca},
-  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference},
-  year={2025}
+  booktitle={...},
+  year={2026}
 }
 ```
 ## Reference
@@ -55,6 +54,3 @@ Michael Fenton, James McDermott, David Fagan, Stefan Forstenlechner, Erik
 Hemberg, and Michael O’Neill. 2017. Ponyge2: Grammatical evolution in python.
 In Proceedings of the Genetic and Evolutionary Computation Conference Companion.
 1194–1201
-=======
-# Causal_Models_Synthesis
->>>>>>> e8ea544233829b1805c943201ade0fa58cb08bcd
