@@ -20,6 +20,9 @@ The parameters of the synthesis process are set in the file algorithm/parameters
 
 Other evolutionary parameters can be changed accordingly to the specific problems, but for the benchmark problems they were fixed. 
 
+#### Datasets:
+If you are working with a new structure, you need to provide an observational dataset (scm_name.csv) and a dataset for each intervention (scm_name_intervention_variable_value.csv) in the folder src/fitness/datasets. To generate the synthetic data automatically, run the notebook src/interventions.ipynb with the interventions_list you would like to use (they must be the same of rc/fitness/data_generating_process.py). 
+
 ### Running the Evolutionary Synthesis
 To execute the main synthesis process, run:
 
@@ -36,6 +39,9 @@ python experiment_manager.py
 
 You can find results in folder results/EXPERIMENT_NAME: one folder is created for each run, if you use the experiment manager, you get also a set of .csv and .pdf files with the statistics of the runs.
 
+### Plots
+
+In order to get all the plots of the paper, run the notebook src/causal_plots_one_obj.ipynb. If you are synthesizing an SCM with 3 variables and setting the parameter SAVE_STRUCTURES to True, you can also see a plot with the percentage of each kind of indirected structures during the evolution.
 
 ## Citation
 If you use this code, please cite our paper:
