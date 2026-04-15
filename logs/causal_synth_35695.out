@@ -1,552 +1,0 @@
-Job started on babbage.units.it at Tue Jan 20 04:10:26 PM CET 2026
-
-Start:	 2026-01-20 16:10:33.480326 
-
-Warning: Grammar contains unit production for production rule <program>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <V1>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <gm>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <uniform>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <var_v2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression3>
-         Unit productions consume GE codons.
-Warning: Only 1 run has been specified for this set of runs.
-         The number of runs can be specified with the command-line parameter `--runs`.
-
-Start:	 2026-01-20 16:10:38.102281 
-
-Warning: Grammar contains unit production for production rule <program>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <V1>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <gm>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <uniform>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <var_v2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression3>
-         Unit productions consume GE codons.
-Evolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 1% completeEvolution: 1% completeEvolution: 1% completeEvolution: 2% completeEvolution: 2% completeEvolution: 2% completeEvolution: 3% completeEvolution: 3% completeEvolution: 3% completeEvolution: 4% completeEvolution: 4% completeEvolution: 4% completeEvolution: 5% completeEvolution: 5% completeEvolution: 5% completeEvolution: 6% completeEvolution: 6% completeEvolution: 6% completeEvolution: 7% completeEvolution: 7% completeEvolution: 7% completeEvolution: 8% completeEvolution: 8% completeEvolution: 8% completeEvolution: 9% completeEvolution: 9% completeEvolution: 9% completeEvolution: 10% completeEvolution: 10% completeEvolution: 10% completeEvolution: 11% completeEvolution: 11% completeEvolution: 11% completeEvolution: 12% completeEvolution: 12% completeEvolution: 12% completeEvolution: 13% completeEvolution: 13% completeEvolution: 13% completeEvolution: 14% completeEvolution: 14% completeEvolution: 14% completeEvolution: 15% completeEvolution: 15% completeEvolution: 15% completeEvolution: 16% completeEvolution: 16% completeEvolution: 16% completeEvolution: 17% completeEvolution: 17% completeEvolution: 17% completeEvolution: 18% completeEvolution: 18% completeEvolution: 18% completeEvolution: 19% completeEvolution: 19% completeEvolution: 19% completeEvolution: 20% completeEvolution: 20% completeEvolution: 20% completeEvolution: 21% completeEvolution: 21% completeEvolution: 21% completeEvolution: 22% completeEvolution: 22% completeEvolution: 22% completeEvolution: 23% completeEvolution: 23% completeEvolution: 23% completeEvolution: 24% completeEvolution: 24% completeEvolution: 24% completeEvolution: 25% completeEvolution: 25% completeEvolution: 25% completeEvolution: 26% completeEvolution: 26% completeEvolution: 26% completeEvolution: 27% completeEvolution: 27% completeEvolution: 27% completeEvolution: 28% completeEvolution: 28% completeEvolution: 28% completeEvolution: 29% completeEvolution: 29% completeEvolution: 29% completeEvolution: 30% completeEvolution: 30% completeEvolution: 30% completeEvolution: 31% completeEvolution: 31% completeEvolution: 31% completeEvolution: 32% completeEvolution: 32% completeEvolution: 32% completeEvolution: 33% completeEvolution: 33% completeEvolution: 33% completeEvolution: 34% completeEvolution: 34% completeEvolution: 34% completeEvolution: 35% completeEvolution: 35% completeEvolution: 35% completeEvolution: 36% completeEvolution: 36% completeEvolution: 36% completeEvolution: 37% completeEvolution: 37% completeEvolution: 37% completeEvolution: 38% completeEvolution: 38% completeEvolution: 38% completeEvolution: 39% completeEvolution: 39% completeEvolution: 39% completeEvolution: 40% completeEvolution: 40% completeEvolution: 40% completeEvolution: 41% completeEvolution: 41% completeEvolution: 41% completeEvolution: 42% completeEvolution: 42% completeEvolution: 42% completeEvolution: 43% completeEvolution: 43% completeEvolution: 43% completeEvolution: 44% completeEvolution: 44% completeEvolution: 44% completeEvolution: 45% completeEvolution: 45% completeEvolution: 45% completeEvolution: 46% completeEvolution: 46% completeEvolution: 46% completeEvolution: 47% completeEvolution: 47% completeEvolution: 47% completeEvolution: 48% completeEvolution: 48% completeEvolution: 48% completeEvolution: 49% completeEvolution: 49% completeEvolution: 49% completeEvolution: 50% completeEvolution: 50% completeEvolution: 50% completeEvolution: 51% completeEvolution: 51% completeEvolution: 51% completeEvolution: 52% completeEvolution: 52% completeEvolution: 52% completeEvolution: 53% completeEvolution: 53% completeEvolution: 53% completeEvolution: 54% completeEvolution: 54% completeEvolution: 54% completeEvolution: 55% completeEvolution: 55% completeEvolution: 55% completeEvolution: 56% completeEvolution: 56% completeEvolution: 56% completeEvolution: 57% completeEvolution: 57% completeEvolution: 57% completeEvolution: 58% completeEvolution: 58% completeEvolution: 58% completeEvolution: 59% completeEvolution: 59% completeEvolution: 59% completeEvolution: 60% completeEvolution: 60% completeEvolution: 60% completeEvolution: 61% completeEvolution: 61% completeEvolution: 61% completeEvolution: 62% completeEvolution: 62% completeEvolution: 62% completeEvolution: 63% completeEvolution: 63% completeEvolution: 63% completeEvolution: 64% completeEvolution: 64% completeEvolution: 64% completeEvolution: 65% completeEvolution: 65% completeEvolution: 65% completeEvolution: 66% completeEvolution: 66% completeEvolution: 66% completeEvolution: 67% completeEvolution: 67% completeEvolution: 67% completeEvolution: 68% completeEvolution: 68% completeEvolution: 68% completeEvolution: 69% completeEvolution: 69% completeEvolution: 69% completeEvolution: 70% completeEvolution: 70% completeEvolution: 70% completeEvolution: 71% completeEvolution: 71% completeEvolution: 71% completeEvolution: 72% completeEvolution: 72% completeEvolution: 72% completeEvolution: 73% completeEvolution: 73% completeEvolution: 73% completeEvolution: 74% completeEvolution: 74% completeEvolution: 74% completeEvolution: 75% completeEvolution: 75% completeEvolution: 75% completeEvolution: 76% completeEvolution: 76% completeEvolution: 76% completeEvolution: 77% completeEvolution: 77% completeEvolution: 77% completeEvolution: 78% completeEvolution: 78% completeEvolution: 78% completeEvolution: 79% completeEvolution: 79% completeEvolution: 79% completeEvolution: 80% completeEvolution: 80% completeEvolution: 80% completeEvolution: 81% completeEvolution: 81% completeEvolution: 81% completeEvolution: 82% completeEvolution: 82% completeEvolution: 82% completeEvolution: 83% completeEvolution: 83% completeEvolution: 83% completeEvolution: 84% completeEvolution: 84% completeEvolution: 84% completeEvolution: 85% completeEvolution: 85% completeEvolution: 85% completeEvolution: 86% completeEvolution: 86% completeEvolution: 86% completeEvolution: 87% completeEvolution: 87% completeEvolution: 87% completeEvolution: 88% completeEvolution: 88% completeEvolution: 88% completeEvolution: 89% completeEvolution: 89% completeEvolution: 89% completeEvolution: 90% completeEvolution: 90% completeEvolution: 90% completeEvolution: 91% completeEvolution: 91% completeEvolution: 91% completeEvolution: 92% completeEvolution: 92% completeEvolution: 92% completeEvolution: 93% completeEvolution: 93% completeEvolution: 93% completeEvolution: 94% completeEvolution: 94% completeEvolution: 94% completeEvolution: 95% completeEvolution: 95% completeEvolution: 95% completeEvolution: 96% completeEvolution: 96% completeEvolution: 96% completeEvolution: 97% completeEvolution: 97% completeEvolution: 97% completeEvolution: 98% completeEvolution: 98% completeEvolution: 98% completeEvolution: 99% completeEvolution: 99% completeEvolution: 99% complete[-187.6687321611408, -168.26697160623002, -131.2077881508737, -131.2077881508737, -127.68760201331311, -98.7898789705307, -98.7898789705307, -98.7898789705307, -98.7898789705307, -98.7898789705307, -97.82698775446572, -89.78954733245678, -89.78954733245678, -89.78954733245678, -89.78954733245678, -89.75772742292457, -89.75772742292457, -89.0306807854819, -86.77428102389018, -86.21625398073323, -86.21625398073323, -86.21625398073323, -86.21625398073323, -85.8253787804685, -85.8253787804685, -85.8253787804685, -74.99608170257312, -74.99608170257312, -74.99608170257312, -74.85112024723627, -72.47010312067766, -72.47010312067766, -72.18497138464365, -71.86686932672123, -71.82801608278403, -66.88483463753664, -66.88483463753664, -66.88483463753664, -66.88483463753664, -66.77920318873271, -66.77920318873271, -66.77920318873271, -66.77920318873271, -66.73890974836871, -66.68024659805951, -66.68024659805951, -64.31879039491317, -64.31879039491317, -64.31879039491317, -62.311062207473505, -61.293454332519126, -61.293454332519126, -60.935223989679216, -60.935223989679216, -60.935223989679216, -60.935223989679216, -60.935223989679216, -60.935223989679216, -60.935223989679216, -60.935223989679216, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.51612492612799, -60.48383230508837, -60.48383230508837, -60.471072702013, -60.471072702013, -60.471072702013, -60.471072702013, -60.32464309064352, -60.32464309064352, -60.32464309064352, -60.32464309064352, -60.17560890424879, -60.17560890424879, -59.919026506058756, -59.919026506058756, -59.919026506058756, -59.919026506058756, -59.919026506058756, -59.90619826014481, -59.90619826014481, -59.90619826014481, -59.90619826014481, -59.90619826014481, -59.90619826014481, -59.90619826014481, -59.90619826014481, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.90065889956077, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -59.86444856976173, -58.11670577567352, -58.11670577567352, -58.11670577567352, -58.11670577567352, -58.11670577567352, -58.11670577567352, -58.11670577567352, -52.846926741505804, -52.846926741505804, -52.846926741505804, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.5419507321611, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.481301354158596, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843, -52.39038853930843]
-[-1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Evolution: 99% complete
-
-First Front:
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-  Individual: 3
-V1 = gm([0, 5, 4], [0, 2, 5]);
-V2 = 11;
-V2 = V2 + gm([0, 5, 4], [0, 2, 5]);
-V3 = 11;
-V3 = V3 + gm([0, 5, 4], [0, 2, 5]);; [-52.39038853930843, 0]
-______
-
-  ave_genome_length : 	 24.0
-  ave_tree_depth : 	 11.0
-  ave_tree_nodes : 	 90.0
-  ave_used_codons : 	 69.0
-  first_front : 	 80
-  gen : 	 300
-  invalids : 	 8669
-  max_genome_length : 	 24
-  max_tree_depth : 	 11
-  max_tree_nodes : 	 90
-  max_used_codons : 	 69
-  min_genome_length : 	 24
-  min_tree_depth : 	 11
-  min_tree_nodes : 	 90
-  min_used_codons : 	 69
-  pareto_fronts : 	 2
-  runtime_error : 	 0
-  time_adjust : 	 0
-  time_taken : 	 2.496903419494629
-  total_inds : 	 24080
-  total_time : 	 1023.0999596118927
-  unique_inds : 	 9085
-  unused_search : 	 62.271594684385384
-
-
-Total time taken: 1049.768254995346 seconds.
-Average time per run: 1049.768254995346
-Job finished at Tue Jan 20 04:28:04 PM CET 2026

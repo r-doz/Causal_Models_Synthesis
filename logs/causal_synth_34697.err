@@ -1,6 +1,0 @@
-/u/rominadoz/demetra_env/lib/python3.13/site-packages/scipy/stats/_continuous_distns.py:10423: RuntimeWarning: invalid value encountered in power
-  g1 = mu3 / np.power(mu2, 1.5)
-/u/rominadoz/projects/Causal_Models_Synthesis/src/../SOGA-main/src/libSOGAtruncate.py:564: RuntimeWarning: invalid value encountered in divide
-  return mu + sigma.dot(c)/P
-slurmstepd: error: *** JOB 34697 ON babbage CANCELLED AT 2026-01-11T19:34:00 ***
-slurmstepd: error: Detected 8 oom_kill events in StepId=34697.batch. Some of the step tasks have been OOM Killed.

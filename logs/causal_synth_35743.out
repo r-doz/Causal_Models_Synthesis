@@ -1,552 +1,0 @@
-Job started on babbage.units.it at Tue Jan 20 07:10:19 PM CET 2026
-
-Start:	 2026-01-20 19:10:27.787459 
-
-Warning: Grammar contains unit production for production rule <program>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <V1>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <gm>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <uniform>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <var_v2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression3>
-         Unit productions consume GE codons.
-Warning: Only 1 run has been specified for this set of runs.
-         The number of runs can be specified with the command-line parameter `--runs`.
-
-Start:	 2026-01-20 19:10:32.424625 
-
-Warning: Grammar contains unit production for production rule <program>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <V1>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <gm>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <uniform>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <var_v2>
-         Unit productions consume GE codons.
-Warning: Grammar contains unit production for production rule <boolean_expression3>
-         Unit productions consume GE codons.
-Evolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 0% completeEvolution: 1% completeEvolution: 1% completeEvolution: 1% completeEvolution: 2% completeEvolution: 2% completeEvolution: 2% completeEvolution: 3% completeEvolution: 3% completeEvolution: 3% completeEvolution: 4% completeEvolution: 4% completeEvolution: 4% completeEvolution: 5% completeEvolution: 5% completeEvolution: 5% completeEvolution: 6% completeEvolution: 6% completeEvolution: 6% completeEvolution: 7% completeEvolution: 7% completeEvolution: 7% completeEvolution: 8% completeEvolution: 8% completeEvolution: 8% completeEvolution: 9% completeEvolution: 9% completeEvolution: 9% completeEvolution: 10% completeEvolution: 10% completeEvolution: 10% completeEvolution: 11% completeEvolution: 11% completeEvolution: 11% completeEvolution: 12% completeEvolution: 12% completeEvolution: 12% completeEvolution: 13% completeEvolution: 13% completeEvolution: 13% completeEvolution: 14% completeEvolution: 14% completeEvolution: 14% completeEvolution: 15% completeEvolution: 15% completeEvolution: 15% completeEvolution: 16% completeEvolution: 16% completeEvolution: 16% completeEvolution: 17% completeEvolution: 17% completeEvolution: 17% completeEvolution: 18% completeEvolution: 18% completeEvolution: 18% completeEvolution: 19% completeEvolution: 19% completeEvolution: 19% completeEvolution: 20% completeEvolution: 20% completeEvolution: 20% completeEvolution: 21% completeEvolution: 21% completeEvolution: 21% completeEvolution: 22% completeEvolution: 22% completeEvolution: 22% completeEvolution: 23% completeEvolution: 23% completeEvolution: 23% completeEvolution: 24% completeEvolution: 24% completeEvolution: 24% completeEvolution: 25% completeEvolution: 25% completeEvolution: 25% completeEvolution: 26% completeEvolution: 26% completeEvolution: 26% completeEvolution: 27% completeEvolution: 27% completeEvolution: 27% completeEvolution: 28% completeEvolution: 28% completeEvolution: 28% completeEvolution: 29% completeEvolution: 29% completeEvolution: 29% completeEvolution: 30% completeEvolution: 30% completeEvolution: 30% completeEvolution: 31% completeEvolution: 31% completeEvolution: 31% completeEvolution: 32% completeEvolution: 32% completeEvolution: 32% completeEvolution: 33% completeEvolution: 33% completeEvolution: 33% completeEvolution: 34% completeEvolution: 34% completeEvolution: 34% completeEvolution: 35% completeEvolution: 35% completeEvolution: 35% completeEvolution: 36% completeEvolution: 36% completeEvolution: 36% completeEvolution: 37% completeEvolution: 37% completeEvolution: 37% completeEvolution: 38% completeEvolution: 38% completeEvolution: 38% completeEvolution: 39% completeEvolution: 39% completeEvolution: 39% completeEvolution: 40% completeEvolution: 40% completeEvolution: 40% completeEvolution: 41% completeEvolution: 41% completeEvolution: 41% completeEvolution: 42% completeEvolution: 42% completeEvolution: 42% completeEvolution: 43% completeEvolution: 43% completeEvolution: 43% completeEvolution: 44% completeEvolution: 44% completeEvolution: 44% completeEvolution: 45% completeEvolution: 45% completeEvolution: 45% completeEvolution: 46% completeEvolution: 46% completeEvolution: 46% completeEvolution: 47% completeEvolution: 47% completeEvolution: 47% completeEvolution: 48% completeEvolution: 48% completeEvolution: 48% completeEvolution: 49% completeEvolution: 49% completeEvolution: 49% completeEvolution: 50% completeEvolution: 50% completeEvolution: 50% completeEvolution: 51% completeEvolution: 51% completeEvolution: 51% completeEvolution: 52% completeEvolution: 52% completeEvolution: 52% completeEvolution: 53% completeEvolution: 53% completeEvolution: 53% completeEvolution: 54% completeEvolution: 54% completeEvolution: 54% completeEvolution: 55% completeEvolution: 55% completeEvolution: 55% completeEvolution: 56% completeEvolution: 56% completeEvolution: 56% completeEvolution: 57% completeEvolution: 57% completeEvolution: 57% completeEvolution: 58% completeEvolution: 58% completeEvolution: 58% completeEvolution: 59% completeEvolution: 59% completeEvolution: 59% completeEvolution: 60% completeEvolution: 60% completeEvolution: 60% completeEvolution: 61% completeEvolution: 61% completeEvolution: 61% completeEvolution: 62% completeEvolution: 62% completeEvolution: 62% completeEvolution: 63% completeEvolution: 63% completeEvolution: 63% completeEvolution: 64% completeEvolution: 64% completeEvolution: 64% completeEvolution: 65% completeEvolution: 65% completeEvolution: 65% completeEvolution: 66% completeEvolution: 66% completeEvolution: 66% completeEvolution: 67% completeEvolution: 67% completeEvolution: 67% completeEvolution: 68% completeEvolution: 68% completeEvolution: 68% completeEvolution: 69% completeEvolution: 69% completeEvolution: 69% completeEvolution: 70% completeEvolution: 70% completeEvolution: 70% completeEvolution: 71% completeEvolution: 71% completeEvolution: 71% completeEvolution: 72% completeEvolution: 72% completeEvolution: 72% completeEvolution: 73% completeEvolution: 73% completeEvolution: 73% completeEvolution: 74% completeEvolution: 74% completeEvolution: 74% completeEvolution: 75% completeEvolution: 75% completeEvolution: 75% completeEvolution: 76% completeEvolution: 76% completeEvolution: 76% completeEvolution: 77% completeEvolution: 77% completeEvolution: 77% completeEvolution: 78% completeEvolution: 78% completeEvolution: 78% completeEvolution: 79% completeEvolution: 79% completeEvolution: 79% completeEvolution: 80% completeEvolution: 80% completeEvolution: 80% completeEvolution: 81% completeEvolution: 81% completeEvolution: 81% completeEvolution: 82% completeEvolution: 82% completeEvolution: 82% completeEvolution: 83% completeEvolution: 83% completeEvolution: 83% completeEvolution: 84% completeEvolution: 84% completeEvolution: 84% completeEvolution: 85% completeEvolution: 85% completeEvolution: 85% completeEvolution: 86% completeEvolution: 86% completeEvolution: 86% completeEvolution: 87% completeEvolution: 87% completeEvolution: 87% completeEvolution: 88% completeEvolution: 88% completeEvolution: 88% completeEvolution: 89% completeEvolution: 89% completeEvolution: 89% completeEvolution: 90% completeEvolution: 90% completeEvolution: 90% completeEvolution: 91% completeEvolution: 91% completeEvolution: 91% completeEvolution: 92% completeEvolution: 92% completeEvolution: 92% completeEvolution: 93% completeEvolution: 93% completeEvolution: 93% completeEvolution: 94% completeEvolution: 94% completeEvolution: 94% completeEvolution: 95% completeEvolution: 95% completeEvolution: 95% completeEvolution: 96% completeEvolution: 96% completeEvolution: 96% completeEvolution: 97% completeEvolution: 97% completeEvolution: 97% completeEvolution: 98% completeEvolution: 98% completeEvolution: 98% completeEvolution: 99% completeEvolution: 99% completeEvolution: 99% complete[-187.72589504759307, -168.26819569842598, -131.21689740600368, -131.21689740600368, -127.69102876879059, -98.78770173136547, -98.78770173136547, -98.78770173136547, -98.78770173136547, -98.78770173136547, -97.83546286045008, -89.7611150772876, -89.7611150772876, -89.7611150772876, -89.7611150772876, -89.7556433109317, -89.7556433109317, -89.7556433109317, -89.7556433109317, -89.49871475506006, -89.49871475506006, -85.4430550518121, -85.4430550518121, -85.4430550518121, -85.4430550518121, -85.4430550518121, -84.3873576097855, -84.3873576097855, -83.136909948159, -83.136909948159, -83.136909948159, -81.53790757619547, -80.94645657531731, -80.89677298435464, -76.92413206966303, -76.92413206966303, -76.92413206966303, -76.92413206966303, -76.92413206966303, -76.92413206966303, -76.89310205636822, -74.68878708609968, -74.68878708609968, -74.68878708609968, -74.68878708609968, -74.48972819702159, -74.48972819702159, -74.48972819702159, -73.43866074504557, -73.43866074504557, -73.31302845685198, -73.07074665319934, -72.54721800010716, -70.74386989131406, -70.74386989131406, -70.74386989131406, -70.74386989131406, -70.74386989131406, -70.38356275555802, -70.38356275555802, -70.38356275555802, -70.38356275555802, -70.38356275555802, -70.3675650777181, -70.3675650777181, -70.3675650777181, -70.3675650777181, -70.3675650777181, -65.1733851173937, -63.97788974123449, -63.97788974123449, -63.97788974123449, -63.97788974123449, -63.97788974123449, -63.209158786510976, -63.209158786510976, -63.209158786510976, -63.209158786510976, -63.209158786510976, -63.209158786510976, -60.67299239125502, -60.67299239125502, -60.67299239125502, -60.67299239125502, -60.67299239125502, -60.345920627593955, -60.345920627593955, -60.345920627593955, -60.33035443437147, -60.33035443437147, -60.33035443437147, -60.33035443437147, -60.33035443437147, -60.33035443437147, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29886722559268, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -60.29481107071636, -58.851720566202026, -58.851720566202026, -58.78995647699356, -58.78995647699356, -58.78995647699356, -58.78995647699356, -58.78995647699356, -58.78995647699356, -58.58892611240375, -58.58892611240375, -58.58892611240375, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516, -58.41173505293516]
-[-1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Evolution: 99% complete
-
-First Front:
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-  Individual: 3
-V1 = gm([10, 17, 1], [28, 5, 2]);
-V2 = 3;
-V2 = V2 + gm([10, 17, 1], [28, 5, 2]);
-V3 = 3;
-V3 = V3 + gm([10, 17, 1], [28, 5, 2]);; [-58.41173505293516, 0]
-______
-
-  ave_genome_length : 	 24.0
-  ave_tree_depth : 	 11.0
-  ave_tree_nodes : 	 90.0
-  ave_used_codons : 	 69.0
-  first_front : 	 80
-  gen : 	 300
-  invalids : 	 8591
-  max_genome_length : 	 24
-  max_tree_depth : 	 11
-  max_tree_nodes : 	 90
-  max_used_codons : 	 69
-  min_genome_length : 	 24
-  min_tree_depth : 	 11
-  min_tree_nodes : 	 90
-  min_used_codons : 	 69
-  pareto_fronts : 	 2
-  runtime_error : 	 0
-  time_adjust : 	 0
-  time_taken : 	 6.295744180679321
-  total_inds : 	 24080
-  total_time : 	 976.1142237186432
-  unique_inds : 	 9049
-  unused_search : 	 62.42109634551495
-
-
-Total time taken: 1001.9823982715607 seconds.
-Average time per run: 1001.9823982715607
-Job finished at Tue Jan 20 07:27:10 PM CET 2026

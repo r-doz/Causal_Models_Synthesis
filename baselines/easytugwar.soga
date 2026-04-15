@@ -1,9 +1,0 @@
-skill1 = gm([1,20.,4.]);
-skill2 = gm([1,20.,4.]);
-
-if skill1 - skill2 > 0 {
-    p1wins = 1;
-} else {
-  p1wins = 0;  
-} end if;
-
